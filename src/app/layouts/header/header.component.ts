@@ -7,7 +7,7 @@ import { Router, NavigationStart, NavigationEnd } from '@angular/router';
   styleUrls: ['./header.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class HeaderComponent implements OnInit {
+export class AppHeaderComponent implements OnInit {
   headerClass: string;
 
   constructor(private router: Router) {

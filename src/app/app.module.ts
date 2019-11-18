@@ -6,11 +6,20 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthenticationService } from './services/authentication.service';
+import { AppLayoutComponent } from './layouts/app-layout.component';
+import { AppHeaderComponent } from './layouts/header/header.component';
+import { AppFooterComponent } from './layouts/footer/footer.component';
+import { AppSidebarComponent } from './layouts/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    AppLayoutComponent,
+    AppHeaderComponent,
+    AppSidebarComponent,
+    AppFooterComponent,
+    HomeComponent,
+
   ],
   imports: [
     BrowserModule,

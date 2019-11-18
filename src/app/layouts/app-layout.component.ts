@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css'],
+  selector: 'app-layout',
+  templateUrl: './app-layout.component.html',
+  styleUrls: ['./app-layout.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class SidebarComponent implements OnInit {
+export class AppLayoutComponent implements OnInit {
 
   constructor() { }
 

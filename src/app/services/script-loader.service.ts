@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import * as $ from 'jquery';
+// import * as $ from 'jquery';
 
-
+declare var $: any;
 
 declare let document: any;
 
@@ -10,7 +10,9 @@ interface Script {
     loaded: boolean;
 }
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class ScriptLoaderService {
     public _scripts: Script[] = [];
 
