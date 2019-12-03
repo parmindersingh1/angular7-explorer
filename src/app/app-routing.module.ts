@@ -1,4 +1,3 @@
-import { HomeComponent } from './pages/home/home.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AppLayoutComponent } from './layouts/app-layout.component';
@@ -12,32 +11,40 @@ const routes: Routes = [
       {
         path: 'app',
         component: AppLayoutComponent,
-        children: [      
+        children: [
           {
             path: 'home',
-            component: HomeComponent
-          }, 
+            loadChildren: './pages/home/home.module#HomeModule'
+          },
+          {
+            path: 'profile',
+            loadChildren: './pages/profile/profile.module#ProfileModule'
+          },
+          {
+            path: 'listing',
+            loadChildren: './pages/listing/listing.module#ListingModule'
+          },
           {
             path: '**',
             redirectTo: '/app/home'
           }
         ]
-        
+
       },
       {
         path: 'auth',
-        loadChildren: './auth/auth.module#AuthModule'    
+        loadChildren: './auth/auth.module#AuthModule'
       },
       {
         path: 'admin',
-        loadChildren: './admin/admin.module#AdminModule'    
+        loadChildren: './admin/admin.module#AdminModule'
       },
       {
         path: '**',
         redirectTo: '/app/home'
       }
     ]
-    
+
   },
   {
     path: '**',

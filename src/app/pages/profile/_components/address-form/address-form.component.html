@@ -1,0 +1,144 @@
+<div class="portlet light ">
+  <div class="portlet-title"></div>
+  <div class="portlet-body">
+    <form [formGroup]="profileForm" (ngSubmit)="prForm.valid && onSubmit()" #prForm="ngForm">
+      <h3 class="page-title-small">Address</h3>
+      <div class="row">
+        <div
+          class="form-group col-sm-6"
+          [ngClass]="{
+            'has-danger':
+              f.state.invalid &&
+              (f.state.dirty || f.state.touched || prForm.submitted),
+            'has-success':
+              f.state.valid &&
+              (f.state.dirty || f.state.touched || prForm.submitted)
+          }"
+        >
+          <label>State</label>
+          <input type="text" class="form-control" formControlName="state" />
+          <div
+            *ngIf="
+              (f.state.dirty || f.state.touched || prForm.submitted) &&
+              f.state.errors
+            "
+            class="help-block p-2"
+          >
+            <div style="color: red" *ngIf="f.state.errors.required">
+              State is required
+            </div>
+          </div>
+        </div>
+        <!-- /.form-group -->
+        <div
+          class="form-group col-sm-6"
+          [ngClass]="{
+            'has-danger':
+              f.city.invalid &&
+              (f.city.dirty || f.city.touched || prForm.submitted),
+            'has-success':
+              f.city.valid &&
+              (f.city.dirty || f.city.touched || prForm.submitted)
+          }"
+        >
+          <label>City</label>
+          <input type="text" class="form-control" formControlName="city" />
+          <div
+            *ngIf="
+              (f.city.dirty || f.city.touched || prForm.submitted) &&
+              f.city.errors
+            "
+            class="help-block p-2"
+          >
+            <div style="color: red" *ngIf="f.city.errors.required">
+              City is required
+            </div>
+          </div>
+        </div>
+        <!-- /.form-group -->
+        <div class="form-group col-sm-6">
+          <label>Street</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="address_line2"
+          />
+        </div>
+        <!-- /.form-group -->
+        <div
+          class="form-group col-sm-3"
+          [ngClass]="{
+            'has-danger':
+              f.address_line1.invalid &&
+              (f.address_line1.dirty ||
+                f.address_line1.touched ||
+                prForm.submitted),
+            'has-success':
+              f.address_line1.valid &&
+              (f.address_line1.dirty ||
+                f.address_line1.touched ||
+                prForm.submitted)
+          }"
+        >
+          <label>House Number</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="address_line1"
+          />
+          <div
+            *ngIf="
+              (f.address_line1.dirty ||
+                f.address_line1.touched ||
+                prForm.submitted) &&
+              f.address_line1.errors
+            "
+            class="help-block p-2"
+          >
+            <div style="color: red" *ngIf="f.address_line1.errors.required">
+              House no is required
+            </div>
+          </div>
+        </div>
+        <!-- /.form-group -->
+        <div
+          class="form-group col-sm-3"
+          [ngClass]="{
+            'has-danger':
+              f.zip.invalid &&
+              (f.zip.dirty || f.zip.touched || prForm.submitted),
+            'has-success':
+              f.zip.valid && (f.zip.dirty || f.zip.touched || prForm.submitted)
+          }"
+        >
+          <label>ZIP</label>
+          <input type="text" class="form-control" formControlName="zip" />
+          <div
+            *ngIf="
+              (f.zip.dirty || f.zip.touched || prForm.submitted) && f.zip.errors
+            "
+            class="help-block p-2"
+          >
+            <div style="color: red" *ngIf="f.zip.errors.required">
+              Zip is required
+            </div>
+          </div>
+        </div>
+        <!-- /.form-group -->
+      </div>
+      <!-- /.row -->
+      <h3 class="page-title-small">Biography</h3>
+      <div>
+        <textarea
+          class="form-control"
+          rows="7"
+          formControlName="bio"
+        ></textarea>
+      </div>
+      <br />
+      <button type="submit" class="btn btn-primary pull-right">
+        Save
+      </button>
+    </form>
+  </div>
+</div>

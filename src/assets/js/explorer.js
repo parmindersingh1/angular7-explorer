@@ -1,12 +1,12 @@
 $(document).ready(function() {
 	'use strict';
-	
+
 	/**
 	 * Ratings
 	 */
 	if ($('.rating-item').length !== 0) {
 		$('.rating-item').each(function() {
-			$(this).raty({ 
+			$(this).raty({
 		        starType: 'i',
 		        starOn: 'fa fa-star',
 		        starHalf: 'fa fa-star-half-o',
@@ -43,7 +43,7 @@ $(document).ready(function() {
 	if ($('.listing-toolbar')) {
 		$('.listing-detail-section').each(function() {
 			var title = $(this).data('title');
-			var id = $(this).attr('id');			
+			var id = $(this).attr('id');
 			$('.listing-toolbar .nav').append('<li class="nav-item"><a href="#' + id + '" class="nav-link">' + title + '</a></li>')
 		});
 
@@ -53,12 +53,12 @@ $(document).ready(function() {
             e.preventDefault();
             var id = $(this).attr('href');
             $.scrollTo(id, 1000, {axis: 'y', offset: -60});
-        });		
+        });
 	}
 
     /**
      * Slider
-     */	
+     */
     var sliders = document.getElementsByClassName('price-slider');
 	for ( var i = 0; i < sliders.length; i++ ) {
 		var slider = sliders[i];
@@ -73,8 +73,8 @@ $(document).ready(function() {
 					'max': 600
 				}
 			});
-		}		
-	}    
+		}
+	}
 
     /**
      * Chart
@@ -107,15 +107,15 @@ $(document).ready(function() {
 
     $('input[type=radio]').wrap('<div class="radio-wrapper"/>');
     $('.radio-wrapper').append('<span class="indicator"></span>');
-    	
+
 	/**
 	 * SVG
-	 */		
+	 */
 	$('.svg').inlineSVG();
 
 	/**
 	 * Scrollbar
-	 */	
+	 */
 	$('.map-results-list, .map-results-detail, .hero-promo-items-wrapper').TrackpadScrollEmulator();
 
 	/**
@@ -127,7 +127,7 @@ $(document).ready(function() {
 
 	$('.admin-header-sidebar-toggle').on('click', function() {
 		$('body').toggleClass('admin-sidebar-minimal');
-	});	
+	});
 
 	/**
 	 * Detail gallery
@@ -167,7 +167,7 @@ $(document).ready(function() {
 		        infinite: true,
 		        dots: true
 		      }
-		    },			    
+		    },
 		    {
 		      breakpoint: 900,
 		      settings: {
@@ -176,7 +176,7 @@ $(document).ready(function() {
 		        infinite: true,
 		        dots: true
 		      }
-		    },			    
+		    },
 		    {
 		      breakpoint: 500,
 		      settings: {
@@ -185,8 +185,8 @@ $(document).ready(function() {
 		        infinite: true,
 		        dots: true
 		      }
-		    }		    
-    	]         		
+		    }
+    	]
 	});
 
 	/**
@@ -227,7 +227,7 @@ $(document).ready(function() {
 		        infinite: true,
 		        dots: true
 		      }
-		    },			    
+		    },
 		    {
 		      breakpoint: 900,
 		      settings: {
@@ -236,7 +236,7 @@ $(document).ready(function() {
 		        infinite: true,
 		        dots: true
 		      }
-		    },			    
+		    },
 		    {
 		      breakpoint: 500,
 		      settings: {
@@ -245,8 +245,8 @@ $(document).ready(function() {
 		        infinite: true,
 		        dots: true
 		      }
-		    }		    
-    	]        
+		    }
+    	]
     });
 
 	/**
@@ -287,3 +287,31 @@ $(document).ready(function() {
 		};
 	});
 });
+
+// (function() {
+//   'use strict';
+
+
+// 	if (window.FormData) {
+// 		FormData.prototype.appendObject = function (obj, namespace) {
+
+// 			// EXAMPLE:
+// 			// var person = { name: 'some name', age: 87 };
+// 			// var fd = new FormData();
+// 			// fd.appenObject(obj, 'person');
+
+// 			// This appends the keys of the object like this:
+// 			// fd.append('person[name]', 'some name');
+// 			// fd.append('person[age]', 87);
+
+// 			var keyName;
+// 			for (var key in obj) {
+// 				if (obj.hasOwnProperty(key)) {
+// 					keyName = [namespace, '[', key, ']'].join('');
+// 					this.append(keyName, obj[key]);
+// 				}
+// 			}
+// 		}
+
+// 	}
+// })();

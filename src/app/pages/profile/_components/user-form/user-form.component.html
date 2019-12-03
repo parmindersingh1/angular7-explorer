@@ -1,0 +1,129 @@
+<div class="portlet light ">
+  <div class="portlet-title"></div>
+  <div class="portlet-body">
+    <h3 class="page-title-small">User Info</h3>
+    <form [formGroup]="profileForm" (ngSubmit)="prForm.valid && onSubmit()" #prForm="ngForm">
+      <div class="row">
+        <div
+          class="form-group col-sm-6"
+          [ngClass]="{
+            'has-danger':
+              f.first_name.invalid &&
+              (f.first_name.dirty || f.first_name.touched || prForm.submitted),
+            'has-success':
+              f.first_name.valid &&
+              (f.first_name.dirty || f.first_name.touched || prForm.submitted)
+          }"
+        >
+          <label>First Name</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="first_name"
+          />
+          <div
+            *ngIf="
+              (f.first_name.dirty ||
+                f.first_name.touched ||
+                prForm.submitted) &&
+              f.first_name.errors
+            "
+            class="help-block p-2"
+          >
+            <div style="color: red" *ngIf="f.first_name.errors.required">
+              First Name is required
+            </div>
+          </div>
+        </div>
+        <!-- /.form-group -->
+        <div
+          class="form-group col-sm-6"
+          [ngClass]="{
+            'has-danger':
+              f.last_name.invalid &&
+              (f.last_name.dirty || f.last_name.touched || prForm.submitted),
+            'has-success':
+              f.last_name.valid &&
+              (f.last_name.dirty || f.last_name.touched || prForm.submitted)
+          }"
+        >
+          <label>Last Name</label>
+          <input type="text" class="form-control" formControlName="last_name" />
+          <div
+            *ngIf="
+              (f.last_name.dirty || f.last_name.touched || prForm.submitted) &&
+              f.last_name.errors
+            "
+            class="help-block p-2"
+          >
+            <div style="color: red" *ngIf="f.last_name.errors.required">
+              Last Name is required
+            </div>
+          </div>
+        </div>
+        <!-- /.form-group -->
+        <div
+          class="form-group col-sm-6"
+          [ngClass]="{
+            'has-danger':
+              f.email.invalid &&
+              (f.email.dirty || f.email.touched || prForm.submitted),
+            'has-success':
+              f.email.valid &&
+              (f.email.dirty || f.email.touched || prForm.submitted)
+          }"
+        >
+          <label>E-mail</label>
+          <input type="text" class="form-control" formControlName="email" />
+          <div
+            *ngIf="
+              (f.email.dirty || f.email.touched || prForm.submitted) &&
+              f.email.errors
+            "
+            class="help-block p-2"
+          >
+            <div style="color: red" *ngIf="f.email.errors.required">
+              Email is required
+            </div>
+            <div style="color: red" *ngIf="f.email.errors.invalidEmailAddress">
+              Email is invalid
+            </div>
+          </div>
+        </div>
+        <!-- /.form-group -->
+        <div
+          class="form-group col-sm-6"
+          [ngClass]="{
+            'has-danger':
+              f.phone.invalid &&
+              (f.phone.dirty || f.phone.touched || prForm.submitted),
+            'has-success':
+              f.phone.valid &&
+              (f.phone.dirty || f.phone.touched || prForm.submitted)
+          }"
+        >
+          <label>Phone</label>
+          <input type="text" class="form-control" formControlName="phone" />
+          <div
+            *ngIf="
+              (f.phone.dirty || f.phone.touched || prForm.submitted) &&
+              f.phone.errors
+            "
+            class="help-block p-2"
+          >
+            <div style="color: red" *ngIf="f.phone.errors.required">
+              Phone is required
+            </div>
+          </div>
+        </div>
+        <!-- /.form-group -->
+      </div>
+      <!-- /.row -->
+
+      <br />
+      <button type="submit" class="btn btn-primary pull-right">
+        Save
+      </button>
+    </form>
+  </div>
+</div>

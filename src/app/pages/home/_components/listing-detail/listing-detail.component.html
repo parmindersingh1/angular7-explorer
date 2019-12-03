@@ -1,0 +1,45 @@
+<div class="map-results-detail tse-scrollable" [@stateChanged]="state">
+  <div class="tse-content">
+    <div class="map-results-detail-header">
+      <h3>
+        {{ listing?.title }}
+
+        <i class="fa fa-close" (click)="close()"></i>
+      </h3>
+
+      <div class="listing-row-medium-content">
+        <a class="listing-row-medium-price" href="#">{{ listing?.price }}</a>
+        <a *ngIf="listing?.category" class="listing-row-medium-category tag">
+          {{ listing.category }}
+        </a>
+      </div>
+
+      <div class="map-results-detail-address pt-2">
+        {{ getAddress(listing) }}
+        <span *ngIf="listing?.rating" class="listing-row-medium-rating">
+          <span>({{ listing.rating }})</span>
+
+          <b [innerHTML]="buildRating(listing.rating)"></b>
+        </span>
+      </div>
+    </div>
+    <!-- .map-results-detail-header -->
+
+    <div class="map-results-detail-gallery">
+      <img [src]="listing?.thumbnail" />
+    </div>
+    <!-- /.map-results-detail-gallery -->
+
+    <h4>Description</h4>
+
+    <p>
+      {{ listing?.description }}
+    </p>
+
+    <p *ngIf="!listing?.description">
+      No Description Found!
+    </p>
+  </div>
+  <!-- /.tse-content -->
+</div>
+<!-- /.map-results-detail -->

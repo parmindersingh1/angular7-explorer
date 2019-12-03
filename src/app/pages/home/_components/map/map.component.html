@@ -1,0 +1,84 @@
+<div class="map-object">
+  <div id="map-object"></div>
+
+  <div class="map-toolbar">
+    <div class="map-toolbar-group">
+      <div
+        id="map-toolbar-action-zoom-in"
+        class="map-toolbar-group-item"
+        (click)="actionZoomIn()"
+      >
+        <i class="fa fa-plus"></i>
+      </div>
+      <div
+        id="map-toolbar-action-zoom-out"
+        class="map-toolbar-group-item"
+        (click)="actionZoomOut()"
+      >
+        <i class="fa fa-minus"></i>
+      </div>
+    </div>
+
+    <div class="map-toolbar-group">
+      <div
+        id="map-toolbar-action-roadmap"
+        class="map-toolbar-group-item"
+        (click)="actionType('ROADMAP')"
+      >
+        Roadmap
+      </div>
+      <div
+        id="map-toolbar-action-satellite"
+        class="map-toolbar-group-item"
+        (click)="actionType('SATELLITE')"
+      >
+        Satellite
+      </div>
+      <div
+        id="map-toolbar-action-terrain"
+        class="map-toolbar-group-item"
+        (click)="actionType('TERRAIN')"
+      >
+        Terrain
+      </div>
+      <div
+        id="map-toolbar-action-hybrid"
+        class="map-toolbar-group-item"
+        (click)="actionType('HYBRID')"
+      >
+        Hybrid
+      </div>
+    </div>
+
+    <div class="map-filter-wrapper">
+      <div class="container-fluid">
+        <div class="map-filter">
+          <form>
+            <div class="form-group">
+              <input
+                type="text"
+                class="form-control"
+                name="name"
+                placeholder="Search by keyboard ..."
+              />
+            </div>
+            <div class="form-group">
+              <select class="form-control list1">
+                <option>Location</option>
+                <option>Chicago</option>
+                <option>San Francisco</option>
+                <option>Seattle</option>
+                <option>New York</option>
+                <option>Washington</option>
+              </select>
+            </div>
+            <!-- /.form-group -->
+            <button type="submit" class="btn">Search</button>
+          </form>
+        </div>
+        <!-- /.map-filter -->
+      </div>
+      <!-- /.container -->
+    </div>
+  </div>
+</div>

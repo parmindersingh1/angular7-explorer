@@ -1,0 +1,8 @@
+.map-filter-wrapper, .hero-image-filter-wrapper {
+  bottom: 50%;
+  top: unset;
+}
+select.list1 option
+{
+    background-color: #00ad79;
+}

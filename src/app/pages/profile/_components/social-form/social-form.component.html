@@ -1,0 +1,62 @@
+<div class="portlet light ">
+  <div class="portlet-title"></div>
+  <div class="portlet-body">
+    <form [formGroup]="profileForm" (ngSubmit)="prForm.valid && onSubmit()" #prForm="ngForm">
+      <h3 class="page-title-small">Social Connections</h3>
+      <div
+        class="form-group"
+        formArrayName="social_accounts"
+        *ngFor="let arrayItem of socialArray.controls; let i = index"
+      >
+        <div [formGroupName]="i">
+          <label>{{
+            socialArray.controls[i].controls.name.value | titlecase
+          }}</label>
+          <input type="text" class="form-control" formControlName="link" />
+        </div>
+      </div>
+      <!-- /.form-group  [formControl]="socialArray[i]" -->
+      <!-- <div class="form-group">
+          <label>Twitter</label>
+          <input
+            type="text"
+            class="form-control"
+            value="http://twitter.com/"
+          />
+        </div> -->
+      <!-- /.form-group -->
+      <!-- <div class="form-group">
+          <label>Linkedin</label>
+          <input
+            type="text"
+            class="form-control"
+            value="http://linkedin.com/"
+          />
+        </div> -->
+      <!-- /.form-group -->
+      <!-- <div class="form-group">
+          <label>Dribbble</label>
+          <input
+            type="text"
+            class="form-control"
+            value="http://dribbble.com/"
+          />
+        </div> -->
+      <!-- /.form-group -->
+      <!-- <div class="form-group">
+          <label>Instagram</label>
+          <input
+            type="text"
+            class="form-control"
+            value="http://instagram.com/"
+          />
+        </div> -->
+      <!-- /.form-group -->
+
+      <br />
+      <button type="submit" class="btn btn-primary pull-right">
+        Save
+      </button>
+    </form>
+  </div>
+</div>

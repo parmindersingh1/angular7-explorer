@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+.profile-userpic {
+  text-align: center;
+}
+.img-circle {
+  border-radius: 50%;
+}
+.profile-usertitle {
+  margin-top: 10px;
+  text-align: center;
+}
+.profile-usertitle-job {
+
+}

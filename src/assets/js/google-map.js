@@ -99,17 +99,17 @@ $(document).ready(function() {
                         verified = '<div class="marker-verified"><i class="fa fa-check"></i></div>';
                     }
 
-                    if (value.price && value.price != 'false') {                        
+                    if (value.price && value.price != 'false') {
                         price = '<div class="marker-price">' + value.price + '</div>'
                     }
 
-                    var markerTemplate = 
+                    var markerTemplate =
                         '<div id="marker-' + value.id + '" class="marker">' +
-                            '<div class="marker-inner">' + 
-                                '<span class="marker-image" style="background-image: url(' + value.thumbnail + ');"></span>' + 
+                            '<div class="marker-inner">' +
+                                '<span class="marker-image" style="background-image: url(' + value.thumbnail + ');"></span>' +
                             '</div>' +
-                            verified + 
-                            price + 
+                            verified +
+                            price +
                         '</div>';
 
                     var marker = new RichMarker({

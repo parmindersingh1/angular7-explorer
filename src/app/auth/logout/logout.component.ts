@@ -15,7 +15,7 @@ export class LogoutComponent implements OnInit {
 ngOnInit(): void {
     // Helpers.setLoading(true);
     // reset login status
-    this._authService.onLogout();
+    this._authService.onLogout().subscribe();
 }
 
 }

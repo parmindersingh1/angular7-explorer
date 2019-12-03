@@ -1,3 +1,6 @@
 .admin-header-avatar {
   line-height: 60px;
 }
+.header-actions.header-action-black #modal-action-submit {
+  background-color: #00ad79;
+}

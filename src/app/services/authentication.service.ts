@@ -4,7 +4,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http
 import { Injectable } from "@angular/core";
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, tap, switchMap} from 'rxjs/operators';
 
 // Setup headers
 const httpOptions = {
@@ -21,8 +21,8 @@ export class AuthenticationService {
   public userEmitter = this.currentUser.asObservable();
 
   private readonly apiUrl = environment.apiUrl;
-  private registerUrl = this.apiUrl + '/register';
-  private loginUrl = this.apiUrl + '/login';
+  private registerUrl = this.apiUrl + '/auth/register';
+  private loginUrl = this.apiUrl + '/auth/login';
 
   constructor(
     private http: HttpClient,
@@ -31,7 +31,7 @@ export class AuthenticationService {
   onRegister(user: User): Observable<User> {
 
     const request = JSON.stringify(
-      { name: user.name, email: user.email, password: user.password }
+     user
     );
 
     return this.http.post(this.registerUrl, request, httpOptions)
@@ -73,7 +73,7 @@ export class AuthenticationService {
   }
 
   onLogout(): Observable<User> {
-    return this.http.post<User>(this.apiUrl + '/logout', httpOptions).pipe(
+    return this.http.post<User>(this.apiUrl + '/auth/logout', httpOptions).pipe(
       tap(
         () => {
           localStorage.removeItem('token');
@@ -93,11 +93,11 @@ export class AuthenticationService {
   }
 
   getUser(): Observable<User> {
-    return this.http.get(this.apiUrl + '/me').pipe(
+    return this.http.get(this.apiUrl + '/profile/me').pipe(
       tap(
         (user: User) => {
           // this.currentUser = user;
-          this.userEmitChange(user);          
+          this.userEmitChange(user);
         }
       )
     );
