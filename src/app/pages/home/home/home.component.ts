@@ -1,9 +1,6 @@
-import { ScriptLoaderService } from "../../../services/script-loader.service";
 import {
   Component,
-  OnInit,
   ViewEncapsulation,
-  AfterViewInit,
   ChangeDetectorRef
 } from "@angular/core";
 import { Listing } from "src/app/models/Listing";
@@ -23,7 +20,7 @@ export class HomeComponent {
   constructor(private cd: ChangeDetectorRef, listingService: ListingService) {
     listingService
       .getListings()
-      .subscribe((listings: any) => (this.listings = listings));
+      .subscribe((listings: Listing[]) => (this.listings = listings));
   }
 
   setListing(listing_id: number) {

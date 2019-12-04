@@ -35,6 +35,7 @@
             ],
             "scripts": [
               "src/assets/js/jquery.js",
+              "src/assets/js/bootstrap.min.js",
               "src/assets/js/tether.min.js",
               "src/assets/js/bootstrap.min.js",
               "src/assets/js/chartist.min.js",
