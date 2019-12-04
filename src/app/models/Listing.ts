@@ -8,6 +8,7 @@ export class Listing {
   title: string;
   description: string;
   category: string;
+  category_id: number;
   is_verified: boolean;
   is_featured: boolean;
   user_id: number;

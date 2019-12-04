@@ -31,7 +31,7 @@
               "src/assets/css/nouislider.min.css",
               "src/assets/css/explorer.css",
               "src/assets/css/floating-labels.css",
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": [
               "src/assets/js/jquery.js",

@@ -1,10 +1,18 @@
-import { Component, OnInit, ViewChild, AfterContentInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  AfterContentInit,
+  Output
+} from "@angular/core";
 import { ScriptLoaderService } from "../../../../services/script-loader.service";
 import googleAddressParser from "../../../../../assets/js/googleAddressParser.js";
 import { NgForm } from "@angular/forms";
 import { Listing } from "src/app/models/Listing";
 import { ListingService } from "../../../../services/listing.service";
 import { Category } from "src/app/models/Category";
+import { EventEmitter } from "@angular/core";
+import { ToastrService } from "ngx-toastr";
 declare var $: any;
 declare var google: any;
 
@@ -17,18 +25,20 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
   map: any = {};
   listing: Listing;
   categories: Category[] = [];
+  @Output("onSubmit") onSubmitClick: EventEmitter<any> = new EventEmitter();
 
   @ViewChild("#f", { static: true }) form: NgForm;
 
   constructor(
     private _script: ScriptLoaderService,
-    private _listingService: ListingService
+    private _listingService: ListingService,
+    private logger: ToastrService
   ) {
     this.listing = new Listing();
     this._listingService.getCategories().subscribe((data: any[]) => {
       this.categories = data;
       if (this.categories.length > 0)
-        this.listing.category = this.categories[0].id.toString();
+        this.listing.category_id = this.categories[0].id;
     });
   }
 
@@ -69,7 +79,14 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
     }
   }
 
-  onSubmit(form: NgForm) {}
+  onSubmit(form: NgForm) {
+    console.log("form", form);
+    if (form.value) {
+      this.onSubmitClick.emit(this.listing);
+    } else {
+      this.logger.error("Invalid data");
+    }
+  }
 
   initializeMap() {
     this.setInitialLatLong();
@@ -164,7 +181,17 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
   parseAddress(address) {
     let resObj = googleAddressParser(address).getAddress();
     console.log(resObj);
-    this.listing = { ...resObj, ...this.listing, address: resObj.orignialAddressString };
+    // this.listing = {
+    //   ...resObj,
+    //   ...this.listing,
+    //   address: resObj.orignialAddressString
+    // };
+    this.listing.addressLineOne = resObj.addressLineOne;
+    this.listing.addressLineTwo = resObj.addressLineTwo;
+    this.listing.city = resObj.city;
+    this.listing.country = resObj.country;
+    this.listing.state = resObj.state;
+    this.listing.pincode = resObj.pincode;
   }
 
   getAddressFromLatLang(position) {
@@ -181,7 +208,7 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
           this.parseAddress(this.listing.address);
         }
       } else {
-        console.error(
+        this.logger.error(
           "Geocode was not successfulfor the following reason: " + status
         );
       }
