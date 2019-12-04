@@ -77,7 +77,7 @@ export class ListingDetailComponent implements OnInit, OnChanges {
 
   getAddress(listing) {
     if (!listing) return "";
-    return `${listing.address_line1} ${listing.city} ${listing.state}`;
+    return `${listing.addressLineOne} ${listing.city} ${listing.state}`;
   }
 
   buildRating(rating) {

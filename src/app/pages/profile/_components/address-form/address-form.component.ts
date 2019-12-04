@@ -12,12 +12,12 @@ export class AddressFormComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {
     this.profileForm = this.fb.group({
-      address_line1: ["", [Validators.required]],
-      address_line2: [""],
+      addressLineOne: ["", [Validators.required]],
+      addressLineTwo: [""],
       city: ["", [Validators.required]],
       state: ["", [Validators.required]],
       country: ["Canada", [Validators.required]],
-      zip: ["", [Validators.required]],
+      pincode: ["", [Validators.required]],
       bio: [""]
     });
   }

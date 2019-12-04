@@ -71,7 +71,7 @@
             #category="ngModel"
             required
           >
-            <option></option>
+            <option *ngFor="let cat of categories; let i = index" [value]="cat.id" [selected]="i == 0">{{ cat.name }}</option>
           </select>
           <div
             class="messages text-danger"
@@ -204,24 +204,24 @@
           class="form-group"
           [ngClass]="{
             'was-validated has-danger':
-              !address_line1.valid &&
-              (address_line1.dirty || address_line1.touched || f.submitted)
+              !addressLineOne.valid &&
+              (addressLineOne.dirty || addressLineOne.touched || f.submitted)
           }"
         >
-          <label class="col-form-label">Address Line 1</label>
+          <label class="col-form-label">Address Line One</label>
           <input
             type="text"
             class="form-control"
-            name="address_line1"
-            [(ngModel)]="listing.address_line1"
-            #address_line1="ngModel"
+            name="addressLineOne"
+            [(ngModel)]="listing.addressLineOne"
+            #addressLineOne="ngModel"
             required
           />
           <div
             class="messages text-danger"
             *ngIf="
-              address_line1.invalid &&
-              (address_line1.dirty || address_line1.touched || f.submitted)
+              addressLineOne.invalid &&
+              (addressLineOne.dirty || addressLineOne.touched || f.submitted)
             "
           >
             Address Line one is blank or invalid
@@ -232,24 +232,23 @@
           class="form-group"
           [ngClass]="{
             'was-validated has-danger':
-              !address_line2.valid &&
-              (address_line2.dirty || address_line2.touched || f.submitted)
+              !addressLineTwo.valid &&
+              (addressLineTwo.dirty || addressLineTwo.touched || f.submitted)
           }"
         >
-          <label class="col-form-label">Address Line 2</label>
+          <label class="col-form-label">Address Line Two</label>
           <input
             type="text"
             class="form-control"
-            name="address_line2"
-            [(ngModel)]="listing.address_line2"
-            #address_line2="ngModel"
-            required
+            name="addressLineTwo"
+            [(ngModel)]="listing.addressLineTwo"
+            #addressLineTwo="ngModel"
           />
           <div
             class="messages text-danger"
             *ngIf="
-              address_line2.invalid &&
-              (address_line2.dirty || address_line2.touched || f.submitted)
+              addressLineTwo.invalid &&
+              (addressLineTwo.dirty || addressLineTwo.touched || f.submitted)
             "
           >
             Address Line two is blank or invalid
@@ -311,21 +310,21 @@
           class="form-group"
           [ngClass]="{
             'was-validated has-danger':
-              !zip.valid && (zip.dirty || zip.touched || f.submitted)
+              !pincode.valid && (pincode.dirty || pincode.touched || f.submitted)
           }"
         >
           <label class="col-form-label">Pincode</label>
           <input
             type="text"
             class="form-control"
-            name="zip"
-            [(ngModel)]="listing.zip"
-            #zip="ngModel"
+            name="pincode"
+            [(ngModel)]="listing.pincode"
+            #pincode="ngModel"
             required
           />
           <div
             class="messages text-danger"
-            *ngIf="zip.invalid && (zip.dirty || zip.touched || f.submitted)"
+            *ngIf="pincode.invalid && (pincode.dirty || pincode.touched || f.submitted)"
           >
             Pincode is blank or invalid
           </div>

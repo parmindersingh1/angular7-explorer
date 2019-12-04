@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild, AfterContentInit } from "@angular/core";
 import { ScriptLoaderService } from "../../../../services/script-loader.service";
 import googleAddressParser from "../../../../../assets/js/googleAddressParser.js";
-import { NgForm } from '@angular/forms';
-import { Listing } from 'src/app/models/Listing';
+import { NgForm } from "@angular/forms";
+import { Listing } from "src/app/models/Listing";
+import { ListingService } from "../../../../services/listing.service";
+import { Category } from "src/app/models/Category";
 declare var $: any;
 declare var google: any;
 
@@ -14,11 +16,20 @@ declare var google: any;
 export class ListingFormComponent implements OnInit, AfterContentInit {
   map: any = {};
   listing: Listing;
+  categories: Category[] = [];
 
-  @ViewChild('#f', {static: true}) form: NgForm;
+  @ViewChild("#f", { static: true }) form: NgForm;
 
-  constructor(private _script: ScriptLoaderService) {
+  constructor(
+    private _script: ScriptLoaderService,
+    private _listingService: ListingService
+  ) {
     this.listing = new Listing();
+    this._listingService.getCategories().subscribe((data: any[]) => {
+      this.categories = data;
+      if (this.categories.length > 0)
+        this.listing.category = this.categories[0].id.toString();
+    });
   }
 
   ngOnInit() {
@@ -49,13 +60,16 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
       this.listing.latitude = 43.653226;
       this.listing.longitude = -79.38318429999998;
       this.initializeMap();
-      this.getAddressFromLatLang({coords: {latitude: this.listing.latitude, longitude: this.listing.longitude}});
+      this.getAddressFromLatLang({
+        coords: {
+          latitude: this.listing.latitude,
+          longitude: this.listing.longitude
+        }
+      });
     }
   }
 
-  onSubmit(form: NgForm){
-
-  }
+  onSubmit(form: NgForm) {}
 
   initializeMap() {
     this.setInitialLatLong();
@@ -63,12 +77,21 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
     let mapCanvas = $("#location-google-map");
     // let latitude = $("#listing_location_latitude");
     // let longitude = $("#listing_location_longitude");
-    let latLng = new google.maps.LatLng(this.listing.latitude, this.listing.longitude);
+    let latLng = new google.maps.LatLng(
+      this.listing.latitude,
+      this.listing.longitude
+    );
     let zoom = 5;
 
     // If we have saved values, let's set the position and zoom level
-    if (this.listing.latitude.toString().length > 0 && this.listing.longitude.toString().length > 0) {
-      latLng = new google.maps.LatLng(this.listing.latitude, this.listing.longitude);
+    if (
+      this.listing.latitude.toString().length > 0 &&
+      this.listing.longitude.toString().length > 0
+    ) {
+      latLng = new google.maps.LatLng(
+        this.listing.latitude,
+        this.listing.longitude
+      );
       zoom = 17;
     }
 
@@ -88,7 +111,10 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
     };
     let marker = new google.maps.Marker(markerOptions);
 
-    if (this.listing.latitude.toString().length > 0 && this.listing.longitude.toString().length > 0) {
+    if (
+      this.listing.latitude.toString().length > 0 &&
+      this.listing.longitude.toString().length > 0
+    ) {
       marker.setPosition(latLng);
     }
 
@@ -97,15 +123,12 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
     autocomplete.bindTo("bounds", this.map);
 
     google.maps.event.addListener(autocomplete, "place_changed", () => {
-      console.log(
-        googleAddressParser(
-          autocomplete.getPlace().formatted_address
-        ).getAddress()
-      );
       let place = autocomplete.getPlace();
       if (!place.geometry) {
         return;
       }
+
+      this.parseAddress(place.formatted_address);
 
       if (place.geometry.viewport) {
         this.map.fitBounds(place.geometry.viewport);
@@ -138,17 +161,29 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
     });
   }
 
+  parseAddress(address) {
+    let resObj = googleAddressParser(address).getAddress();
+    console.log(resObj);
+    this.listing = { ...resObj, ...this.listing, address: resObj.orignialAddressString };
+  }
+
   getAddressFromLatLang(position) {
-    var latlng = {lat: parseFloat(position.coords.latitude), lng: parseFloat(position.coords.longitude)};
+    var latlng = {
+      lat: parseFloat(position.coords.latitude),
+      lng: parseFloat(position.coords.longitude)
+    };
     var geocoder = new google.maps.Geocoder();
-    geocoder.geocode({'location': latlng}, (results, status) => {
+    geocoder.geocode({ location: latlng }, (results, status) => {
       if (status == google.maps.GeocoderStatus.OK) {
         if (results[0]) {
-            this.listing.address = results[0].formatted_address;
-            console.log(this.listing.address);
+          this.listing.address = results[0].formatted_address;
+          console.log(this.listing.address);
+          this.parseAddress(this.listing.address);
         }
       } else {
-          console.error("Geocode was not successfulfor the following reason: " + status);
+        console.error(
+          "Geocode was not successfulfor the following reason: " + status
+        );
       }
     });
   }

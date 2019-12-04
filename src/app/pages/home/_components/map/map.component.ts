@@ -206,7 +206,7 @@ export class MapComponent implements OnInit, OnChanges {
           //     marker.data.title +
           //     "</a></h3>" +
           //     '<h4 class="infobox-address">' +
-          //     marker.data.address_line1 +
+          //     marker.data.addressLineOne +
           //     " " +
           //     marker.data.city +
           //     " " +

@@ -61,7 +61,7 @@
           <input
             type="text"
             class="form-control"
-            formControlName="address_line2"
+            formControlName="addressLineTwo"
           />
         </div>
         <!-- /.form-group -->
@@ -69,14 +69,14 @@
           class="form-group col-sm-3"
           [ngClass]="{
             'has-danger':
-              f.address_line1.invalid &&
-              (f.address_line1.dirty ||
-                f.address_line1.touched ||
+              f.addressLineOne.invalid &&
+              (f.addressLineOne.dirty ||
+                f.addressLineOne.touched ||
                 prForm.submitted),
             'has-success':
-              f.address_line1.valid &&
-              (f.address_line1.dirty ||
-                f.address_line1.touched ||
+              f.addressLineOne.valid &&
+              (f.addressLineOne.dirty ||
+                f.addressLineOne.touched ||
                 prForm.submitted)
           }"
         >
@@ -84,18 +84,18 @@
           <input
             type="text"
             class="form-control"
-            formControlName="address_line1"
+            formControlName="addressLineOne"
           />
           <div
             *ngIf="
-              (f.address_line1.dirty ||
-                f.address_line1.touched ||
+              (f.addressLineOne.dirty ||
+                f.addressLineOne.touched ||
                 prForm.submitted) &&
-              f.address_line1.errors
+              f.addressLineOne.errors
             "
             class="help-block p-2"
           >
-            <div style="color: red" *ngIf="f.address_line1.errors.required">
+            <div style="color: red" *ngIf="f.addressLineOne.errors.required">
               House no is required
             </div>
           </div>
@@ -105,22 +105,22 @@
           class="form-group col-sm-3"
           [ngClass]="{
             'has-danger':
-              f.zip.invalid &&
-              (f.zip.dirty || f.zip.touched || prForm.submitted),
+              f.pincode.invalid &&
+              (f.pincode.dirty || f.pincode.touched || prForm.submitted),
             'has-success':
-              f.zip.valid && (f.zip.dirty || f.zip.touched || prForm.submitted)
+              f.pincode.valid && (f.pincode.dirty || f.pincode.touched || prForm.submitted)
           }"
         >
-          <label>ZIP</label>
-          <input type="text" class="form-control" formControlName="zip" />
+          <label>pincode</label>
+          <input type="text" class="form-control" formControlName="pincode" />
           <div
             *ngIf="
-              (f.zip.dirty || f.zip.touched || prForm.submitted) && f.zip.errors
+              (f.pincode.dirty || f.pincode.touched || prForm.submitted) && f.pincode.errors
             "
             class="help-block p-2"
           >
-            <div style="color: red" *ngIf="f.zip.errors.required">
-              Zip is required
+            <div style="color: red" *ngIf="f.pincode.errors.required">
+              pincode is required
             </div>
           </div>
         </div>
