@@ -13,6 +13,7 @@ import { ListingService } from "../../../../services/listing.service";
 import { Category } from "src/app/models/Category";
 import { EventEmitter } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
+import { LoaderService } from "../../../../services/loader.service";
 declare var $: any;
 declare var google: any;
 
@@ -32,6 +33,7 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
   constructor(
     private _script: ScriptLoaderService,
     private _listingService: ListingService,
+    private _loaderService: LoaderService,
     private logger: ToastrService
   ) {
     this.listing = new Listing();
@@ -42,14 +44,11 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
     });
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+  ngAfterContentInit(): void {
     if ($("#location-google-map").length !== 0) {
       this.setInitialLatLong();
     }
-
-    googleAddressParser;
-  }
-  ngAfterContentInit(): void {
     // this._script
     //   .loadScripts("body", ["assets/js/bootstrap.min.js"], true)
     //   .then(result => {
@@ -80,7 +79,6 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
   }
 
   onSubmit(form: NgForm) {
-    console.log("form", form);
     if (form.value) {
       this.onSubmitClick.emit(this.listing);
     } else {
@@ -89,7 +87,7 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
   }
 
   initializeMap() {
-    this.setInitialLatLong();
+    this._loaderService.displayLoader(true);
     let searchInput = $(".location-google-map-search");
     let mapCanvas = $("#location-google-map");
     // let latitude = $("#listing_location_latitude");
@@ -176,6 +174,8 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
       this.listing.latitude = marker.getPosition().lat();
       this.listing.longitude = marker.getPosition().lng();
     });
+
+    // this._loaderService.displayLoader(false);
   }
 
   parseAddress(address) {

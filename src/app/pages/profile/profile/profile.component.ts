@@ -6,7 +6,8 @@ import { environment } from "src/environments/environment";
 import { UserFormComponent } from "../_components/user-form/user-form.component";
 import { SocialFormComponent } from "../_components/social-form/social-form.component";
 import { AddressFormComponent } from "../_components/address-form/address-form.component";
-import { Subscription } from 'rxjs';
+import { Subscription } from "rxjs";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-profile",
@@ -26,7 +27,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   constructor(
     private auth: AuthenticationService,
-    private _profileService: ProfileService
+    private _profileService: ProfileService,
+    private logger: ToastrService
   ) {
     this.getProfile();
   }
@@ -42,9 +44,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.userCmp.patchData(this.profileData);
       this.addressCmp.patchData(this.profileData);
       this.socialCmp.patchData(this.profileData);
-      this.fileUrl = (this.profileData.image)
-        ? environment.baseUrl + this.profileData.image ||
-          this.fileUrl
+      this.fileUrl = this.profileData.image
+        ? environment.baseUrl + this.profileData.image || this.fileUrl
         : this.fileUrl;
     });
   }
@@ -71,6 +72,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this._profileService.onSaveImage(fd).subscribe(
       response => {
         console.log("onSaveImage", response);
+        this.logger.success("Image saved successfully");
       },
       error => {
         this.handleError(error);
@@ -83,6 +85,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this._profileService.onSaveUser(formData).subscribe(
       response => {
         console.log("onUserSave", response);
+        this.logger.success("Data saved successfully");
       },
       error => {
         this.handleError(error);
@@ -95,6 +98,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this._profileService.onSaveProfile(formData).subscribe(
       response => {
         console.log("onProfileSav", response);
+        this.logger.success("Data saved successfully");
       },
       error => {
         this.handleError(error);
@@ -107,6 +111,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this._profileService.onSaveSocial(formData).subscribe(
       response => {
         console.log("onSocialSave", response);
+        this.logger.success("Data saved successfully");
       },
       error => {
         this.handleError(error);
@@ -130,5 +135,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   private handleError(err) {
     console.log("err", err);
+    this.logger.error("Something went wrong", "Error");
   }
 }

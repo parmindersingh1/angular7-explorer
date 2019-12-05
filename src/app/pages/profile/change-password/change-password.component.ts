@@ -5,6 +5,7 @@ import { AuthenticationService } from "src/app/services/authentication.service";
 import { ValidationService } from "src/app/helpers/validation.service";
 import { ProfileService } from "src/app/pages/profile/_services/profile.service";
 import { User } from "src/app/models/user";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-change-password",
@@ -24,6 +25,7 @@ export class ChangePasswordComponent implements OnInit {
     private _router: Router,
     private _profileService: ProfileService,
     private fb: FormBuilder,
+    private logger: ToastrService,
     private auth: AuthenticationService
   ) {
     this.changePasswordForm = this.fb.group({
@@ -58,11 +60,13 @@ export class ChangePasswordComponent implements OnInit {
         .subscribe(
           response => {
             // get return url from route parameters or default to '/'
+            this.logger.success("Password changed successfully");
             this._router.navigate(["/"]);
             this.changePasswordForm.reset();
           },
           error => {
             this.error = error.error;
+            this.logger.error("Something went wrong", "Error");
           }
         );
       // Clear form fields

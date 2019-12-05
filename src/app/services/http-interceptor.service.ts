@@ -32,7 +32,6 @@ export class AppHttpInterceptorService implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     this.loaderService.displayLoader(true);
-    console.log("interceptor running");
 
     // Get the token from auth service.
     const authToken = this.auth.getToken();
@@ -41,7 +40,6 @@ export class AppHttpInterceptorService implements HttpInterceptor {
       const authReq = req.clone({
         headers: req.headers.set("Authorization", `Bearer ${authToken}`)
       });
-      console.log("interceptor running with new         headers");
 
       // send the newly created request
       return next.handle(authReq).pipe(
@@ -50,11 +48,9 @@ export class AppHttpInterceptorService implements HttpInterceptor {
             if (event instanceof HttpResponse) {
               this.loaderService.displayLoader(false);
               // Response wiht HttpResponse type
-              console.log("TAP function", event);
             }
           },
           (err: any) => {
-            console.log("interceptor", err);
             if (err instanceof HttpErrorResponse) {
               if (err.status === 401) {
                 this.logger.error(err.error);
@@ -67,7 +63,6 @@ export class AppHttpInterceptorService implements HttpInterceptor {
         )
       );
     } else {
-      console.log("interceptor without changes");
       return next.handle(req);
     }
   }

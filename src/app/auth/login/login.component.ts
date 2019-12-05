@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { AuthenticationService } from "../../services/authentication.service";
 import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 import { ValidationService } from "../../helpers/validation.service";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-login",
@@ -23,6 +24,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private _router: Router,
     private _route: ActivatedRoute,
+    private logger: ToastrService,
     private _authService: AuthenticationService,
     private fb: FormBuilder
   ) {}
@@ -55,11 +57,13 @@ export class LoginComponent implements OnInit {
       this._authService.onLogin(this.loginForm.value).subscribe(
         response => {
           // get return url from route parameters or default to '/'
+          this.logger.success("Logged in successfully");
           this._router.navigate([this.returnUrl]);
           this.loginForm.reset();
         },
         error => {
           this.error = error.error;
+          this.logger.error("Invalid mobile or password ");
         }
       );
       // Clear form fields

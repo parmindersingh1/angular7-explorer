@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
 import { AuthenticationService } from "../../services/authentication.service";
 import { ValidationService } from "src/app/helpers/validation.service";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-register",
@@ -27,6 +28,7 @@ export class RegisterComponent implements OnInit {
     private _router: Router,
     private _route: ActivatedRoute,
     private _authService: AuthenticationService,
+    private logger: ToastrService,
     private fb: FormBuilder
   ) {}
 
@@ -67,10 +69,12 @@ export class RegisterComponent implements OnInit {
         response => {
           // get return url from route parameters or default to '/'
           this._router.navigate([this.returnUrl]);
+          this.logger.success("You are registered successfully");
           this.registerForm.reset();
         },
         error => {
           this.error = error.error;
+          this.logger.error("Invalid Data", "Error");
         }
       );
       // Clear form fields
