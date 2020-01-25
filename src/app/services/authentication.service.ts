@@ -3,7 +3,7 @@ import { User } from './../models/user';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, throwError, of } from 'rxjs';
 import { catchError, map, tap, switchMap} from 'rxjs/operators';
 
 // Setup headers
@@ -93,6 +93,9 @@ export class AuthenticationService {
   }
 
   getUser(): Observable<User> {
+    if(!this.getToken()) {
+      return of(null);
+    }
     return this.http.get(this.apiUrl + '/profile/me').pipe(
       tap(
         (user: User) => {

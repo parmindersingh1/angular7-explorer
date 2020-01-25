@@ -160,7 +160,7 @@ export class MapComponent implements OnInit, OnChanges {
             listing["longitude"]
           );
 
-          const markerVerified = listing["is_verified"]
+          const markerVerified = listing["is_active"]
             ? '<div class="marker-verified"><i class="fa fa-check"></i></div>'
             : "";
 

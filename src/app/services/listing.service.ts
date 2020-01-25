@@ -21,11 +21,17 @@ const httpOptions = {
 export class ListingService {
   constructor(private http: HttpClient) {}
 
-  getListings() {
-    return this.http.get(`${environment.apiUrl}/listings`).pipe(
-      map(res => res),
-      catchError(error => this.handleError(error))
-    );
+  getListings(page = 1) {
+    return this.http
+      .get(`${environment.apiUrl}/listings`, {
+        params: {
+          page: page.toString()
+        }
+      })
+      .pipe(
+        map(res => res),
+        catchError(error => this.handleError(error))
+      );
   }
 
   getListing(listing_id) {
@@ -43,9 +49,12 @@ export class ListingService {
   }
 
   saveListing(listing: Listing) {
-    const request = JSON.stringify(listing);
+    const headers = new HttpHeaders();
+    headers.append("Content-Type", "multipart/form-data");
+    headers.append("Accept", "application/json");
+
     return this.http
-      .post(`${environment.apiUrl}/listings`, request, httpOptions)
+      .post(`${environment.apiUrl}/listings`, listing, { headers })
       .pipe(
         map((res: any) => {
           return res;

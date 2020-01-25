@@ -1,8 +1,4 @@
-import {
-  Component,
-  ViewEncapsulation,
-  ChangeDetectorRef
-} from "@angular/core";
+import { Component, ViewEncapsulation, ChangeDetectorRef } from "@angular/core";
 import { Listing } from "src/app/models/Listing";
 import { ListingService } from "../../../services/listing.service";
 declare var $: any;
@@ -18,9 +14,9 @@ export class HomeComponent {
   listing_id: number;
 
   constructor(private cd: ChangeDetectorRef, listingService: ListingService) {
-    listingService
-      .getListings()
-      .subscribe((listings: Listing[]) => (this.listings = listings));
+    listingService.getListings().subscribe((response: any) => {
+      this.listings = response.data;
+    });
   }
 
   setListing(listing_id: number) {

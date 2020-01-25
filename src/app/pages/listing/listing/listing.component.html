@@ -1,0 +1,177 @@
+<div class="main-wrapper">
+  <div class="main">
+    <div class="main-inner">
+      <div class="page-title">
+        <div class="container-fluid">
+          <h1>Listings Grid</h1>
+          <div class="page-title-actions"></div>
+          <!-- /.page-title-actions -->
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- /.page-title -->
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-4 col-md-3 sidebar-wrapper-col">
+            <div class="sidebar">
+              <div class="filter">
+                <h2>Search criteria</h2>
+                <div class="form-group">
+                  <label>Keyword</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Search by keyword ..."
+                  />
+                </div>
+                <!-- /.form-group -->
+                <div class="form-group">
+                  <label>City</label>
+                  <select class="form-control">
+                    <option>Location</option>
+                    <option>Chicago</option>
+                    <option>San Francisco</option>
+                    <option>Seattle</option>
+                    <option>New York</option>
+                    <option>Washington</option>
+                  </select>
+                </div>
+                <!-- /.form-group -->
+
+                <div class="checkbox">
+                  <label
+                    ><input type="checkbox" /> Featured
+                    <span class="label">54</span></label
+                  >
+                </div>
+                <div class="checkbox">
+                  <label
+                    ><input type="checkbox" /> Active
+                    <span class="label">22</span></label
+                  >
+                </div>
+                <div class="form-group-btn form-group-btn-placeholder-gap">
+                  <button type="submit" class="btn btn-primary btn-block">
+                    Search
+                  </button>
+                </div>
+                <!-- /.form-group -->
+              </div>
+              <!-- /.filter -->
+            </div>
+            <!-- /.sidebar -->
+          </div>
+          <!-- /.col-* -->
+          <div class="col-sm-8 col-md-9">
+            <div class="content">
+              <div class="row">
+                <div class="col-md-6 col-lg-3" *ngFor="let listing of listings">
+                  <div class="listing-box">
+                    <div class="listing-box-inner">
+                      <a href="#" class="listing-box-image">
+                        <span
+                          class="listing-box-image-content"
+                          [ngStyle]="{
+                            'background-image': 'url(' + listing.thumbnail + ')'
+                          }"
+                        ></span
+                        ><!-- /.listing-box-image-content -->
+                        <span class="listing-box-category tag">{{
+                          listing.category
+                        }}</span>
+                        <span
+                          class="listing-box-rating"
+                          [innerHTML]="buildRating(listing.rating)"
+                        ></span> </a
+                      ><!-- /.listing-box-image -->
+                      <div class="listing-box-content">
+                        <h2>
+                          <a href="#">{{ listing.title }}</a>
+                        </h2>
+                        <h3>{{ listing.address }}</h3>
+                        <div class="actions">
+                          <div class="actions-button">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                          </div>
+                          <!-- /.actions-button -->
+                          <ul class="actions-list">
+                            <li><a href="#">Add to compare</a></li>
+                            <li><a href="#">Add to favorites</a></li>
+                            <li><a href="#">Report listing</a></li>
+                          </ul>
+                          <!-- /.actions-list -->
+                        </div>
+                        <!-- /.actions -->
+                      </div>
+                      <!-- /.listing-box-content -->
+                      <div class="listing-box-attributes">
+                        <dl>
+                          <dt>Rent</dt>
+                          <dd>{{ listing.price }}</dd>
+                          <dt>Is Available</dt>
+                          <dd>
+                            {{ listing.is_active == true ? "YES" : "NO" }}
+                          </dd>
+                          <dt>Featured</dt>
+                          <dd>
+                            {{ listing.is_featured == false ? "YES" : "NO" }}
+                          </dd>
+                        </dl>
+                      </div>
+                      <!-- /.listing-box-attributes -->
+                      <!-- <div class="listing-box-attributes-icons">
+                        <ul>
+                          <li>
+                            <i class="fa fa-arrows"></i> <span>182sqft</span>
+                          </li>
+                          <li><i class="fa fa-shower"></i> <span>2</span></li>
+                          <li><i class="fa fa-car"></i> <span>1</span></li>
+                        </ul>
+                      </div> -->
+                    </div>
+                    <!-- /.listing-box-inner -->
+                  </div>
+                  <!-- /.listing-box -->
+                </div>
+                <!-- /.col-* -->
+              </div>
+              <!-- /.row -->
+              <div class="row">
+                <div class="col-sm-12">
+                  <!-- <ul class="pagination pull-right">
+                    <li class="page-item">
+                      <a class="page-link" href="#">Previous</a>
+                    </li>
+                    <li class="page-item active">
+                      <a class="page-link" href="#">1</a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" href="#">Next</a>
+                    </li>
+                  </ul> -->
+
+                  <div class="float-right">
+                    <app-pagination
+                      [totalRecords]="totalRecords"
+                      [recordsPerPage]="recordsPerPage"
+                      (onPageChange)="displayActivePage($event)"
+                    ></app-pagination>
+                  </div>
+                </div>
+                <!-- /.col-* -->
+              </div>
+            </div>
+            <!-- /.content -->
+          </div>
+          <!-- /.col-* -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- /.main-inner -->
+  </div>
+  <!-- /.main -->
+</div>

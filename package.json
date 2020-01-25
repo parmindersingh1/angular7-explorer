@@ -25,6 +25,7 @@
     "jquery": "^3.4.1",
     "ngx-loading": "^8.0.0",
     "ngx-toastr": "^11.2.1",
+    "object-to-formdata": "^2.1.2",
     "rxjs": "^6.5.3",
     "sweetalert2": "^9.4.0",
     "tslib": "^1.10.0",

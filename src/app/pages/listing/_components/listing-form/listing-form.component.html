@@ -71,7 +71,11 @@
             #category="ngModel"
             required
           >
-            <option *ngFor="let cat of categories; let i = index" [value]="cat.id" [selected]="i == 0">{{ cat.name }}</option>
+            <option
+              *ngFor="let cat of categories; let i = index"
+              [value]="cat.id"
+              >{{ cat.name }}</option
+            >
           </select>
           <div
             class="messages text-danger"
@@ -310,7 +314,8 @@
           class="form-group"
           [ngClass]="{
             'was-validated has-danger':
-              !pincode.valid && (pincode.dirty || pincode.touched || f.submitted)
+              !pincode.valid &&
+              (pincode.dirty || pincode.touched || f.submitted)
           }"
         >
           <label class="col-form-label">Pincode</label>
@@ -324,7 +329,10 @@
           />
           <div
             class="messages text-danger"
-            *ngIf="pincode.invalid && (pincode.dirty || pincode.touched || f.submitted)"
+            *ngIf="
+              pincode.invalid &&
+              (pincode.dirty || pincode.touched || f.submitted)
+            "
           >
             Pincode is blank or invalid
           </div>
@@ -333,6 +341,33 @@
       </div>
     </div>
     <!-- /.row -->
+  </fieldset>
+
+  <fieldset>
+    <legend>Image</legend>
+    <div class="image-upload">
+      <div class="listing-pic">
+        <img class="img-responsive" src="{{ fileUrl }}" />
+      </div>
+      <!-- END SIDEBAR USERPIC -->
+      <!-- SIDEBAR USER TITLE -->
+      <div class="profile-usertitle p-2">
+        <!-- <a href="#" class="profile-usertitle-job">
+                  Edit Image
+                </a> -->
+        <input
+          style="display: none"
+          accept="image/x-png,image/gif,image/jpeg"
+          type="file"
+          (change)="onFileChanged($event)"
+          #fileInput
+        />
+        <button type="button" class="btn btn-success" (click)="fileInput.click()">
+          <i class="ti-plus"></i> Edit Image
+        </button>
+        <p>{{ this.file?.name }}</p>
+      </div>
+    </div>
   </fieldset>
 
   <fieldset>

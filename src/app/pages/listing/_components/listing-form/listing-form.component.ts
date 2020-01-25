@@ -14,6 +14,7 @@ import { Category } from "src/app/models/Category";
 import { EventEmitter } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { LoaderService } from "../../../../services/loader.service";
+import objectToFormData from 'object-to-formdata';
 declare var $: any;
 declare var google: any;
 
@@ -26,8 +27,10 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
   map: any = {};
   listing: Listing;
   categories: Category[] = [];
+  file: File;
+  fileUrl: any = "assets/img/demo_user.png";
   @Output("onSubmit") onSubmitClick: EventEmitter<any> = new EventEmitter();
-
+  @ViewChild("fileInput", { static: true }) fileImportInput: any;
   @ViewChild("#f", { static: true }) form: NgForm;
 
   constructor(
@@ -80,7 +83,9 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
 
   onSubmit(form: NgForm) {
     if (form.value) {
-      this.onSubmitClick.emit(this.listing);
+      const formData: FormData = objectToFormData(this.listing);
+      console.log(this.listing,formData.has('file'), formData.get('file'));
+      this.onSubmitClick.emit(formData);
     } else {
       this.logger.error("Invalid data");
     }
@@ -175,7 +180,7 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
       this.listing.longitude = marker.getPosition().lng();
     });
 
-    // this._loaderService.displayLoader(false);
+    this._loaderService.displayLoader(false);
   }
 
   parseAddress(address) {
@@ -213,5 +218,24 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
         );
       }
     });
+  }
+
+  onFileChanged(event) {
+    let file = event.target.files[0];
+    this.file = file;
+    this.listing.file = file;
+    console.log(file);
+    if (!file) return;
+
+    var reader: FileReader = new FileReader();
+    reader.onload = (e: any) => {
+      // $('#imgLogo').attr('src', e.target.result);
+      this.fileUrl = e.target.result ? e.target.result : "";
+    };
+    reader.readAsDataURL(file);
+  }
+
+  private fileReset() {
+    this.fileImportInput.nativeElement.value = "";
   }
 }

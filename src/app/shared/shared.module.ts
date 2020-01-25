@@ -8,6 +8,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ControlMessages } from "./components/control-messages.component";
 import { ModalBasicComponent } from "./components/modal-basic/modal-basic.component";
+import { AppPaginationComponent } from './components/app-pagination/app-pagination.component';
 
 @NgModule({
   imports: [
@@ -32,7 +33,7 @@ import { ModalBasicComponent } from "./components/modal-basic/modal-basic.compon
       preventDuplicates: true,
     }),
   ],
-  declarations: [ControlMessages, ModalBasicComponent],
+  declarations: [ControlMessages, ModalBasicComponent, AppPaginationComponent],
   exports: [
     FormsModule,
     ReactiveFormsModule,
@@ -41,7 +42,8 @@ import { ModalBasicComponent } from "./components/modal-basic/modal-basic.compon
     ControlMessages,
     NgxLoadingModule,
     ModalBasicComponent,
-    ToastrModule
+    ToastrModule,
+    AppPaginationComponent
   ]
 })
 export class SharedModule {}

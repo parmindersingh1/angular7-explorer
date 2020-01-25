@@ -9,7 +9,7 @@ export class Listing {
   description: string;
   category: string;
   category_id: number;
-  is_verified: boolean;
+  is_active: boolean;
   is_featured: boolean;
   user_id: number;
   rating: number;
@@ -19,4 +19,5 @@ export class Listing {
   country: string;
   state: string;
   pincode: string;
+  file: File;
 }

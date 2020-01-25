@@ -31,7 +31,7 @@ export class AppHttpInterceptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    this.loaderService.displayLoader(true);
+    // this.loaderService.displayLoader(true);
 
     // Get the token from auth service.
     const authToken = this.auth.getToken();
@@ -46,7 +46,7 @@ export class AppHttpInterceptorService implements HttpInterceptor {
         tap(
           (event: HttpEvent<any>) => {
             if (event instanceof HttpResponse) {
-              this.loaderService.displayLoader(false);
+              // this.loaderService.displayLoader(false);
               // Response wiht HttpResponse type
             }
           },
@@ -54,16 +54,20 @@ export class AppHttpInterceptorService implements HttpInterceptor {
             if (err instanceof HttpErrorResponse) {
               if (err.status === 401) {
                 this.logger.error(err.error);
-                this.loaderService.displayLoader(false);
                 localStorage.removeItem("token");
+                // this.loaderService.displayLoader(false);
                 this.router.navigate(["/"]);
               }
+              // this.loaderService.displayLoader(false);
             }
+            // this.loaderService.displayLoader(false);
+            return next.handle(req);
           }
         )
       );
     } else {
       return next.handle(req);
+      // this.loaderService.displayLoader(false);
     }
   }
 }
