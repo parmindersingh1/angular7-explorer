@@ -1,0 +1,769 @@
+<div class="map-wrapper">
+  <div class="map" style="height: 680px;">
+    <div class="map-inner">
+      <div class="map-object">
+        <div id="map-details"></div>
+        <div class="map-toolbar">
+          <div class="map-toolbar-group">
+            <div
+              id="map-toolbar-action-zoom-in"
+              class="map-toolbar-group-item"
+              (click)="actionZoomIn()"
+            >
+              <i class="fa fa-plus"></i>
+            </div>
+            <div
+              id="map-toolbar-action-zoom-out"
+              class="map-toolbar-group-item"
+              (click)="actionZoomOut()"
+            >
+              <i class="fa fa-minus"></i>
+            </div>
+          </div>
+
+          <div class="map-toolbar-group">
+            <div
+              id="map-toolbar-action-roadmap"
+              class="map-toolbar-group-item"
+              (click)="actionType('ROADMAP')"
+            >
+              Roadmap
+            </div>
+            <div
+              id="map-toolbar-action-satellite"
+              class="map-toolbar-group-item"
+              (click)="actionType('SATELLITE')"
+            >
+              Satellite
+            </div>
+            <div
+              id="map-toolbar-action-terrain"
+              class="map-toolbar-group-item"
+              (click)="actionType('TERRAIN')"
+            >
+              Terrain
+            </div>
+            <div
+              id="map-toolbar-action-hybrid"
+              class="map-toolbar-group-item"
+              (click)="actionType('HYBRID')"
+            >
+              Hybrid
+            </div>
+          </div>
+        </div>
+        <!-- /.map-toolbar -->
+      </div>
+      <!-- /#map-object -->
+    </div>
+    <!-- /.map-inner -->
+  </div>
+  <!-- /.map -->
+</div>
+<!-- /.map-wrapper -->
+
+<div class="main-wrapper">
+  <div class="main">
+    <div class="main-inner">
+      <div class="listing-hero">
+        <div class="listing-hero-inner">
+          <div class="container">
+            <div
+              class="listing-hero-image"
+              style="background-image: url('assets/img/tmp/listing-9.jpg')"
+            ></div>
+            <!-- /.listing-hero-image -->
+            <h1>Famous Avenue Restaurant <i class="fa fa-check"></i></h1>
+            <address>
+              1812 Simons Hollow Road<br />
+              Scranton, PA 18503
+            </address>
+            <ul class="social">
+              <li>
+                <a href="#"><i class="fa fa-facebook"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="fa fa-twitter"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="fa fa-google"></i></a>
+              </li>
+            </ul>
+          </div>
+          <!-- /.container -->
+        </div>
+        <!-- /.listing-hero-inner -->
+      </div>
+      <!-- /.listing-hero -->
+      <div class="listing-toolbar-wrapper">
+        <div class="listing-toolbar" data-spy="affix" data-offset-top="203">
+          <div class="container">
+            <ul class="nav"></ul>
+            <!-- /.nav -->
+          </div>
+          <!-- /.container -->
+        </div>
+        <!-- /.listing-toolbar -->
+      </div>
+      <!-- /.listing-toolbar-wrapper -->
+      <div class="container">
+        <nav class="breadcrumb">
+          <a class="breadcrumb-item" href="#">Home</a>
+          <a class="breadcrumb-item" href="#">Library</a>
+          <a class="breadcrumb-item" href="#">Data</a>
+          <span class="breadcrumb-item active">Bootstrap</span>
+        </nav>
+        <div class="row">
+          <div class="col-md-8 col-lg-9">
+            <div
+              class="listing-detail-section"
+              id="listing-detail-section-description"
+              data-title="Description"
+            >
+              <div class="gallery">
+                <div
+                  class="gallery-item"
+                  style="background-image: url(assets/img/tmp/listing-22.jpg);"
+                ></div>
+                <!-- /.gallery-item -->
+                <div
+                  class="gallery-item"
+                  style="background-image: url(assets/img/tmp/listing-21.jpg);"
+                ></div>
+                <!-- /.gallery-item -->
+                <div
+                  class="gallery-item"
+                  style="background-image: url(assets/img/tmp/listing-2.jpg);"
+                ></div>
+                <!-- /.gallery-item -->
+                <div
+                  class="gallery-item"
+                  style="background-image: url(assets/img/tmp/listing-20.jpg);"
+                ></div>
+                <!-- /.gallery-item -->
+                <div
+                  class="gallery-item"
+                  style="background-image: url(assets/img/tmp/listing-15.jpg);"
+                ></div>
+                <!-- /.gallery-item -->
+              </div>
+              <!-- /.gallery -->
+              <div class="row">
+                <div class="col-lg-5">
+                  <div class="overview">
+                    <h2>Listing Attributes</h2>
+                    <ul>
+                      <li>
+                        <strong>Price</strong><span>$480 / per week</span>
+                      </li>
+                      <li><strong>Location</strong><span>New York</span></li>
+                      <li><strong>Status</strong><span>Rent</span></li>
+                      <li><strong>Bedrooms</strong><span>4</span></li>
+                      <li><strong>Bathrooms</strong><span>2</span></li>
+                      <li><strong>Area</strong><span>180 sqft</span></li>
+                    </ul>
+                  </div>
+                  <!-- /.overview -->
+                </div>
+                <!-- /.col-* -->
+                <div class="col-lg-7">
+                  <h2>Description</h2>
+                  <p>
+                    Duis suscipit turpis suscipit lectus ultricies, placerat
+                    fermentum orci fringilla. Mauris semper magna cursus diam
+                    suscipit consectetur.
+                  </p>
+                  <p>
+                    Integer condimentum sodales metus, quis pellentesque nisi
+                    tempor at. Quisque ornare efficitur risus eu bibendum. Donec
+                    feugiat consequat magna in interdum. Donec malesuada orci et
+                    mi fermentum, ac tincidunt arcu tincidunt. Ut fringilla
+                    tellus sem, quis rhoncus dolor condimentum id. Vivamus ut
+                    commodo felis. Fusce in lacus egestas, mattis ex et,
+                    molestie est.
+                  </p>
+                </div>
+                <!-- /.col-* -->
+              </div>
+              <!-- /.row -->
+            </div>
+            <!-- /.listing-detail-section -->
+
+            <div
+              class="listing-detail-section"
+              id="listing-detail-section-contact-information"
+              data-title="Contact"
+            >
+              <h2>Contact Information</h2>
+              <div class="box">
+                <div class="box-inner">
+                  <div class="overview overview-half overview-no-margin">
+                    <ul>
+                      <li><strong>Country</strong><span>Canada</span></li>
+                      <li><strong>City</strong><span>Toronto</span></li>
+                      <li>
+                        <strong>Address</strong
+                        ><span>4886 Hickory Ridge Drive</span>
+                      </li>
+                      <li>
+                        <strong>E-mail</strong
+                        ><span><a href="mailto:">sample@example.com</a></span>
+                      </li>
+                      <li><strong>Phone</strong><span>+0-123-456-789</span></li>
+                      <li>
+                        <strong>Website</strong
+                        ><span><a href="#">example.com</a></span>
+                      </li>
+                    </ul>
+                  </div>
+                  <!-- /.overview -->
+                </div>
+                <!-- /.box-inner -->
+              </div>
+              <!-- /.box -->
+            </div>
+            <!-- /.listing-detail-section -->
+
+            <!-- /.listing-detail-section -->
+            <div
+              class="listing-detail-section mb80"
+              id="listing-detail-section-reviews"
+              data-title="Reviews"
+            >
+              <div class="box">
+                <div class="box-inner">
+                  <div class="box-title">
+                    <h2>Recent Reviews</h2>
+                  </div>
+                  <!-- /.box-title -->
+                  <ul class="comments">
+                    <li>
+                      <div class="comment">
+                        <div class="comment-author">
+                          <a
+                            href="#"
+                            style="background-image: url('assets/img/tmp/user-1.jpg');"
+                          ></a>
+                        </div>
+                        <!-- /.comment-author -->
+                        <div class="comment-content">
+                          <div class="comment-meta">
+                            <div class="comment-meta-author">
+                              Derek S. Minter
+                            </div>
+                            <!-- /.comment-meta-author -->
+                            <div class="comment-meta-date">
+                              <span>8:54 PM 11/23/2016</span>
+                            </div>
+                          </div>
+                          <!-- /.comment -->
+                          <div class="comment-body">
+                            <div class="comment-rating">
+                              <i class="fa fa-star"></i>
+                              <i class="fa fa-star"></i>
+                              <i class="fa fa-star"></i>
+                              <i class="fa fa-star"></i>
+                              <i class="fa fa-star"></i>
+                            </div>
+                            <!-- /.comment-rating -->
+                            <p>
+                              Nullam sollicitudin justo neque, sit amet auctor
+                              urna pretium in. Aenean elementum venenatis nisl
+                              at tincidunt. Vivamus hendrerit porta cursus. Cras
+                              elementum tortor ut tincidunt feugiat.
+                            </p>
+                          </div>
+                          <!-- /.comment-body -->
+                        </div>
+                        <!-- /.comment-content -->
+                        <div class="comment comment-answer">
+                          <div class="comment-author">
+                            <a
+                              href="#"
+                              style="background-image: url('assets/img/tmp/user-2.jpg');"
+                            ></a>
+                          </div>
+                          <!-- /.comment-author -->
+                          <div class="comment-content">
+                            <div class="comment-meta">
+                              <div class="comment-meta-author">
+                                Elizabeth T. Schultheis
+                              </div>
+                              <!-- /.comment-meta-author -->
+                              <div class="comment-meta-date">
+                                <span>8:54 PM 11/23/2016</span>
+                              </div>
+                            </div>
+                            <!-- /.comment -->
+                            <div class="comment-body">
+                              <p>
+                                Quisque aliquam ante in ullamcorper mattis. In
+                                fringilla mollis scelerisque. Morbi quis justo
+                                eget erat maximus vulputate non nec nulla. Nam
+                                eget tincidunt sapien. Nullam aliquam enim a
+                                fringilla rutrum.
+                              </p>
+                            </div>
+                            <!-- /.comment-body -->
+                          </div>
+                          <!-- /.comment-content -->
+                        </div>
+                        <!-- /.comment -->
+                      </div>
+                      <!-- /.comment -->
+                    </li>
+                    <li>
+                      <div class="comment">
+                        <div class="comment-author">
+                          <a
+                            href="#"
+                            style="background-image: url('assets/img/tmp/user-2.jpg');"
+                          ></a>
+                        </div>
+                        <!-- /.comment-author -->
+                        <div class="comment-content">
+                          <div class="comment-meta">
+                            <div class="comment-meta-author">
+                              Elizabeth T. Schultheis
+                            </div>
+                            <!-- /.comment-meta-author -->
+                            <div class="comment-meta-date">
+                              <span>8:54 PM 11/23/2016</span>
+                            </div>
+                          </div>
+                          <!-- /.comment -->
+                          <div class="comment-body">
+                            <div class="comment-rating">
+                              <i class="fa fa-star"></i>
+                              <i class="fa fa-star"></i>
+                              <i class="fa fa-star"></i>
+                              <i class="fa fa-star"></i>
+                              <i class="fa fa-star"></i>
+                            </div>
+                            <!-- /.comment-rating -->
+                            <p>
+                              Quisque aliquam ante in ullamcorper mattis. In
+                              fringilla mollis scelerisque. Morbi quis justo
+                              eget erat maximus vulputate non nec nulla. Nam
+                              eget tincidunt sapien. Nullam aliquam enim a
+                              fringilla rutrum.
+                            </p>
+                          </div>
+                          <!-- /.comment-body -->
+                        </div>
+                        <!-- /.comment-content -->
+                      </div>
+                      <!-- /.comment -->
+                    </li>
+                    <li>
+                      <div class="comment">
+                        <div class="comment-author">
+                          <a
+                            href="#"
+                            style="background-image: url('assets/img/tmp/user-3.jpg');"
+                          ></a>
+                        </div>
+                        <!-- /.comment-author -->
+                        <div class="comment-content">
+                          <div class="comment-meta">
+                            <div class="comment-meta-author">
+                              Nettie G. Grubbs
+                            </div>
+                            <!-- /.comment-meta-author -->
+                            <div class="comment-meta-date">
+                              <span>8:54 PM 11/23/2016</span>
+                            </div>
+                          </div>
+                          <!-- /.comment -->
+                          <div class="comment-body">
+                            <div class="comment-rating">
+                              <i class="fa fa-star"></i>
+                              <i class="fa fa-star"></i>
+                              <i class="fa fa-star"></i>
+                              <i class="fa fa-star"></i>
+                              <i class="fa fa-star-half-o"></i>
+                            </div>
+                            <!-- /.comment-rating -->
+                            <p>
+                              Quisque nec sollicitudin nisl, ut feugiat mi.
+                              Maecenas auctor, nibh id placerat finibus, neque
+                              felis ultricies urna, id aliquet arcu sem viverra
+                              enim.
+                            </p>
+                          </div>
+                          <!-- /.comment-body -->
+                        </div>
+                        <!-- /.comment-content -->
+                      </div>
+                      <!-- /.comment -->
+                    </li>
+                  </ul>
+                  <hr />
+                  <h4>Create New Review</h4>
+                  <form method="post" action="?">
+                    <div class="row">
+                      <div class="col-sm-7">
+                        <div class="form-group">
+                          <label>Message</label>
+                          <textarea
+                            class="form-control"
+                            style="height: 191px;"
+                          ></textarea>
+                        </div>
+                        <!-- /.form-group -->
+                      </div>
+                      <!-- /.col-* -->
+                      <div class="col-sm-5">
+                        <div class="form-group">
+                          <label>Name</label>
+                          <input type="email" class="form-control" />
+                        </div>
+                        <!-- /.form-group -->
+                        <div class="form-group">
+                          <label>E-mail</label>
+                          <input type="email" class="form-control" />
+                        </div>
+                        <!-- /.form-group -->
+                        <div class="form-group">
+                          <label>Website</label>
+                          <input type="email" class="form-control" />
+                        </div>
+                        <!-- /.form-group -->
+                      </div>
+                      <!-- /.col-* -->
+                    </div>
+                    <!-- /.row -->
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label>Overall</label>
+                          <div class="rating-item"></div>
+                        </div>
+                        <!-- /.form-group -->
+                      </div>
+                      <!-- /.col -->
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label>Meal Quality</label>
+                          <div class="rating-item"></div>
+                        </div>
+                        <!-- /.form-group -->
+                      </div>
+                      <!-- /.col -->
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label>Staff</label>
+                          <div class="rating-item"></div>
+                        </div>
+                        <!-- /.form-group -->
+                      </div>
+                      <!-- /.col -->
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label>Parking</label>
+                          <div class="rating-item"></div>
+                        </div>
+                        <!-- /.form-group -->
+                      </div>
+                      <!-- /.col -->
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label>Payment Options</label>
+                          <div class="rating-item"></div>
+                        </div>
+                        <!-- /.form-group -->
+                      </div>
+                      <!-- /.col -->
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <label>Location</label>
+                          <div class="rating-item"></div>
+                        </div>
+                        <!-- /.form-group -->
+                      </div>
+                      <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                    <button type="submit" class="btn btn-primary pull-right">
+                      Post Comment
+                    </button>
+                  </form>
+                </div>
+                <!-- /.box-inner -->
+              </div>
+              <!-- /.box-->
+            </div>
+            <!-- /.listing-detail-section -->
+          </div>
+          <!-- /.col-* -->
+          <div class="col-md-4 col-lg-3">
+            <div class="sidebar">
+              <div class="widget">
+                <ul class="nav actions flex-column">
+                  <li class="nav-item featured">
+                    <a href="#" class="nav-link">
+                      <i class="fa fa-file-text-o"></i> Claim Listing
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="fa fa-star-o"></i> Add to Favorites
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="fa fa-flag"></i> Report Listing
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a
+                      href="#"
+                      class="nav-link"
+                      onclick="window.print(); return false;"
+                    >
+                      <i class="fa fa-print"></i> Print page
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="fa fa-facebook"></i> Share on Facebook
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="fa fa-google"></i> Share on Google+
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="fa fa-twitter"></i> Share on Twitter
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="fa fa-linkedin"></i> Share on LinkedIn
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div class="widget">
+                <div class="author-small">
+                  <div
+                    class="avatar"
+                    style="background-image: url('assets/img/tmp/user-8.jpg');"
+                  ></div>
+                  <h3>Robert I. Sundquist</h3>
+                  <p>Working for Vinyl Fever. Authored 20 unique listings.</p>
+                  <div class="author-small-actions">
+                    <a href="author.html" class="btn btn-primary">Profile</a>
+                    <a href="#" class="btn">Contact</a>
+                  </div>
+                  <!-- /.author-small-actions -->
+                </div>
+                <!-- /.author-small -->
+              </div>
+              <!-- /.widget -->
+              <div class="widget">
+                <h2 class="widgettitle">Public Documents</h2>
+                <div class="documents">
+                  <a class="document" href="#">
+                    <i class="fa fa-file-image-o"></i>
+                    <span>Image Gallery</span>
+                  </a>
+                  <a class="document" href="#">
+                    <i class="fa fa-file-excel-o"></i>
+                    <span>Detailed Pricing</span>
+                  </a>
+                  <a class="document" href="#">
+                    <i class="fa fa-file-pdf-o"></i>
+                    <span>Download Floor Plans</span>
+                  </a>
+                </div>
+                <!-- /.documents -->
+              </div>
+              <div class="widget widget-background-white">
+                <h3 class="widgettitle">Inquire Form</h3>
+                <form method="post" action="?">
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Full name"
+                    />
+                  </div>
+                  <!-- /.form-group -->
+                  <div class="form-group">
+                    <input
+                      type="email"
+                      class="form-control"
+                      placeholder="E-mail"
+                    />
+                  </div>
+                  <!-- /.form-group -->
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Subject"
+                    />
+                  </div>
+                  <!-- /.form-group -->
+                  <div class="form-group">
+                    <textarea class="form-control" rows="4">Message</textarea>
+                  </div>
+                  <!-- /.form-group -->
+                  <div class="form-group-btn">
+                    <button type="submit" class="btn btn-primary btn-block">
+                      Send Message
+                    </button>
+                  </div>
+                  <!-- /.form-group-btn -->
+                </form>
+              </div>
+              <!-- /.widget -->
+              <div class="widget">
+                <h3 class="widgettitle">Recent Listings</h3>
+                <div>
+                  <div class="listing-row-medium">
+                    <div class="listing-row-medium-inner">
+                      <a
+                        href="listings-detail.html"
+                        class="listing-row-medium-image"
+                        style="background-image: url(assets/img/tmp/listing-18.jpg);"
+                      >
+                      </a>
+                      <div class="listing-row-medium-content">
+                        <a
+                          class="listing-row-medium-price"
+                          href="listings-detail.html"
+                          >$9.90</a
+                        >
+                        <a
+                          class="listing-row-medium-category tag"
+                          href="listings-detail.html"
+                          >Sport cars</a
+                        >
+                        <h4 class="listing-row-medium-title">
+                          <a href="listings-detail.html">Steak House</a>
+                        </h4>
+                        <div class="listing-row-medium-address">
+                          1122 Wilkinson Court Naples
+                        </div>
+                        <!-- /.listing-row-medium-address -->
+                      </div>
+                      <!-- /.listing-row-medium-content -->
+                    </div>
+                    <!-- /.listing-row-medium-inner -->
+                  </div>
+                  <!-- /.listings-row-medium -->
+                  <div class="listing-row-medium">
+                    <div class="listing-row-medium-inner">
+                      <a
+                        href="listings-detail.html"
+                        class="listing-row-medium-image"
+                        style="background-image: url(assets/img/tmp/listing-13.jpg);"
+                      >
+                        <span class="listing-row-medium-featured">Featured</span
+                        ><!-- /.listing-row-medium-featured -->
+                      </a>
+                      <div class="listing-row-medium-content">
+                        <a
+                          class="listing-row-medium-category tag"
+                          href="listings-detail.html"
+                          >Gastronomy</a
+                        >
+                        <h4 class="listing-row-medium-title">
+                          <a href="listings-detail.html">SUV Cars Reseller</a>
+                        </h4>
+                        <div class="listing-row-medium-address">
+                          4692 Arbutus Drive Miami Springs
+                        </div>
+                        <!-- /.listing-row-medium-address -->
+                      </div>
+                      <!-- /.listing-row-medium-content -->
+                    </div>
+                    <!-- /.listing-row-medium-inner -->
+                  </div>
+                  <!-- /.listings-row-medium -->
+                  <div class="listing-row-medium">
+                    <div class="listing-row-medium-inner">
+                      <a
+                        href="listings-detail.html"
+                        class="listing-row-medium-image"
+                        style="background-image: url(assets/img/tmp/listing-12.jpg);"
+                      >
+                      </a>
+                      <div class="listing-row-medium-content">
+                        <a
+                          class="listing-row-medium-price"
+                          href="listings-detail.html"
+                          >$533.00</a
+                        >
+                        <a
+                          class="listing-row-medium-category tag"
+                          href="listings-detail.html"
+                          >Marketing</a
+                        >
+                        <h4 class="listing-row-medium-title">
+                          <a href="listings-detail.html"
+                            >T-Shirt Specialized Shop</a
+                          >
+                        </h4>
+                        <div class="listing-row-medium-address">
+                          2460 Ashwood Drive Farragut
+                        </div>
+                        <!-- /.listing-row-medium-address -->
+                      </div>
+                      <!-- /.listing-row-medium-content -->
+                    </div>
+                    <!-- /.listing-row-medium-inner -->
+                  </div>
+                  <!-- /.listings-row-medium -->
+                  <div class="listing-row-medium">
+                    <div class="listing-row-medium-inner">
+                      <a
+                        href="listings-detail.html"
+                        class="listing-row-medium-image"
+                        style="background-image: url(assets/img/tmp/listing-3.jpg);"
+                      >
+                      </a>
+                      <div class="listing-row-medium-content">
+                        <a
+                          class="listing-row-medium-price"
+                          href="listings-detail.html"
+                          >$76.90</a
+                        >
+                        <a
+                          class="listing-row-medium-category tag"
+                          href="listings-detail.html"
+                          >Museum</a
+                        >
+                        <h4 class="listing-row-medium-title">
+                          <a href="listings-detail.html">Erb Lumber</a>
+                        </h4>
+                        <div class="listing-row-medium-address">
+                          2155 Philli Lane Mcalester
+                        </div>
+                        <!-- /.listing-row-medium-address -->
+                      </div>
+                      <!-- /.listing-row-medium-content -->
+                    </div>
+                    <!-- /.listing-row-medium-inner -->
+                  </div>
+                  <!-- /.listings-row-medium -->
+                </div>
+              </div>
+              <!-- /.widget -->
+            </div>
+            <!-- /.sidebar -->
+          </div>
+          <!-- /.col-* -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- /.main-inner -->
+  </div>
+  <!-- /.main -->
+</div>

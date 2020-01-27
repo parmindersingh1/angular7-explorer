@@ -68,7 +68,7 @@
                 <div class="col-md-6 col-lg-3" *ngFor="let listing of listings">
                   <div class="listing-box">
                     <div class="listing-box-inner">
-                      <a href="#" class="listing-box-image">
+                      <a [routerLink]="['/app','listing', listing.id , 'show']" class="listing-box-image">
                         <span
                           class="listing-box-image-content"
                           [ngStyle]="{
@@ -86,7 +86,7 @@
                       ><!-- /.listing-box-image -->
                       <div class="listing-box-content">
                         <h2>
-                          <a href="#">{{ listing.title }}</a>
+                          <a [routerLink]="['/app','listing', listing.id , 'show']">{{ listing.title }}</a>
                         </h2>
                         <h3>{{ listing.address }}</h3>
                         <div class="actions">
