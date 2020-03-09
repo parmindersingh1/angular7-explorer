@@ -347,7 +347,12 @@
     <legend>Image</legend>
     <div class="image-upload">
       <div class="listing-pic">
-        <img class="img-responsive" src="{{ fileUrl }}" />
+        <!-- <img class="img-responsive" src="{{ fileUrl }}" /> -->
+        <div class="img-wrap text-center" *ngFor="let img of thumbnails; let i=index">
+          <span class="close close-btn"><i class="fa fa-close"></i></span>
+          <img class="img-responsive img-thumbnail" src="{{ img }}" />
+          <h6 class="text-wrap text-center">{{listing.images[i]?.name}}</h6>
+        </div>
       </div>
       <!-- END SIDEBAR USERPIC -->
       <!-- SIDEBAR USER TITLE -->
@@ -359,13 +364,20 @@
           style="display: none"
           accept="image/x-png,image/gif,image/jpeg"
           type="file"
+          multiple
           (change)="onFileChanged($event)"
           #fileInput
         />
-        <button type="button" class="btn btn-success" (click)="fileInput.click()">
+        <button
+          type="button"
+          class="btn btn-success"
+          (click)="fileInput.click()"
+        >
           <i class="ti-plus"></i> Edit Image
         </button>
-        <p>{{ this.file?.name }}</p>
+        <p>
+          <!-- <span *ngFor="let img of listing.images">{{img.name}}</span> -->
+        </p>
       </div>
     </div>
   </fieldset>

@@ -14,7 +14,7 @@ import { Category } from "src/app/models/Category";
 import { EventEmitter } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { LoaderService } from "../../../../services/loader.service";
-import objectToFormData from 'object-to-formdata';
+import objectToFormData from "object-to-formdata";
 declare var $: any;
 declare var google: any;
 
@@ -27,7 +27,7 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
   map: any = {};
   listing: Listing;
   categories: Category[] = [];
-  file: File;
+  thumbnails: any[] = [];
   fileUrl: any = "assets/img/demo_user.png";
   @Output("onSubmit") onSubmitClick: EventEmitter<any> = new EventEmitter();
   @ViewChild("fileInput", { static: true }) fileImportInput: any;
@@ -84,7 +84,7 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
   onSubmit(form: NgForm) {
     if (form.value) {
       const formData: FormData = objectToFormData(this.listing);
-      console.log(this.listing,formData.has('file'), formData.get('file'));
+      console.log(this.listing, formData.has("file"), formData.get("file"));
       this.onSubmitClick.emit(formData);
     } else {
       this.logger.error("Invalid data");
@@ -221,16 +221,24 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
   }
 
   onFileChanged(event) {
-    let file = event.target.files[0];
-    this.file = file;
-    this.listing.file = file;
-    console.log(file);
-    if (!file) return;
+    const files = event.target.files;
+    for (const file of files) {
+      this.listing.images.push(file);
+      console.log(file);
+      this.genrateThumnails(file);
+    }
+  }
 
-    var reader: FileReader = new FileReader();
+  genrateThumnails(file) {
+    if (!file) {
+      return;
+    }
+
+    const reader: FileReader = new FileReader();
     reader.onload = (e: any) => {
-      // $('#imgLogo').attr('src', e.target.result);
-      this.fileUrl = e.target.result ? e.target.result : "";
+      if (e.target.result) {
+        this.thumbnails.push(e.target.result);
+      }
     };
     reader.readAsDataURL(file);
   }

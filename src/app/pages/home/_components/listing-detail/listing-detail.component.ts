@@ -9,6 +9,8 @@ import {
 import { trigger, state, style } from "@angular/animations";
 import { Listing } from "../../../../models/Listing";
 import { ListingService } from "../../../../services/listing.service";
+import { HelperService } from 'src/app/helpers/helper.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: "app-listing-detail",
@@ -40,7 +42,7 @@ export class ListingDetailComponent implements OnInit, OnChanges {
   state: string;
   listing: Listing;
 
-  constructor(private listingService: ListingService) {
+  constructor(private listingService: ListingService, private helper: HelperService) {
     this.listingService = listingService;
     this.state = "closed";
   }
@@ -63,8 +65,9 @@ export class ListingDetailComponent implements OnInit, OnChanges {
   fetch() {
     this.listingService
       .getListing(this.listing_id)
-      .subscribe((listing: any) => {
+      .subscribe((listing: Listing) => {
         this.listing = listing;
+        this.listing.thumbnail = this.getUrl(this.listing);
         this.state = "open";
       });
   }
@@ -78,6 +81,14 @@ export class ListingDetailComponent implements OnInit, OnChanges {
   getAddress(listing) {
     if (!listing) return "";
     return `${listing.addressLineOne} ${listing.city} ${listing.state}`;
+  }
+
+  getUrl(listing: Listing) {
+    if (!listing.images || listing.images.length == 0) {
+      return `assets/img/tmp/listing-${this.helper.generateRandom()}.jpg`;
+    } else {
+      return environment.baseUrl + listing.images[0];
+    }
   }
 
   buildRating(rating) {

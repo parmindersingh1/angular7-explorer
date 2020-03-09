@@ -2,7 +2,8 @@
   <div class="tse-content">
     <div class="map-results-detail-header">
       <h3>
-        {{ listing?.title }}
+       <a *ngIf="listing" [routerLink]="['/app', 'listing', listing?.id, 'show']" style="color: inherit;"> {{ listing?.title }} </a>
+       <span *ngIf="!listing"> {{ listing?.title }} </span>
 
         <i class="fa fa-close" (click)="close()"></i>
       </h3>

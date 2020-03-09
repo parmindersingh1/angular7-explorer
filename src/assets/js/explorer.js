@@ -132,13 +132,13 @@ $(document).ready(function() {
 	/**
 	 * Detail gallery
 	 */
-	$('.gallery').slick({
-		infinite: true,
-		dots: true,
-		arrows: false,
-		slidesToShow: 1,
-		slidesToScroll: 1
-	});
+	// $('.gallery').slick({
+	// 	infinite: true,
+	// 	dots: true,
+	// 	arrows: false,
+	// 	slidesToShow: 1,
+	// 	slidesToScroll: 1
+	// });
 
 	/**
 	 * Hero carousel

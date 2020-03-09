@@ -62,24 +62,24 @@
 </div>
 <!-- /.map-wrapper -->
 
+<!-- style="background-image: url('assets/img/tmp/listing-9.jpg')" -->
 <div class="main-wrapper">
   <div class="main">
     <div class="main-inner">
       <div class="listing-hero">
         <div class="listing-hero-inner">
           <div class="container">
-            <div
+            <!-- <div
               class="listing-hero-image"
-              style="background-image: url('assets/img/tmp/listing-9.jpg')"
-            ></div>
+              [ngStyle]="{'background-image': 'url(' + (getUrl(listing)) + ')'}"
+            ></div> -->
             <!-- /.listing-hero-image -->
-            <h1>Famous Avenue Restaurant <i class="fa fa-check"></i></h1>
+            <h1>{{ listing?.title }} <i class="fa fa-check"></i></h1>
             <address>
-              1812 Simons Hollow Road<br />
-              Scranton, PA 18503
+              {{ getAddress(listing) }}
             </address>
             <ul class="social">
-              <li>
+              <!-- <li>
                 <a href="#"><i class="fa fa-facebook"></i></a>
               </li>
               <li>
@@ -87,7 +87,7 @@
               </li>
               <li>
                 <a href="#"><i class="fa fa-google"></i></a>
-              </li>
+              </li> -->
             </ul>
           </div>
           <!-- /.container -->
@@ -107,12 +107,7 @@
       </div>
       <!-- /.listing-toolbar-wrapper -->
       <div class="container">
-        <nav class="breadcrumb">
-          <a class="breadcrumb-item" href="#">Home</a>
-          <a class="breadcrumb-item" href="#">Library</a>
-          <a class="breadcrumb-item" href="#">Data</a>
-          <span class="breadcrumb-item active">Bootstrap</span>
-        </nav>
+
         <div class="row">
           <div class="col-md-8 col-lg-9">
             <div
@@ -120,32 +115,21 @@
               id="listing-detail-section-description"
               data-title="Description"
             >
-              <div class="gallery">
-                <div
+              <div class="gallery" style="margin-top: 0px;">
+
+                <div *ngIf="listing?.images.length == 0"
                   class="gallery-item"
                   style="background-image: url(assets/img/tmp/listing-22.jpg);"
                 ></div>
                 <!-- /.gallery-item -->
-                <div
-                  class="gallery-item"
-                  style="background-image: url(assets/img/tmp/listing-21.jpg);"
-                ></div>
-                <!-- /.gallery-item -->
-                <div
-                  class="gallery-item"
-                  style="background-image: url(assets/img/tmp/listing-2.jpg);"
-                ></div>
-                <!-- /.gallery-item -->
-                <div
-                  class="gallery-item"
-                  style="background-image: url(assets/img/tmp/listing-20.jpg);"
-                ></div>
-                <!-- /.gallery-item -->
-                <div
-                  class="gallery-item"
-                  style="background-image: url(assets/img/tmp/listing-15.jpg);"
-                ></div>
-                <!-- /.gallery-item -->
+                <ng-container *ngIf="listing?.images.length > 0">
+
+                  <div *ngFor="let image of listing.images"
+                    class="gallery-item"
+                    [ngStyle]="{'background-image': 'url(' + (getImgUrl(image)) + ')'}"
+                  ></div>
+                </ng-container>
+
               </div>
               <!-- /.gallery -->
               <div class="row">
@@ -154,13 +138,13 @@
                     <h2>Listing Attributes</h2>
                     <ul>
                       <li>
-                        <strong>Price</strong><span>$480 / per week</span>
+                        <strong>Rent</strong><span>Rs {{ listing?.price }} / per month</span>
                       </li>
-                      <li><strong>Location</strong><span>New York</span></li>
-                      <li><strong>Status</strong><span>Rent</span></li>
-                      <li><strong>Bedrooms</strong><span>4</span></li>
+                      <li><strong>Location</strong><span>{{ listing?.city }}</span></li>
+                      <li><strong>Type</strong><span>{{ listing?.category  | titlecase  }}</span></li>
+                      <!-- <li><strong>Bedrooms</strong><span>4</span></li>
                       <li><strong>Bathrooms</strong><span>2</span></li>
-                      <li><strong>Area</strong><span>180 sqft</span></li>
+                      <li><strong>Area</strong><span>180 sqft</span></li> -->
                     </ul>
                   </div>
                   <!-- /.overview -->
@@ -169,19 +153,9 @@
                 <div class="col-lg-7">
                   <h2>Description</h2>
                   <p>
-                    Duis suscipit turpis suscipit lectus ultricies, placerat
-                    fermentum orci fringilla. Mauris semper magna cursus diam
-                    suscipit consectetur.
+                   {{ listing?.description }}
                   </p>
-                  <p>
-                    Integer condimentum sodales metus, quis pellentesque nisi
-                    tempor at. Quisque ornare efficitur risus eu bibendum. Donec
-                    feugiat consequat magna in interdum. Donec malesuada orci et
-                    mi fermentum, ac tincidunt arcu tincidunt. Ut fringilla
-                    tellus sem, quis rhoncus dolor condimentum id. Vivamus ut
-                    commodo felis. Fusce in lacus egestas, mattis ex et,
-                    molestie est.
-                  </p>
+
                 </div>
                 <!-- /.col-* -->
               </div>
@@ -199,21 +173,14 @@
                 <div class="box-inner">
                   <div class="overview overview-half overview-no-margin">
                     <ul>
-                      <li><strong>Country</strong><span>Canada</span></li>
-                      <li><strong>City</strong><span>Toronto</span></li>
-                      <li>
-                        <strong>Address</strong
-                        ><span>4886 Hickory Ridge Drive</span>
-                      </li>
+                      <li><strong>Name</strong><span>{{ listing?.user?.first_name + " " + listing?.user?.last_name }}</span></li>
+
                       <li>
                         <strong>E-mail</strong
-                        ><span><a href="mailto:">sample@example.com</a></span>
+                        ><span><a href="mailto:">{{ listing?.user?.email }}</a></span>
                       </li>
-                      <li><strong>Phone</strong><span>+0-123-456-789</span></li>
-                      <li>
-                        <strong>Website</strong
-                        ><span><a href="#">example.com</a></span>
-                      </li>
+                      <li><strong>Phone</strong><span>{{ listing?.user?.phone }}</span></li>
+
                     </ul>
                   </div>
                   <!-- /.overview -->
@@ -237,7 +204,7 @@
                   </div>
                   <!-- /.box-title -->
                   <ul class="comments">
-                    <li>
+                    <li *ngFor="let review of listing?.reviews">
                       <div class="comment">
                         <div class="comment-author">
                           <a
@@ -249,7 +216,7 @@
                         <div class="comment-content">
                           <div class="comment-meta">
                             <div class="comment-meta-author">
-                              Derek S. Minter
+                              {{ review?.user?.first_name }} {{ review?.user?.last_name }}
                             </div>
                             <!-- /.comment-meta-author -->
                             <div class="comment-meta-date">
@@ -275,128 +242,11 @@
                           </div>
                           <!-- /.comment-body -->
                         </div>
-                        <!-- /.comment-content -->
-                        <div class="comment comment-answer">
-                          <div class="comment-author">
-                            <a
-                              href="#"
-                              style="background-image: url('assets/img/tmp/user-2.jpg');"
-                            ></a>
-                          </div>
-                          <!-- /.comment-author -->
-                          <div class="comment-content">
-                            <div class="comment-meta">
-                              <div class="comment-meta-author">
-                                Elizabeth T. Schultheis
-                              </div>
-                              <!-- /.comment-meta-author -->
-                              <div class="comment-meta-date">
-                                <span>8:54 PM 11/23/2016</span>
-                              </div>
-                            </div>
-                            <!-- /.comment -->
-                            <div class="comment-body">
-                              <p>
-                                Quisque aliquam ante in ullamcorper mattis. In
-                                fringilla mollis scelerisque. Morbi quis justo
-                                eget erat maximus vulputate non nec nulla. Nam
-                                eget tincidunt sapien. Nullam aliquam enim a
-                                fringilla rutrum.
-                              </p>
-                            </div>
-                            <!-- /.comment-body -->
-                          </div>
-                          <!-- /.comment-content -->
-                        </div>
-                        <!-- /.comment -->
+
                       </div>
                       <!-- /.comment -->
                     </li>
-                    <li>
-                      <div class="comment">
-                        <div class="comment-author">
-                          <a
-                            href="#"
-                            style="background-image: url('assets/img/tmp/user-2.jpg');"
-                          ></a>
-                        </div>
-                        <!-- /.comment-author -->
-                        <div class="comment-content">
-                          <div class="comment-meta">
-                            <div class="comment-meta-author">
-                              Elizabeth T. Schultheis
-                            </div>
-                            <!-- /.comment-meta-author -->
-                            <div class="comment-meta-date">
-                              <span>8:54 PM 11/23/2016</span>
-                            </div>
-                          </div>
-                          <!-- /.comment -->
-                          <div class="comment-body">
-                            <div class="comment-rating">
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star"></i>
-                            </div>
-                            <!-- /.comment-rating -->
-                            <p>
-                              Quisque aliquam ante in ullamcorper mattis. In
-                              fringilla mollis scelerisque. Morbi quis justo
-                              eget erat maximus vulputate non nec nulla. Nam
-                              eget tincidunt sapien. Nullam aliquam enim a
-                              fringilla rutrum.
-                            </p>
-                          </div>
-                          <!-- /.comment-body -->
-                        </div>
-                        <!-- /.comment-content -->
-                      </div>
-                      <!-- /.comment -->
-                    </li>
-                    <li>
-                      <div class="comment">
-                        <div class="comment-author">
-                          <a
-                            href="#"
-                            style="background-image: url('assets/img/tmp/user-3.jpg');"
-                          ></a>
-                        </div>
-                        <!-- /.comment-author -->
-                        <div class="comment-content">
-                          <div class="comment-meta">
-                            <div class="comment-meta-author">
-                              Nettie G. Grubbs
-                            </div>
-                            <!-- /.comment-meta-author -->
-                            <div class="comment-meta-date">
-                              <span>8:54 PM 11/23/2016</span>
-                            </div>
-                          </div>
-                          <!-- /.comment -->
-                          <div class="comment-body">
-                            <div class="comment-rating">
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star-half-o"></i>
-                            </div>
-                            <!-- /.comment-rating -->
-                            <p>
-                              Quisque nec sollicitudin nisl, ut feugiat mi.
-                              Maecenas auctor, nibh id placerat finibus, neque
-                              felis ultricies urna, id aliquet arcu sem viverra
-                              enim.
-                            </p>
-                          </div>
-                          <!-- /.comment-body -->
-                        </div>
-                        <!-- /.comment-content -->
-                      </div>
-                      <!-- /.comment -->
-                    </li>
+
                   </ul>
                   <hr />
                   <h4>Create New Review</h4>
@@ -546,41 +396,7 @@
                   </li>
                 </ul>
               </div>
-              <div class="widget">
-                <div class="author-small">
-                  <div
-                    class="avatar"
-                    style="background-image: url('assets/img/tmp/user-8.jpg');"
-                  ></div>
-                  <h3>Robert I. Sundquist</h3>
-                  <p>Working for Vinyl Fever. Authored 20 unique listings.</p>
-                  <div class="author-small-actions">
-                    <a href="author.html" class="btn btn-primary">Profile</a>
-                    <a href="#" class="btn">Contact</a>
-                  </div>
-                  <!-- /.author-small-actions -->
-                </div>
-                <!-- /.author-small -->
-              </div>
-              <!-- /.widget -->
-              <div class="widget">
-                <h2 class="widgettitle">Public Documents</h2>
-                <div class="documents">
-                  <a class="document" href="#">
-                    <i class="fa fa-file-image-o"></i>
-                    <span>Image Gallery</span>
-                  </a>
-                  <a class="document" href="#">
-                    <i class="fa fa-file-excel-o"></i>
-                    <span>Detailed Pricing</span>
-                  </a>
-                  <a class="document" href="#">
-                    <i class="fa fa-file-pdf-o"></i>
-                    <span>Download Floor Plans</span>
-                  </a>
-                </div>
-                <!-- /.documents -->
-              </div>
+
               <div class="widget widget-background-white">
                 <h3 class="widgettitle">Inquire Form</h3>
                 <form method="post" action="?">

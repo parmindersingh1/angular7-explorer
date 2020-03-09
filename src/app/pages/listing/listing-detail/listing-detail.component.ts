@@ -4,7 +4,8 @@ import {
   OnChanges,
   Input,
   Output,
-  EventEmitter
+  EventEmitter,
+  AfterContentInit
 } from "@angular/core";
 
 declare const $: any;
@@ -14,13 +15,17 @@ import { ScriptLoaderService } from "../../../services/script-loader.service";
 import { Listing } from "../../../models/Listing";
 import { ListingService } from "../../../services/listing.service";
 import { ActivatedRoute } from "@angular/router";
+import { HelperService } from "src/app/helpers/helper.service";
+import { environment } from "src/environments/environment";
+import { LazyLoadScriptService } from "src/app/services/lazy-load-script.service";
+import { map, filter, take, switchMap } from "rxjs/operators";
 
 @Component({
   selector: "app-listing-detail",
   templateUrl: "./listing-detail.component.html",
   styleUrls: ["./listing-detail.component.css"]
 })
-export class ListingDetailComponent implements OnInit {
+export class ListingDetailComponent implements OnInit, AfterContentInit {
   @Input() listing_id: number;
   map: any;
   bound: any;
@@ -31,7 +36,9 @@ export class ListingDetailComponent implements OnInit {
   constructor(
     private _script: ScriptLoaderService,
     private listingService: ListingService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private helper: HelperService,
+    private lazyLoadService: LazyLoadScriptService
   ) {
     this.route.params.subscribe(params => {
       console.log(params);
@@ -41,18 +48,43 @@ export class ListingDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._script
-      .loadScripts("body", ["assets/js/explorer.js"], true)
-      .then(result => {
-        console.log(result);
+    // this._script
+    //   .loadScripts("body", ["assets/js/explorer.js"], true)
+    //   .then(result => {
+    //     console.log(result);
+    //   });
+  }
+
+  ngAfterContentInit(): void {
+    this.lazyLoadService
+      .loadScript("assets/js/jquery.js")
+      .pipe(
+        map(_ => "jQuery is loaded"),
+        filter(jquery => !!jquery),
+        take(1),
+        switchMap(_ =>
+          this.lazyLoadService.loadScript("assets/libraries/slick/slick.min.js")
+        )
+      )
+      .subscribe(_ => {
+        console.log("SLICK");
+        setTimeout(() => {
+          $(".gallery").slick({
+            infinite: true,
+            dots: true,
+            arrows: false,
+            slidesToShow: 1,
+            slidesToScroll: 1
+          });
+        }, 500);
       });
   }
 
   initMap() {
     const markerCenter = new google.maps.LatLng(
-          this.listing["latitude"],
-          this.listing["longitude"]
-        );
+      this.listing["latitude"],
+      this.listing["longitude"]
+    );
     this.map = new google.maps.Map(document.getElementById("map-details"), {
       zoom: this.zoom,
       scrollwheel: false,
@@ -145,36 +177,35 @@ export class ListingDetailComponent implements OnInit {
     //     this.listing["longitude"]
     //   );
 
-      const markerVerified = this.listing["is_active"]
-        ? '<div class="marker-verified"><i class="fa fa-check"></i></div>'
+    const markerVerified = this.listing["is_active"]
+      ? '<div class="marker-verified"><i class="fa fa-check"></i></div>'
+      : "";
+
+    const markerPrice =
+      this.listing["price"] && this.listing["price"] != "false"
+        ? '<div class="marker-price">' + this.listing["price"] + "</div>"
         : "";
 
-      const markerPrice =
-        this.listing["price"] && this.listing["price"] != "false"
-          ? '<div class="marker-price">' + this.listing["price"] + "</div>"
-          : "";
+    const markerContent =
+      '<div class="marker">' +
+      '<div class="marker-inner">' +
+      '<span class="marker-image" style="background-image: url(' +
+      this.listing["thumbnail"] +
+      ');"></span>' +
+      "</div>" +
+      markerVerified +
+      markerPrice +
+      "</div>";
 
-      const markerContent =
-        '<div class="marker">' +
-        '<div class="marker-inner">' +
-        '<span class="marker-image" style="background-image: url(' +
-        this.listing["thumbnail"] +
-        ');"></span>' +
-        "</div>" +
-        markerVerified +
-        markerPrice +
-        "</div>";
-
-      const marker = new RichMarker({
-        id: this.listing["id"],
-        data: this.listing,
-        flat: true,
-        position: markerCenter,
-        map: this.map,
-        shadow: 0,
-        content: markerContent
-      });
-
+    const marker = new RichMarker({
+      id: this.listing["id"],
+      data: this.listing,
+      flat: true,
+      position: markerCenter,
+      map: this.map,
+      shadow: 0,
+      content: markerContent
+    });
 
     //   component.bound.extend(
     //     new google.maps.LatLng(
@@ -210,6 +241,7 @@ export class ListingDetailComponent implements OnInit {
       .getListing(this.listing_id)
       .subscribe((listing: any) => {
         this.listing = listing;
+        this.listing.thumbnail = this.getUrl(this.listing);
         this.initMap();
       });
   }
@@ -217,6 +249,20 @@ export class ListingDetailComponent implements OnInit {
   getAddress(listing) {
     if (!listing) return "";
     return `${listing.addressLineOne} ${listing.city} ${listing.state}`;
+  }
+
+  getUrl(listing: Listing) {
+    if (!listing) return "";
+    if (!listing.images || listing.images.length == 0) {
+      return `assets/img/tmp/listing-${this.helper.generateRandom()}.jpg`;
+    } else {
+      return environment.baseUrl + listing.images[0];
+    }
+  }
+
+  getImgUrl(image: string) {
+    if (!image) return "";
+    return environment.baseUrl + image;
   }
 
   buildRating(rating) {

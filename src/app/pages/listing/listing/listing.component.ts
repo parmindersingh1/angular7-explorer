@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { ListingService } from "src/app/services/listing.service";
 import { Listing } from "src/app/models/Listing";
+import { HelperService } from 'src/app/helpers/helper.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: "app-listing",
@@ -13,7 +15,10 @@ export class ListingComponent implements OnInit {
   totalRecords: number = 15;
   recordsPerPage: number = 5;
 
-  constructor(private listingService: ListingService) {
+  constructor(
+    private listingService: ListingService,
+    private helper: HelperService
+  ) {
     this.getData(this.activePage);
   }
 
@@ -23,6 +28,9 @@ export class ListingComponent implements OnInit {
     this.listingService.getListings(page).subscribe((response: any) => {
       this.listings = response.data;
       console.log(response);
+      this.listings.forEach((listing: Listing) => {
+        listing.thumbnail = this.getUrl(listing);
+      });
       this.activePage = response.current_page;
       this.totalRecords = response.total;
       this.recordsPerPage = response.per_page;
@@ -32,6 +40,19 @@ export class ListingComponent implements OnInit {
   displayActivePage(activePageNumber: number) {
     this.activePage = activePageNumber;
     this.getData(this.activePage);
+  }
+
+  getAddress(listing) {
+    if (!listing) return "";
+    return `${listing.addressLineOne} ${listing.city} ${listing.state}`;
+  }
+
+  getUrl(listing: Listing) {
+    if (!listing.images || listing.images.length == 0) {
+      return `assets/img/tmp/listing-${this.helper.generateRandom()}.jpg`;
+    } else {
+      return environment.baseUrl + listing.images[0];
+    }
   }
 
   buildRating(rating) {
