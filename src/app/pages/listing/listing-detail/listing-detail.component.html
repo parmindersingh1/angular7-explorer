@@ -107,7 +107,6 @@
       </div>
       <!-- /.listing-toolbar-wrapper -->
       <div class="container">
-
         <div class="row">
           <div class="col-md-8 col-lg-9">
             <div
@@ -116,20 +115,21 @@
               data-title="Description"
             >
               <div class="gallery" style="margin-top: 0px;">
-
-                <div *ngIf="listing?.images.length == 0"
+                <div
+                  *ngIf="listing?.images.length == 0"
                   class="gallery-item"
                   style="background-image: url(assets/img/tmp/listing-22.jpg);"
                 ></div>
                 <!-- /.gallery-item -->
                 <ng-container *ngIf="listing?.images.length > 0">
-
-                  <div *ngFor="let image of listing.images"
+                  <div
+                    *ngFor="let image of listing.images"
                     class="gallery-item"
-                    [ngStyle]="{'background-image': 'url(' + (getImgUrl(image)) + ')'}"
+                    [ngStyle]="{
+                      'background-image': 'url(' + getImgUrl(image) + ')'
+                    }"
                   ></div>
                 </ng-container>
-
               </div>
               <!-- /.gallery -->
               <div class="row">
@@ -138,10 +138,17 @@
                     <h2>Listing Attributes</h2>
                     <ul>
                       <li>
-                        <strong>Rent</strong><span>Rs {{ listing?.price }} / per month</span>
+                        <strong>Rent</strong
+                        ><span>Rs {{ listing?.price }} / per month</span>
                       </li>
-                      <li><strong>Location</strong><span>{{ listing?.city }}</span></li>
-                      <li><strong>Type</strong><span>{{ listing?.category  | titlecase  }}</span></li>
+                      <li>
+                        <strong>Location</strong
+                        ><span>{{ listing?.city }}</span>
+                      </li>
+                      <li>
+                        <strong>Type</strong
+                        ><span>{{ listing?.category | titlecase }}</span>
+                      </li>
                       <!-- <li><strong>Bedrooms</strong><span>4</span></li>
                       <li><strong>Bathrooms</strong><span>2</span></li>
                       <li><strong>Area</strong><span>180 sqft</span></li> -->
@@ -153,9 +160,8 @@
                 <div class="col-lg-7">
                   <h2>Description</h2>
                   <p>
-                   {{ listing?.description }}
+                    {{ listing?.description }}
                   </p>
-
                 </div>
                 <!-- /.col-* -->
               </div>
@@ -173,14 +179,27 @@
                 <div class="box-inner">
                   <div class="overview overview-half overview-no-margin">
                     <ul>
-                      <li><strong>Name</strong><span>{{ listing?.user?.first_name + " " + listing?.user?.last_name }}</span></li>
+                      <li>
+                        <strong>Name</strong
+                        ><span>{{
+                          listing?.user?.first_name +
+                            " " +
+                            listing?.user?.last_name
+                        }}</span>
+                      </li>
 
                       <li>
                         <strong>E-mail</strong
-                        ><span><a href="mailto:">{{ listing?.user?.email }}</a></span>
+                        ><span
+                          ><a href="mailto:">{{
+                            listing?.user?.email
+                          }}</a></span
+                        >
                       </li>
-                      <li><strong>Phone</strong><span>{{ listing?.user?.phone }}</span></li>
-
+                      <li>
+                        <strong>Phone</strong
+                        ><span>{{ listing?.user?.phone }}</span>
+                      </li>
                     </ul>
                   </div>
                   <!-- /.overview -->
@@ -216,128 +235,84 @@
                         <div class="comment-content">
                           <div class="comment-meta">
                             <div class="comment-meta-author">
-                              {{ review?.user?.first_name }} {{ review?.user?.last_name }}
+                              {{ review?.user?.first_name }}
+                              {{ review?.user?.last_name }}
                             </div>
                             <!-- /.comment-meta-author -->
                             <div class="comment-meta-date">
-                              <span>8:54 PM 11/23/2016</span>
+                              <span>{{
+                                review.created_at | date: "medium"
+                              }}</span>
+                            </div>
+
+                            <div class="comment-buttons float-right" *ngIf="currentUser && (currentUser.id == review?.user?.id ) ">
+                              <button class="btn btn-sm btn-danger" title="delete" (click)="onDeleteRating(review.id)">
+                                <i class="fa fa-trash"></i>
+                              </button>
+                              <button class="btn btn-sm btn-info" title="update" (click)="onEditClick(review)">
+                                <i class="fa fa-edit"></i>
+                              </button>
                             </div>
                           </div>
                           <!-- /.comment -->
                           <div class="comment-body">
                             <div class="comment-rating">
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star"></i>
-                              <i class="fa fa-star"></i>
+                              <b [innerHTML]="buildRating(review.rating)"></b>
                             </div>
                             <!-- /.comment-rating -->
                             <p>
-                              Nullam sollicitudin justo neque, sit amet auctor
-                              urna pretium in. Aenean elementum venenatis nisl
-                              at tincidunt. Vivamus hendrerit porta cursus. Cras
-                              elementum tortor ut tincidunt feugiat.
+                              {{ review.review }}
                             </p>
                           </div>
                           <!-- /.comment-body -->
                         </div>
-
                       </div>
                       <!-- /.comment -->
                     </li>
-
+                    <li *ngIf="listing?.reviews.length == 0" class="text-center">No Reviews Yet</li>
                   </ul>
                   <hr />
-                  <h4>Create New Review</h4>
-                  <form method="post" action="?">
-                    <div class="row">
-                      <div class="col-sm-7">
-                        <div class="form-group">
-                          <label>Message</label>
-                          <textarea
-                            class="form-control"
-                            style="height: 191px;"
-                          ></textarea>
+                  <ng-container *ngIf="currentUser">
+                    <h4>Create New Review</h4>
+                    <form method="post" (submit)="f.valid && onReviewSubmit()" id="comment-form" #f="ngForm">
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <label>Message</label>
+                            <textarea
+                              class="form-control"
+                              style="height: 191px;"
+                              [(ngModel)]="reviewObj.review"
+                              name="review" required
+                            ></textarea>
+
+                          </div>
+                          <!-- /.form-group -->
                         </div>
-                        <!-- /.form-group -->
+                        <!-- /.col-* -->
                       </div>
-                      <!-- /.col-* -->
-                      <div class="col-sm-5">
-                        <div class="form-group">
-                          <label>Name</label>
-                          <input type="email" class="form-control" />
+                      <!-- /.row -->
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label>Ratings</label>
+                            <!-- <div class="rating-item"></div> -->
+                            <app-rating [rating]='this.reviewObj.rating'  (ratingClick)='onRatingClick($event)'></app-rating>
+                          </div>
+                          <!-- /.form-group -->
                         </div>
-                        <!-- /.form-group -->
-                        <div class="form-group">
-                          <label>E-mail</label>
-                          <input type="email" class="form-control" />
-                        </div>
-                        <!-- /.form-group -->
-                        <div class="form-group">
-                          <label>Website</label>
-                          <input type="email" class="form-control" />
-                        </div>
-                        <!-- /.form-group -->
+                        <!-- /.col -->
                       </div>
-                      <!-- /.col-* -->
-                    </div>
-                    <!-- /.row -->
-                    <div class="row">
-                      <div class="col-sm-4">
-                        <div class="form-group">
-                          <label>Overall</label>
-                          <div class="rating-item"></div>
-                        </div>
-                        <!-- /.form-group -->
-                      </div>
-                      <!-- /.col -->
-                      <div class="col-sm-4">
-                        <div class="form-group">
-                          <label>Meal Quality</label>
-                          <div class="rating-item"></div>
-                        </div>
-                        <!-- /.form-group -->
-                      </div>
-                      <!-- /.col -->
-                      <div class="col-sm-4">
-                        <div class="form-group">
-                          <label>Staff</label>
-                          <div class="rating-item"></div>
-                        </div>
-                        <!-- /.form-group -->
-                      </div>
-                      <!-- /.col -->
-                      <div class="col-sm-4">
-                        <div class="form-group">
-                          <label>Parking</label>
-                          <div class="rating-item"></div>
-                        </div>
-                        <!-- /.form-group -->
-                      </div>
-                      <!-- /.col -->
-                      <div class="col-sm-4">
-                        <div class="form-group">
-                          <label>Payment Options</label>
-                          <div class="rating-item"></div>
-                        </div>
-                        <!-- /.form-group -->
-                      </div>
-                      <!-- /.col -->
-                      <div class="col-sm-4">
-                        <div class="form-group">
-                          <label>Location</label>
-                          <div class="rating-item"></div>
-                        </div>
-                        <!-- /.form-group -->
-                      </div>
-                      <!-- /.col -->
-                    </div>
-                    <!-- /.row -->
-                    <button type="submit" class="btn btn-primary pull-right">
-                      Post Comment
-                    </button>
-                  </form>
+                      <!-- /.row -->
+
+                      <button type="submit" class="btn btn-primary pull-right">
+                        Post Comment
+                      </button>
+                      <button class="btn btn-danger pull-right ml-1 mr-1" type="button" (click)="clearReviewForm()">
+                        Delete
+                      </button>
+                    </form>
+                  </ng-container>
                 </div>
                 <!-- /.box-inner -->
               </div>

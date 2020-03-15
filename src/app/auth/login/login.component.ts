@@ -9,7 +9,7 @@ import { ToastrService } from "ngx-toastr";
   selector: "app-login",
   templateUrl: "./login.component.html",
   styleUrls: ["./login.component.css"],
-  encapsulation: ViewEncapsulation.None
+  // encapsulation: ViewEncapsulation.Native
 })
 export class LoginComponent implements OnInit {
   error: any;

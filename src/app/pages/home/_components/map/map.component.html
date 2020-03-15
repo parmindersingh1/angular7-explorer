@@ -55,21 +55,15 @@
         <div class="map-filter">
           <form>
             <div class="form-group">
-              <input
-                type="text"
-                class="form-control"
-                name="name"
-                placeholder="Search by keyboard ..."
-              />
+              <select class="form-control list1">
+                <option>Location</option>
+                <option *ngFor="let location of locations" value="{{location.state}}">{{location.state | titlecase}}</option>
+              </select>
             </div>
             <div class="form-group">
               <select class="form-control list1">
-                <option>Location</option>
-                <option>Chicago</option>
-                <option>San Francisco</option>
-                <option>Seattle</option>
-                <option>New York</option>
-                <option>Washington</option>
+                <option>Category</option>
+                <option *ngFor="let category of categories" value="{{category.id}}">{{category.name | titlecase}}</option>
               </select>
             </div>
             <!-- /.form-group -->

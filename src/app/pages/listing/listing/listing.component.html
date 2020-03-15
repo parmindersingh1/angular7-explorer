@@ -16,29 +16,31 @@
             <div class="sidebar">
               <div class="filter">
                 <h2>Search criteria</h2>
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label>Keyword</label>
                   <input
                     type="text"
                     class="form-control"
                     placeholder="Search by keyword ..."
                   />
-                </div>
+                </div> -->
                 <!-- /.form-group -->
                 <div class="form-group">
                   <label>City</label>
                   <select class="form-control">
                     <option>Location</option>
-                    <option>Chicago</option>
-                    <option>San Francisco</option>
-                    <option>Seattle</option>
-                    <option>New York</option>
-                    <option>Washington</option>
+                    <option *ngFor="let location of locations" value="{{location.state}}">{{location.state | titlecase}}</option>
                   </select>
                 </div>
                 <!-- /.form-group -->
+                <div class="form-group">
+                  <select class="form-control list1">
+                    <option>Category</option>
+                    <option *ngFor="let category of categories" value="{{category.id}}">{{category.name | titlecase}}</option>
+                  </select>
+                </div>
 
-                <div class="checkbox">
+                <!-- <div class="checkbox">
                   <label
                     ><input type="checkbox" /> Featured
                     <span class="label">54</span></label
@@ -49,7 +51,7 @@
                     ><input type="checkbox" /> Active
                     <span class="label">22</span></label
                   >
-                </div>
+                </div> -->
                 <div class="form-group-btn form-group-btn-placeholder-gap">
                   <button type="submit" class="btn btn-primary btn-block">
                     Search

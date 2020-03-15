@@ -8,6 +8,7 @@ import {
   SimpleChanges
 } from "@angular/core";
 import { Listing } from "src/app/models/Listing";
+import { Category } from 'src/app/models/Category';
 
 declare const $: any;
 declare const google: any;
@@ -23,6 +24,8 @@ declare const RichMarker: any;
 export class MapComponent implements OnInit, OnChanges {
   @Input() listings: Listing[] = [];
   @Input() listing_id: number = null;
+  @Input() categories: Category[] = [];
+  @Input() locations: any[] = [];
   @Output() onListingChange = new EventEmitter<number>();
 
   markers: any[] = [];

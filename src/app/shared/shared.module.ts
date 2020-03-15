@@ -9,6 +9,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ControlMessages } from "./components/control-messages.component";
 import { ModalBasicComponent } from "./components/modal-basic/modal-basic.component";
 import { AppPaginationComponent } from './components/app-pagination/app-pagination.component';
+import { RatingComponent } from './components/rating/rating.component';
 
 @NgModule({
   imports: [
@@ -33,7 +34,7 @@ import { AppPaginationComponent } from './components/app-pagination/app-paginati
       preventDuplicates: true,
     }),
   ],
-  declarations: [ControlMessages, ModalBasicComponent, AppPaginationComponent],
+  declarations: [ControlMessages, ModalBasicComponent, AppPaginationComponent,RatingComponent],
   exports: [
     FormsModule,
     ReactiveFormsModule,
@@ -43,7 +44,8 @@ import { AppPaginationComponent } from './components/app-pagination/app-paginati
     NgxLoadingModule,
     ModalBasicComponent,
     ToastrModule,
-    AppPaginationComponent
+    AppPaginationComponent,
+    RatingComponent
   ]
 })
 export class SharedModule {}

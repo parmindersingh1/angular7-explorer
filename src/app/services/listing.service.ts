@@ -48,6 +48,13 @@ export class ListingService {
     );
   }
 
+  getLocations() {
+    return this.http.get(`${environment.apiUrl}/listings/locations`).pipe(
+      map(res => res),
+      catchError(error => this.handleError(error))
+    );
+  }
+
   saveListing(listing: Listing) {
     const headers = new HttpHeaders();
     headers.append("Content-Type", "multipart/form-data");
@@ -55,6 +62,41 @@ export class ListingService {
 
     return this.http
       .post(`${environment.apiUrl}/listings`, listing, { headers })
+      .pipe(
+        map((res: any) => {
+          return res;
+        }),
+        catchError(error => this.handleError(error))
+      );
+  }
+
+  saveRating(id: number, rating: Review) {
+
+    return this.http
+      .post(`${environment.apiUrl}/listings/${id}/ratings`, rating,  httpOptions )
+      .pipe(
+        map((res: any) => {
+          return res;
+        }),
+        catchError(error => this.handleError(error))
+      );
+  }
+
+  updateRating(id: number, rating: Review) {
+
+    return this.http
+      .put(`${environment.apiUrl}/ratings/${id}`, rating,  httpOptions )
+      .pipe(
+        map((res: any) => {
+          return res;
+        }),
+        catchError(error => this.handleError(error))
+      );
+  }
+
+  deleteRating(id: number) {
+    return this.http
+      .delete(`${environment.apiUrl}/ratings/${id}`,  httpOptions )
       .pipe(
         map((res: any) => {
           return res;

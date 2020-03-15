@@ -3,6 +3,7 @@ import { ListingService } from "src/app/services/listing.service";
 import { Listing } from "src/app/models/Listing";
 import { HelperService } from 'src/app/helpers/helper.service';
 import { environment } from 'src/environments/environment';
+import { Category } from 'src/app/models/Category';
 
 @Component({
   selector: "app-listing",
@@ -11,6 +12,8 @@ import { environment } from 'src/environments/environment';
 })
 export class ListingComponent implements OnInit {
   listings: Listing[] = [];
+  locations: any[] = [];
+  categories: Category[] = [];
   activePage: number = 1;
   totalRecords: number = 15;
   recordsPerPage: number = 5;
@@ -20,6 +23,14 @@ export class ListingComponent implements OnInit {
     private helper: HelperService
   ) {
     this.getData(this.activePage);
+
+    listingService.getCategories().subscribe((data: any[]) => {
+      this.categories = data;
+    });
+
+    listingService.getLocations().subscribe((data: any[]) => {
+      this.locations = data;
+    });
   }
 
   ngOnInit() {}

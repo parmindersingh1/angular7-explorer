@@ -1,12 +1,4 @@
-import {
-  Component,
-  OnInit,
-  OnChanges,
-  Input,
-  Output,
-  EventEmitter,
-  AfterContentInit
-} from "@angular/core";
+import { Component, OnInit, Input, AfterContentInit } from "@angular/core";
 
 declare const $: any;
 declare const google: any;
@@ -19,6 +11,8 @@ import { HelperService } from "src/app/helpers/helper.service";
 import { environment } from "src/environments/environment";
 import { LazyLoadScriptService } from "src/app/services/lazy-load-script.service";
 import { map, filter, take, switchMap } from "rxjs/operators";
+import { AuthenticationService } from "src/app/services/authentication.service";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-listing-detail",
@@ -30,15 +24,18 @@ export class ListingDetailComponent implements OnInit, AfterContentInit {
   map: any;
   bound: any;
   zoom: number = 15;
+  currentUser = null;
+  reviewObj: Review = { rating: 0, review: "" };
 
   listing: Listing;
 
   constructor(
-    private _script: ScriptLoaderService,
+    private logger: ToastrService,
     private listingService: ListingService,
     private route: ActivatedRoute,
     private helper: HelperService,
-    private lazyLoadService: LazyLoadScriptService
+    private lazyLoadService: LazyLoadScriptService,
+    private _auth: AuthenticationService
   ) {
     this.route.params.subscribe(params => {
       console.log(params);
@@ -48,11 +45,10 @@ export class ListingDetailComponent implements OnInit, AfterContentInit {
   }
 
   ngOnInit() {
-    // this._script
-    //   .loadScripts("body", ["assets/js/explorer.js"], true)
-    //   .then(result => {
-    //     console.log(result);
-    //   });
+    this._auth.userEmitter.subscribe(user => {
+      console.log("main", user);
+      this.currentUser = user;
+    });
   }
 
   ngAfterContentInit(): void {
@@ -64,6 +60,9 @@ export class ListingDetailComponent implements OnInit, AfterContentInit {
         take(1),
         switchMap(_ =>
           this.lazyLoadService.loadScript("assets/libraries/slick/slick.min.js")
+        ),
+        switchMap(_ =>
+          this.lazyLoadService.loadScript("assets/js/jquery.raty.js")
         )
       )
       .subscribe(_ => {
@@ -77,6 +76,18 @@ export class ListingDetailComponent implements OnInit, AfterContentInit {
             slidesToScroll: 1
           });
         }, 500);
+
+        console.log($(".rating-item").length);
+        // if ($(".rating-item").length !== 0) {
+        //   $(".rating-item").each(function() {
+        //     $(this).raty({
+        //       starType: "i",
+        //       starOn: "fa fa-star",
+        //       starHalf: "fa fa-star-half-o",
+        //       starOff: "fa fa-star-o"
+        //     });
+        //   });
+        // }
       });
   }
 
@@ -263,6 +274,74 @@ export class ListingDetailComponent implements OnInit, AfterContentInit {
   getImgUrl(image: string) {
     if (!image) return "";
     return environment.baseUrl + image;
+  }
+
+  onRatingClick(clickObj: any): void {
+    // const item = this.items.find(((i: any) => i.id === clickObj.itemId));
+    // if (!!item) {
+    //   item.rating = clickObj.rating;
+    //   this.ratingClicked = clickObj.rating;
+    //   this.itemIdRatingClicked = item.company;
+    // }
+
+    console.log("clickObj", clickObj);
+    this.reviewObj.rating = clickObj.rating;
+  }
+
+  onReviewSubmit() {
+    console.log("...", this.reviewObj);
+    if (this.reviewObj.id) {
+      this.listingService
+        .updateRating(this.reviewObj.id, this.reviewObj)
+        .subscribe(
+          res => {
+            this.logger.success("review saved successfully");
+            this.clearReviewForm();
+            this.fetchData();
+          },
+          err => {
+            this.logger.error("something went wrong");
+          }
+        );
+    } else {
+      this.listingService.saveRating(this.listing_id, this.reviewObj).subscribe(
+        res => {
+          this.logger.success("review saved successfully");
+          this.clearReviewForm();
+          this.fetchData();
+        },
+        err => {
+          this.logger.error("something went wrong");
+        }
+      );
+    }
+  }
+
+  onDeleteRating(id: number) {
+    this.listingService.deleteRating(id).subscribe(
+      res => {
+        this.logger.success("review deleted successfully");
+        this.fetchData();
+      },
+      err => {
+        this.logger.error("something went wrong");
+      }
+    );
+  }
+
+  onEditClick(review: any) {
+    this.reviewObj = <Review>review;
+    $("html, body").animate(
+      {
+        scrollTop: $("#comment-form").offset().top
+      },
+      500
+    );
+    console.log(this.reviewObj);
+  }
+
+  clearReviewForm() {
+    this.reviewObj = { rating: 0, review: "" };
   }
 
   buildRating(rating) {

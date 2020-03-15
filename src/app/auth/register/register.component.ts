@@ -9,7 +9,7 @@ import { ToastrService } from "ngx-toastr";
   selector: "app-register",
   templateUrl: "./register.component.html",
   styleUrls: ["./register.component.css"],
-  encapsulation: ViewEncapsulation.None
+  // encapsulation: ViewEncapsulation.None
 })
 export class RegisterComponent implements OnInit {
   error: any;

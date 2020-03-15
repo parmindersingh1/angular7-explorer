@@ -5,6 +5,7 @@ import { HelperService } from 'src/app/helpers/helper.service';
 import { environment } from 'src/environments/environment';
 import { LazyLoadScriptService } from 'src/app/services/lazy-load-script.service';
 import { map, filter, take, switchMap } from 'rxjs/operators';
+import { Category } from 'src/app/models/Category';
 
 declare var $: any;
 
@@ -17,6 +18,8 @@ declare var $: any;
 export class HomeComponent implements OnInit, AfterContentInit{
   listings: Listing[] = [];
   listing_id: number;
+  locations: any[] = [];
+  categories: Category[] = [];
 
   constructor(private cd: ChangeDetectorRef, listingService: ListingService, private helper: HelperService,
     private lazyLoadService: LazyLoadScriptService) {
@@ -25,6 +28,15 @@ export class HomeComponent implements OnInit, AfterContentInit{
       this.listings.forEach((listing: Listing)=> {
         listing.thumbnail = this.getUrl(listing);
       });
+    });
+
+    listingService.getCategories().subscribe((data: any[]) => {
+      this.categories = data;
+    });
+
+    listingService.getLocations().subscribe((data: any[]) => {
+      this.locations = data;
+      console.log("locations", this.locations);
     });
   }
 
