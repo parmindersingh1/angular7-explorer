@@ -1,9 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { ListingService } from "src/app/services/listing.service";
 import { Listing } from "src/app/models/Listing";
-import { HelperService } from 'src/app/helpers/helper.service';
-import { environment } from 'src/environments/environment';
-import { Category } from 'src/app/models/Category';
+import { HelperService } from "src/app/helpers/helper.service";
+import { environment } from "src/environments/environment";
+import { Category } from "src/app/models/Category";
+import { NgForm } from "@angular/forms";
 
 @Component({
   selector: "app-listing",
@@ -17,12 +18,16 @@ export class ListingComponent implements OnInit {
   activePage: number = 1;
   totalRecords: number = 15;
   recordsPerPage: number = 5;
+  public search: any = {
+    location: "",
+    category: ""
+  };
 
   constructor(
     private listingService: ListingService,
     private helper: HelperService
   ) {
-    this.getData(this.activePage);
+    this.getData();
 
     listingService.getCategories().subscribe((data: any[]) => {
       this.categories = data;
@@ -35,22 +40,17 @@ export class ListingComponent implements OnInit {
 
   ngOnInit() {}
 
-  getData(page: number) {
-    this.listingService.getListings(page).subscribe((response: any) => {
-      this.listings = response.data;
-      console.log(response);
-      this.listings.forEach((listing: Listing) => {
-        listing.thumbnail = this.getUrl(listing);
+  getData() {
+    this.listingService
+      .getListings(this.activePage, this.search)
+      .subscribe((response: any) => {
+        this.handleData(response);
       });
-      this.activePage = response.current_page;
-      this.totalRecords = response.total;
-      this.recordsPerPage = response.per_page;
-    });
   }
 
   displayActivePage(activePageNumber: number) {
     this.activePage = activePageNumber;
-    this.getData(this.activePage);
+    this.getData();
   }
 
   getAddress(listing) {
@@ -66,6 +66,27 @@ export class ListingComponent implements OnInit {
     }
   }
 
+  onListingSearch() {
+    // this.listingService.searchListing(this.search, this.activePage).subscribe(
+    //   response => {
+    //     console.log("search response", response);
+    //     this.handleData(response);
+    //   },
+    //   err => {}
+    // );
+    this.getData();
+  }
+
+
+  clearSearch() {
+    this.search = {
+      location: '',
+      category: ''
+    };
+
+    this.getData();
+  }
+
   buildRating(rating) {
     let template = "";
 
@@ -78,5 +99,16 @@ export class ListingComponent implements OnInit {
     }
 
     return template;
+  }
+
+  private handleData(response) {
+    this.listings = response.data;
+    console.log(response);
+    this.listings.forEach((listing: Listing) => {
+      listing.thumbnail = this.getUrl(listing);
+    });
+    this.activePage = response.current_page;
+    this.totalRecords = response.total;
+    this.recordsPerPage = response.per_page;
   }
 }

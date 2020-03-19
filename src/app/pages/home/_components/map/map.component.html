@@ -53,21 +53,22 @@
     <div class="map-filter-wrapper">
       <div class="container-fluid">
         <div class="map-filter">
-          <form>
+          <form (submit)="f.valid && onListingSearch(f)"  #f="ngForm">
             <div class="form-group">
-              <select class="form-control list1">
-                <option>Location</option>
+              <select class="form-control list1" name="location" [(ngModel)]="search.location">
+                <option value="">Location</option>
                 <option *ngFor="let location of locations" value="{{location.state}}">{{location.state | titlecase}}</option>
               </select>
             </div>
             <div class="form-group">
-              <select class="form-control list1">
-                <option>Category</option>
+              <select class="form-control list1" name="category" [(ngModel)]="search.category">
+                <option value="">Category</option>
                 <option *ngFor="let category of categories" value="{{category.id}}">{{category.name | titlecase}}</option>
               </select>
             </div>
             <!-- /.form-group -->
             <button type="submit" class="btn">Search</button>
+            <button type="button" class="btn btn-dafault ml-1 mr-1" (click)="clearSearch()">Clear</button>
           </form>
         </div>
         <!-- /.map-filter -->

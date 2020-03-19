@@ -25,22 +25,39 @@
                   />
                 </div> -->
                 <!-- /.form-group -->
-                <div class="form-group">
-                  <label>City</label>
-                  <select class="form-control">
-                    <option>Location</option>
-                    <option *ngFor="let location of locations" value="{{location.state}}">{{location.state | titlecase}}</option>
-                  </select>
-                </div>
-                <!-- /.form-group -->
-                <div class="form-group">
-                  <select class="form-control list1">
-                    <option>Category</option>
-                    <option *ngFor="let category of categories" value="{{category.id}}">{{category.name | titlecase}}</option>
-                  </select>
-                </div>
+                <form (submit)="f.valid && onListingSearch()" #f="ngForm">
+                  <div class="form-group">
+                    <label>Location</label>
+                    <select
+                      class="form-control"
+                      name="location"
+                      [(ngModel)]="search.location"
+                    >
+                      <option value="">Location</option>
+                      <option
+                        *ngFor="let location of locations"
+                        value="{{ location.state }}"
+                        >{{ location.state | titlecase }}</option
+                      >
+                    </select>
+                  </div>
+                  <!-- /.form-group -->
+                  <div class="form-group">
+                    <select
+                      class="form-control list1"
+                      name="category"
+                      [(ngModel)]="search.category"
+                    >
+                      <option value="">Category</option>
+                      <option
+                        *ngFor="let category of categories"
+                        value="{{ category.id }}"
+                        >{{ category.name | titlecase }}</option
+                      >
+                    </select>
+                  </div>
 
-                <!-- <div class="checkbox">
+                  <!-- <div class="checkbox">
                   <label
                     ><input type="checkbox" /> Featured
                     <span class="label">54</span></label
@@ -52,12 +69,14 @@
                     <span class="label">22</span></label
                   >
                 </div> -->
-                <div class="form-group-btn form-group-btn-placeholder-gap">
-                  <button type="submit" class="btn btn-primary btn-block">
-                    Search
-                  </button>
-                </div>
-                <!-- /.form-group -->
+                  <div class="form-group-btn form-group-btn-placeholder-gap">
+                    <button type="submit" class="btn btn-primary btn-block">
+                      Search
+                    </button>
+                    <button type="button" class="btn btn-dafault btn-block mt-1" (click)="clearSearch()">Clear</button>
+                  </div>
+                  <!-- /.form-group -->
+                </form>
               </div>
               <!-- /.filter -->
             </div>
@@ -70,7 +89,10 @@
                 <div class="col-md-6 col-lg-3" *ngFor="let listing of listings">
                   <div class="listing-box">
                     <div class="listing-box-inner">
-                      <a [routerLink]="['/app','listing', listing.id , 'show']" class="listing-box-image">
+                      <a
+                        [routerLink]="['/app', 'listing', listing.id, 'show']"
+                        class="listing-box-image"
+                      >
                         <span
                           class="listing-box-image-content"
                           [ngStyle]="{
@@ -88,23 +110,29 @@
                       ><!-- /.listing-box-image -->
                       <div class="listing-box-content">
                         <h2>
-                          <a [routerLink]="['/app','listing', listing.id , 'show']">{{ listing.title }}</a>
+                          <a
+                            [routerLink]="[
+                              '/app',
+                              'listing',
+                              listing.id,
+                              'show'
+                            ]"
+                            >{{ listing.title }}</a
+                          >
                         </h2>
                         <h3>{{ listing.address }}</h3>
-                        <div class="actions">
+                        <!-- <div class="actions">
                           <div class="actions-button">
                             <span></span>
                             <span></span>
                             <span></span>
                           </div>
-                          <!-- /.actions-button -->
                           <ul class="actions-list">
                             <li><a href="#">Add to compare</a></li>
                             <li><a href="#">Add to favorites</a></li>
                             <li><a href="#">Report listing</a></li>
                           </ul>
-                          <!-- /.actions-list -->
-                        </div>
+                        </div> -->
                         <!-- /.actions -->
                       </div>
                       <!-- /.listing-box-content -->

@@ -1,6 +1,8 @@
 import { Component, OnInit, AfterContentInit } from "@angular/core";
 import { ListingService } from "../../../services/listing.service";
 import { ToastrService } from "ngx-toastr";
+import { Listing } from 'src/app/models/Listing';
+import { Location } from '@angular/common';
 
 @Component({
   selector: "listing-new",
@@ -8,9 +10,11 @@ import { ToastrService } from "ngx-toastr";
   styleUrls: ["./new.component.css"]
 })
 export class NewComponent implements OnInit {
+  listing: Listing = new Listing();
   constructor(
     private _listingService: ListingService,
-    private logger: ToastrService
+    private logger: ToastrService,
+    private location: Location
   ) {}
   ngOnInit() {}
 
@@ -20,6 +24,7 @@ export class NewComponent implements OnInit {
       response => {
         console.log("onSubmit", response);
         this.logger.success("Data Saved Successfully");
+        this.location.back();
       },
       error => {
         this.logger.error(error);

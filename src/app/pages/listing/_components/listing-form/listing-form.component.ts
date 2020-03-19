@@ -3,7 +3,8 @@ import {
   OnInit,
   ViewChild,
   AfterContentInit,
-  Output
+  Output,
+  Input
 } from "@angular/core";
 import { ScriptLoaderService } from "../../../../services/script-loader.service";
 import googleAddressParser from "../../../../../assets/js/googleAddressParser.js";
@@ -15,6 +16,7 @@ import { EventEmitter } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { LoaderService } from "../../../../services/loader.service";
 import objectToFormData from "object-to-formdata";
+import { environment } from 'src/environments/environment';
 declare var $: any;
 declare var google: any;
 
@@ -25,7 +27,7 @@ declare var google: any;
 })
 export class ListingFormComponent implements OnInit, AfterContentInit {
   map: any = {};
-  listing: Listing;
+  @Input() listing: Listing;
   categories: Category[] = [];
   thumbnails: any[] = [];
   fileUrl: any = "assets/img/demo_user.png";
@@ -39,18 +41,23 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
     private _loaderService: LoaderService,
     private logger: ToastrService
   ) {
-    this.listing = new Listing();
     this._listingService.getCategories().subscribe((data: any[]) => {
       this.categories = data;
       if (this.categories.length > 0)
-        this.listing.category_id = this.categories[0].id;
+        this.listing.category_id =
+          this.listing.category_id || this.categories[0].id;
     });
   }
 
   ngOnInit() {}
   ngAfterContentInit(): void {
     if ($("#location-google-map").length !== 0) {
-      this.setInitialLatLong();
+      console.log("this.list", this.listing)
+      if (this.listing.id) {
+        this.setIntialCoords();
+      } else {
+        this.setInitialLatLong();
+      }
     }
     // this._script
     //   .loadScripts("body", ["assets/js/bootstrap.min.js"], true)
@@ -69,16 +76,21 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
         this.getAddressFromLatLang(position);
       });
     } else {
-      this.listing.latitude = 43.653226;
-      this.listing.longitude = -79.38318429999998;
-      this.initializeMap();
-      this.getAddressFromLatLang({
-        coords: {
-          latitude: this.listing.latitude,
-          longitude: this.listing.longitude
-        }
-      });
+      this.setIntialCoords();
     }
+  }
+
+  setIntialCoords() {
+    console.log("initial")
+    this.listing.latitude = this.listing.latitude || 43.653226;
+    this.listing.longitude = this.listing.longitude || -79.38318429999998;
+    this.initializeMap();
+    this.getAddressFromLatLang({
+      coords: {
+        latitude: this.listing.latitude,
+        longitude: this.listing.longitude
+      }
+    });
   }
 
   onSubmit(form: NgForm) {
@@ -186,17 +198,23 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
   parseAddress(address) {
     let resObj = googleAddressParser(address).getAddress();
     console.log(resObj);
-    // this.listing = {
-    //   ...resObj,
-    //   ...this.listing,
-    //   address: resObj.orignialAddressString
-    // };
     this.listing.addressLineOne = resObj.addressLineOne;
     this.listing.addressLineTwo = resObj.addressLineTwo;
     this.listing.city = resObj.city;
     this.listing.country = resObj.country;
     this.listing.state = resObj.state;
     this.listing.pincode = resObj.pincode;
+  }
+
+  parseInitalAddress(address) {
+    let resObj = googleAddressParser(address).getAddress();
+    console.log(resObj);
+    this.listing.addressLineOne = this.listing.addressLineOne || resObj.addressLineOne;
+    this.listing.addressLineTwo = this.listing.addressLineTwo || resObj.addressLineTwo;
+    this.listing.city = this.listing.city || resObj.city;
+    this.listing.country = this.listing.country || resObj.country;
+    this.listing.state = this.listing.state || resObj.state;
+    this.listing.pincode = this.listing.pincode || resObj.pincode;
   }
 
   getAddressFromLatLang(position) {
@@ -210,7 +228,7 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
         if (results[0]) {
           this.listing.address = results[0].formatted_address;
           console.log(this.listing.address);
-          this.parseAddress(this.listing.address);
+          this.parseInitalAddress(this.listing.address);
         }
       } else {
         this.logger.error(
@@ -241,6 +259,23 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
       }
     };
     reader.readAsDataURL(file);
+  }
+
+
+  getUrl(media: any) {
+      return environment.baseUrl + media.url;
+  }
+
+  deleteFile(media) {
+    this._listingService.deleteMedia(media.id, this.listing.id).subscribe(
+      resp => {
+        console.log("delete, ",resp);
+        this.listing.media = resp;
+      },
+      err => {
+        console.error("err", err);
+      }
+    )
   }
 
   private fileReset() {

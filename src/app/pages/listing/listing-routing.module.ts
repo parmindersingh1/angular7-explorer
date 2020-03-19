@@ -3,6 +3,8 @@ import { Routes, RouterModule } from "@angular/router";
 import { NewComponent } from "./new/new.component";
 import { ListingComponent } from './listing/listing.component';
 import { ListingDetailComponent } from './listing-detail/listing-detail.component';
+import { EditComponent } from './edit/edit.component';
+import { AuthGuard } from 'src/app/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -19,7 +21,13 @@ const routes: Routes = [
       },
       {
         path: "new",
-        component: NewComponent
+        component: NewComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: ":id/edit",
+        component: EditComponent,
+        canActivate: [AuthGuard],
       },
       {
         path: "**",

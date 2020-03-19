@@ -12,6 +12,7 @@
               ></app-listing>
               <app-map
                 (onListingChange)="setListing($event)"
+                (onSearch)="onSearch($event)"
                 [listing_id]="listing_id"
                 [listings]="listings"
                 [categories]="categories"

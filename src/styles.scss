@@ -235,13 +235,27 @@ ngb-typeahead-window {
 
 .img-wrap .close {
   position: absolute;
-  top: 12px;
+  top: 16px;
   right: 16px;
   z-index: 100;
+  padding: 5px;
+  background-color: #00ad79;
+  border: 1px solid #145a45;
+  border-radius: 50%;
+  vertical-align: middle;
+  height: 25px;
+  width: 25px;
+  line-height: 19px;
+  display: block;
 }
-
+.img-wrap .close .fa {
+  margin-top: -3px;
+  font-size: 1.2rem;
+  color: #fff;
+  display: block;
+}
 .img-thumbnail {
-  border: 1px solid #ddd; /* Gray border */
+  border: 1px solid #00ad79; /* Gray border */
   border-radius: 4px;  /* Rounded border */
   padding: 5px; /* Some padding */
   width: 150px; /* Set a small width */

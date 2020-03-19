@@ -9,6 +9,8 @@ import {
 } from "@angular/core";
 import { Listing } from "src/app/models/Listing";
 import { Category } from 'src/app/models/Category';
+import { NgForm } from '@angular/forms';
+import { ListingService } from 'src/app/services/listing.service';
 
 declare const $: any;
 declare const google: any;
@@ -26,7 +28,12 @@ export class MapComponent implements OnInit, OnChanges {
   @Input() listing_id: number = null;
   @Input() categories: Category[] = [];
   @Input() locations: any[] = [];
-  @Output() onListingChange = new EventEmitter<number>();
+  @Output('onListingChange') onListingChange = new EventEmitter<number>();
+  @Output('onSearch') onSearch = new EventEmitter<any>();
+  public search: any = {
+    location: '',
+    category: ''
+  };
 
   markers: any[] = [];
   map: any;
@@ -273,6 +280,18 @@ export class MapComponent implements OnInit, OnChanges {
         ]
       });
     }
+  }
+
+  onListingSearch(form: NgForm) {
+    this.onSearch.emit(this.search);
+  }
+
+  clearSearch() {
+    this.search = {
+      location: '',
+      category: ''
+    };
+    this.onSearch.emit(this.search);
   }
 
   changeListing(listing_id: number) {

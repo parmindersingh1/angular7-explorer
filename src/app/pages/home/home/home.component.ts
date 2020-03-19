@@ -1,11 +1,17 @@
-import { Component, ViewEncapsulation, ChangeDetectorRef, OnInit, AfterContentInit } from "@angular/core";
+import {
+  Component,
+  ViewEncapsulation,
+  ChangeDetectorRef,
+  OnInit,
+  AfterContentInit
+} from "@angular/core";
 import { Listing } from "src/app/models/Listing";
 import { ListingService } from "../../../services/listing.service";
-import { HelperService } from 'src/app/helpers/helper.service';
-import { environment } from 'src/environments/environment';
-import { LazyLoadScriptService } from 'src/app/services/lazy-load-script.service';
-import { map, filter, take, switchMap } from 'rxjs/operators';
-import { Category } from 'src/app/models/Category';
+import { HelperService } from "src/app/helpers/helper.service";
+import { environment } from "src/environments/environment";
+import { LazyLoadScriptService } from "src/app/services/lazy-load-script.service";
+import { map, filter, take, switchMap } from "rxjs/operators";
+import { Category } from "src/app/models/Category";
 
 declare var $: any;
 
@@ -15,19 +21,20 @@ declare var $: any;
   styleUrls: ["./home.component.css"],
   encapsulation: ViewEncapsulation.None
 })
-export class HomeComponent implements OnInit, AfterContentInit{
+export class HomeComponent implements OnInit, AfterContentInit {
   listings: Listing[] = [];
   listing_id: number;
   locations: any[] = [];
   categories: Category[] = [];
 
-  constructor(private cd: ChangeDetectorRef, listingService: ListingService, private helper: HelperService,
-    private lazyLoadService: LazyLoadScriptService) {
-    listingService.getListings().subscribe((response: any) => {
-      this.listings = response.data;
-      this.listings.forEach((listing: Listing)=> {
-        listing.thumbnail = this.getUrl(listing);
-      });
+  constructor(
+    private cd: ChangeDetectorRef,
+    private listingService: ListingService,
+    private helper: HelperService,
+    private lazyLoadService: LazyLoadScriptService
+  ) {
+    listingService.getListings(1, {}).subscribe((response: any) => {
+      this.handleData(response);
     });
 
     listingService.getCategories().subscribe((data: any[]) => {
@@ -40,9 +47,7 @@ export class HomeComponent implements OnInit, AfterContentInit{
     });
   }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   ngAfterContentInit(): void {
     //Called after ngOnInit when the component's or directive's content has been initialized.
@@ -54,8 +59,17 @@ export class HomeComponent implements OnInit, AfterContentInit{
     //   take(1)
     // )
     // .subscribe(_ => {
-
     // });
+  }
+
+  onSearch(data) {
+    this.listingService.searchListing(data, 1).subscribe(
+      response => {
+        console.log("search response", response);
+        this.handleData(response);
+      },
+      err => {}
+    );
   }
 
   getUrl(listing: Listing) {
@@ -69,5 +83,12 @@ export class HomeComponent implements OnInit, AfterContentInit{
   setListing(listing_id: number) {
     this.listing_id = listing_id;
     this.cd.detectChanges();
+  }
+
+  private handleData(response) {
+    this.listings = response.data;
+    this.listings.forEach((listing: Listing) => {
+      listing.thumbnail = this.getUrl(listing);
+    });
   }
 }

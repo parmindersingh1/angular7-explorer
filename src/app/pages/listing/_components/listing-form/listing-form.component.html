@@ -74,7 +74,7 @@
             <option
               *ngFor="let cat of categories; let i = index"
               [value]="cat.id"
-              >{{ cat.name }}</option
+              >{{ cat.name | titlecase }}</option
             >
           </select>
           <div
@@ -348,10 +348,13 @@
     <div class="image-upload">
       <div class="listing-pic">
         <!-- <img class="img-responsive" src="{{ fileUrl }}" /> -->
-        <div class="img-wrap text-center" *ngFor="let img of thumbnails; let i=index">
+        <div
+          class="img-wrap text-center"
+          *ngFor="let img of thumbnails; let i = index"
+        >
           <span class="close close-btn"><i class="fa fa-close"></i></span>
           <img class="img-responsive img-thumbnail" src="{{ img }}" />
-          <h6 class="text-wrap text-center">{{listing.images[i]?.name}}</h6>
+          <h6 class="text-wrap text-center">{{ listing.images[i]?.name }}</h6>
         </div>
       </div>
       <!-- END SIDEBAR USERPIC -->
@@ -379,6 +382,13 @@
           <!-- <span *ngFor="let img of listing.images">{{img.name}}</span> -->
         </p>
       </div>
+
+        <div class="img-wrap text-center"
+        *ngFor="let media of listing.media; let i = index">
+          <span class="close close-btn" (click)="deleteFile(media)"><i class="fa fa-close"></i></span>
+          <img class="img-responsive img-thumbnail" src="{{ getUrl(media) }}" />
+          <h6 class="text-wrap text-center">{{media?.name }}</h6>
+        </div>
     </div>
   </fieldset>
 

@@ -149,9 +149,18 @@
                         <strong>Type</strong
                         ><span>{{ listing?.category | titlecase }}</span>
                       </li>
+                      <li>
+                        <strong>Is Available</strong
+                        ><span> {{ listing.is_active == true ? "YES" : "NO" }}</span>
+                      </li>
+                      <li>
+                        <strong>Featured</strong
+                        ><span>  {{ listing.is_featured == false ? "YES" : "NO" }}</span>
+                      </li>
                       <!-- <li><strong>Bedrooms</strong><span>4</span></li>
                       <li><strong>Bathrooms</strong><span>2</span></li>
                       <li><strong>Area</strong><span>180 sqft</span></li> -->
+
                     </ul>
                   </div>
                   <!-- /.overview -->

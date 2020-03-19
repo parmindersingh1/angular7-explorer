@@ -23,6 +23,7 @@ export class AuthGuard implements CanActivate {
   ): Observable<boolean> | boolean {
     if (this._authService.isAuthenticated()) {
       // logged in so return true
+      console.log("AUTHENTICATEDDD");
       return true;
     }
     // error when verify so redirect to login page with the return url

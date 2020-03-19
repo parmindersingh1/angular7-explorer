@@ -21,11 +21,12 @@ const httpOptions = {
 export class ListingService {
   constructor(private http: HttpClient) {}
 
-  getListings(page = 1) {
+  getListings(page = 1, data: any) {
     return this.http
       .get(`${environment.apiUrl}/listings`, {
         params: {
-          page: page.toString()
+          page: page.toString(),
+          ...data
         }
       })
       .pipe(
@@ -55,6 +56,35 @@ export class ListingService {
     );
   }
 
+  getUserListings(page = 1) {
+    return this.http
+      .get(`${environment.apiUrl}/listings/user-listings`, {
+        params: {
+          page: page.toString()
+        }
+      })
+      .pipe(
+        map(res => res),
+        catchError(error => this.handleError(error))
+      );
+  }
+
+  searchListing(data: any, page) {
+    return this.http
+      .get(`${environment.apiUrl}/listings/search`, {
+        params: {
+          page: page.toString(),
+          ...data
+        }
+      })
+      .pipe(
+        map((res: any) => {
+          return res;
+        }),
+        catchError(error => this.handleError(error))
+      );
+  }
+
   saveListing(listing: Listing) {
     const headers = new HttpHeaders();
     headers.append("Content-Type", "multipart/form-data");
@@ -70,10 +100,24 @@ export class ListingService {
       );
   }
 
-  saveRating(id: number, rating: Review) {
+  updateListing(id: number, listing: Listing) {
+    const headers = new HttpHeaders();
+    headers.append("Content-Type", "multipart/form-data");
+    headers.append("Accept", "application/json");
 
     return this.http
-      .post(`${environment.apiUrl}/listings/${id}/ratings`, rating,  httpOptions )
+      .post(`${environment.apiUrl}/listings/${id}`, listing, { headers })
+      .pipe(
+        map((res: any) => {
+          return res;
+        }),
+        catchError(error => this.handleError(error))
+      );
+  }
+
+  saveRating(id: number, rating: Review) {
+    return this.http
+      .post(`${environment.apiUrl}/listings/${id}/ratings`, rating, httpOptions)
       .pipe(
         map((res: any) => {
           return res;
@@ -83,9 +127,8 @@ export class ListingService {
   }
 
   updateRating(id: number, rating: Review) {
-
     return this.http
-      .put(`${environment.apiUrl}/ratings/${id}`, rating,  httpOptions )
+      .put(`${environment.apiUrl}/ratings/${id}`, rating, httpOptions)
       .pipe(
         map((res: any) => {
           return res;
@@ -96,7 +139,18 @@ export class ListingService {
 
   deleteRating(id: number) {
     return this.http
-      .delete(`${environment.apiUrl}/ratings/${id}`,  httpOptions )
+      .delete(`${environment.apiUrl}/ratings/${id}`, httpOptions)
+      .pipe(
+        map((res: any) => {
+          return res;
+        }),
+        catchError(error => this.handleError(error))
+      );
+  }
+
+  deleteMedia(id: number, listing: number) {
+    return this.http
+      .delete(`${environment.apiUrl}/listings/${listing}/remove-file/${id}`, httpOptions)
       .pipe(
         map((res: any) => {
           return res;

@@ -3,13 +3,13 @@
     <div class="main-inner">
       <div class="page-title">
         <div class="container">
-          <h1>Add Listing</h1>
+          <h1>Update Listing</h1>
           <!-- /.page-title-actions -->
         </div>
         <!-- /.container-->
       </div>
       <!-- /.page-title -->
-      <div class="container">
+      <div class="container" *ngIf="listing.id">
           <app-listing-form [listing]="listing" (onSubmit)="onSubmit($event)"></app-listing-form>
       </div>
       <!-- /.container-fluid -->

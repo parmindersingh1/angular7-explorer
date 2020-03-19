@@ -15,6 +15,7 @@ export class Listing {
   is_featured: boolean;
   user_id: number;
   user: User;
+  media: Array<any>;
   rating: number;
   reviews: Array<any>;
   addressLineOne: string;
@@ -28,5 +29,9 @@ export class Listing {
   constructor() {
     this.images = this.images || [];
   }
+
+  // get address() {
+  //   return `${this.addressLineOne} ${this.addressLineTwo}`;
+  // }
 
 }
