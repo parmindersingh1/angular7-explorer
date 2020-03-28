@@ -35,6 +35,15 @@ export class ListingService {
       );
   }
 
+  getLatestListing() {
+    return this.http
+    .get(`${environment.apiUrl}/listings/latest_data`)
+    .pipe(
+      map(res => res),
+      catchError(error => this.handleError(error))
+    );
+  }
+
   getListing(listing_id) {
     return this.http.get(`${environment.apiUrl}/listings/${listing_id}`).pipe(
       map(res => res),
@@ -115,6 +124,18 @@ export class ListingService {
       );
   }
 
+  removeListing(id: number) {
+    return this.http
+      .delete(`${environment.apiUrl}/listings/${id}`, httpOptions)
+      .pipe(
+        map((res: any) => {
+          return res;
+        }),
+        catchError(error => this.handleError(error))
+      );
+  }
+
+
   saveRating(id: number, rating: Review) {
     return this.http
       .post(`${environment.apiUrl}/listings/${id}/ratings`, rating, httpOptions)
@@ -129,6 +150,50 @@ export class ListingService {
   updateRating(id: number, rating: Review) {
     return this.http
       .put(`${environment.apiUrl}/ratings/${id}`, rating, httpOptions)
+      .pipe(
+        map((res: any) => {
+          return res;
+        }),
+        catchError(error => this.handleError(error))
+      );
+  }
+
+  isBookmarked(id: number) {
+    return this.http
+      .get(`${environment.apiUrl}/listings/${id}/is_bookmarked`)
+      .pipe(
+        map((res: any) => {
+          return res;
+        }),
+        catchError(error => this.handleError(error))
+      );
+  }
+
+  getBookmarks() {
+    return this.http
+      .get(`${environment.apiUrl}/listings/bookmarks/list`)
+      .pipe(
+        map((res: any) => {
+          return res;
+        }),
+        catchError(error => this.handleError(error))
+      );
+  }
+
+  addBookmark(id: number) {
+    return this.http
+      .post(`${environment.apiUrl}/listings/${id}/bookmarks/add`, {} , httpOptions)
+      .pipe(
+        map((res: any) => {
+          return res;
+        }),
+        catchError(error => this.handleError(error))
+      );
+  }
+
+  removeBookmark(id: number) {
+    return this.http
+      .delete(`${environment.apiUrl}/listings/${id}/bookmarks/remove`, httpOptions)
       .pipe(
         map((res: any) => {
           return res;

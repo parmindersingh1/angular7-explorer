@@ -53,7 +53,8 @@ export class AppHttpInterceptorService implements HttpInterceptor {
           (err: any) => {
             if (err instanceof HttpErrorResponse) {
               if (err.status === 401) {
-                this.logger.error(err.error);
+                console.log("err", err);
+                this.logger.error(err.error.message);
                 localStorage.removeItem("token");
                 console.log("UNAUTHHHHH");
                 // this.loaderService.displayLoader(false);

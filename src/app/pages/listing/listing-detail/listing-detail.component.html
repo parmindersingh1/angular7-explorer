@@ -151,16 +151,21 @@
                       </li>
                       <li>
                         <strong>Is Available</strong
-                        ><span> {{ listing.is_active == true ? "YES" : "NO" }}</span>
+                        ><span>
+                          {{ listing?.is_active == true ? "YES" : "NO" }}</span
+                        >
                       </li>
                       <li>
                         <strong>Featured</strong
-                        ><span>  {{ listing.is_featured == false ? "YES" : "NO" }}</span>
+                        ><span>
+                          {{
+                            listing?.is_featured == false ? "YES" : "NO"
+                          }}</span
+                        >
                       </li>
                       <!-- <li><strong>Bedrooms</strong><span>4</span></li>
                       <li><strong>Bathrooms</strong><span>2</span></li>
                       <li><strong>Area</strong><span>180 sqft</span></li> -->
-
                     </ul>
                   </div>
                   <!-- /.overview -->
@@ -254,11 +259,25 @@
                               }}</span>
                             </div>
 
-                            <div class="comment-buttons float-right" *ngIf="currentUser && (currentUser.id == review?.user?.id ) ">
-                              <button class="btn btn-sm btn-danger" title="delete" (click)="onDeleteRating(review.id)">
+                            <div
+                              class="comment-buttons float-right"
+                              *ngIf="
+                                currentUser &&
+                                currentUser.id == review?.user?.id
+                              "
+                            >
+                              <button
+                                class="btn btn-sm btn-danger"
+                                title="delete"
+                                (click)="onDeleteRating(review.id)"
+                              >
                                 <i class="fa fa-trash"></i>
                               </button>
-                              <button class="btn btn-sm btn-info" title="update" (click)="onEditClick(review)">
+                              <button
+                                class="btn btn-sm btn-info"
+                                title="update"
+                                (click)="onEditClick(review)"
+                              >
                                 <i class="fa fa-edit"></i>
                               </button>
                             </div>
@@ -278,12 +297,22 @@
                       </div>
                       <!-- /.comment -->
                     </li>
-                    <li *ngIf="listing?.reviews.length == 0" class="text-center">No Reviews Yet</li>
+                    <li
+                      *ngIf="listing?.reviews.length == 0"
+                      class="text-center"
+                    >
+                      No Reviews Yet
+                    </li>
                   </ul>
                   <hr />
                   <ng-container *ngIf="currentUser">
                     <h4>Create New Review</h4>
-                    <form method="post" (submit)="f.valid && onReviewSubmit()" id="comment-form" #f="ngForm">
+                    <form
+                      method="post"
+                      (submit)="f.valid && onReviewSubmit()"
+                      id="comment-form"
+                      #f="ngForm"
+                    >
                       <div class="row">
                         <div class="col-sm-12">
                           <div class="form-group">
@@ -292,9 +321,9 @@
                               class="form-control"
                               style="height: 191px;"
                               [(ngModel)]="reviewObj.review"
-                              name="review" required
+                              name="review"
+                              required
                             ></textarea>
-
                           </div>
                           <!-- /.form-group -->
                         </div>
@@ -306,7 +335,10 @@
                           <div class="form-group">
                             <label>Ratings</label>
                             <!-- <div class="rating-item"></div> -->
-                            <app-rating [rating]='this.reviewObj.rating'  (ratingClick)='onRatingClick($event)'></app-rating>
+                            <app-rating
+                              [rating]="this.reviewObj.rating"
+                              (ratingClick)="onRatingClick($event)"
+                            ></app-rating>
                           </div>
                           <!-- /.form-group -->
                         </div>
@@ -317,7 +349,11 @@
                       <button type="submit" class="btn btn-primary pull-right">
                         Post Comment
                       </button>
-                      <button class="btn btn-danger pull-right ml-1 mr-1" type="button" (click)="clearReviewForm()">
+                      <button
+                        class="btn btn-danger pull-right ml-1 mr-1"
+                        type="button"
+                        (click)="clearReviewForm()"
+                      >
                         Delete
                       </button>
                     </form>
@@ -334,21 +370,33 @@
             <div class="sidebar">
               <div class="widget">
                 <ul class="nav actions flex-column">
-                  <li class="nav-item featured">
+                  <!-- <li class="nav-item featured">
                     <a href="#" class="nav-link">
                       <i class="fa fa-file-text-o"></i> Claim Listing
                     </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="fa fa-star-o"></i> Add to Favorites
-                    </a>
-                  </li>
-                  <li class="nav-item">
+                  </li> -->
+                  <ng-container *ngIf="currentUser">
+                    <li
+                      class="nav-item"
+                      *ngIf="!is_bookmarked; else bookmarked"
+                    >
+                      <a (click)="addBookmark()" class="nav-link">
+                        <i class="fa fa-star-o"></i> Add to Favorites
+                      </a>
+                    </li>
+                    <ng-template #bookmarked>
+                      <li class="nav-item">
+                        <a (click)="removeBookmark()" class="nav-link">
+                          <i class="fa fa-star"></i> Remove from Favorites
+                        </a>
+                      </li>
+                    </ng-template>
+                  </ng-container>
+                  <!-- <li class="nav-item">
                     <a href="#" class="nav-link">
                       <i class="fa fa-flag"></i> Report Listing
                     </a>
-                  </li>
+                  </li> -->
                   <li class="nav-item">
                     <a
                       href="#"
@@ -380,169 +428,36 @@
                   </li>
                 </ul>
               </div>
-
-              <div class="widget widget-background-white">
-                <h3 class="widgettitle">Inquire Form</h3>
-                <form method="post" action="?">
-                  <div class="form-group">
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Full name"
-                    />
-                  </div>
-                  <!-- /.form-group -->
-                  <div class="form-group">
-                    <input
-                      type="email"
-                      class="form-control"
-                      placeholder="E-mail"
-                    />
-                  </div>
-                  <!-- /.form-group -->
-                  <div class="form-group">
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Subject"
-                    />
-                  </div>
-                  <!-- /.form-group -->
-                  <div class="form-group">
-                    <textarea class="form-control" rows="4">Message</textarea>
-                  </div>
-                  <!-- /.form-group -->
-                  <div class="form-group-btn">
-                    <button type="submit" class="btn btn-primary btn-block">
-                      Send Message
-                    </button>
-                  </div>
-                  <!-- /.form-group-btn -->
-                </form>
-              </div>
               <!-- /.widget -->
               <div class="widget">
                 <h3 class="widgettitle">Recent Listings</h3>
                 <div>
-                  <div class="listing-row-medium">
+                  <div class="listing-row-medium" *ngFor="let list of latest">
                     <div class="listing-row-medium-inner">
                       <a
-                        href="listings-detail.html"
+                        [routerLink]="['/app', 'listing', list?.id, 'show']"
                         class="listing-row-medium-image"
-                        style="background-image: url(assets/img/tmp/listing-18.jpg);"
+                        [ngStyle]="{
+                          'background-image': 'url(' + list.thumbnail + ')'
+                        }"
                       >
                       </a>
                       <div class="listing-row-medium-content">
                         <a
                           class="listing-row-medium-price"
-                          href="listings-detail.html"
-                          >$9.90</a
+                          [routerLink]="['/app', 'listing', list?.id, 'show']"
+                          >Rs {{list.price}}</a
                         >
                         <a
                           class="listing-row-medium-category tag"
-                          href="listings-detail.html"
-                          >Sport cars</a
+                          [routerLink]="['/app', 'listing', list?.id, 'show']"
+                          >{{list.category}}</a
                         >
                         <h4 class="listing-row-medium-title">
-                          <a href="listings-detail.html">Steak House</a>
+                          <a [routerLink]="['/app', 'listing', list?.id, 'show']">{{list.title}}</a>
                         </h4>
                         <div class="listing-row-medium-address">
-                          1122 Wilkinson Court Naples
-                        </div>
-                        <!-- /.listing-row-medium-address -->
-                      </div>
-                      <!-- /.listing-row-medium-content -->
-                    </div>
-                    <!-- /.listing-row-medium-inner -->
-                  </div>
-                  <!-- /.listings-row-medium -->
-                  <div class="listing-row-medium">
-                    <div class="listing-row-medium-inner">
-                      <a
-                        href="listings-detail.html"
-                        class="listing-row-medium-image"
-                        style="background-image: url(assets/img/tmp/listing-13.jpg);"
-                      >
-                        <span class="listing-row-medium-featured">Featured</span
-                        ><!-- /.listing-row-medium-featured -->
-                      </a>
-                      <div class="listing-row-medium-content">
-                        <a
-                          class="listing-row-medium-category tag"
-                          href="listings-detail.html"
-                          >Gastronomy</a
-                        >
-                        <h4 class="listing-row-medium-title">
-                          <a href="listings-detail.html">SUV Cars Reseller</a>
-                        </h4>
-                        <div class="listing-row-medium-address">
-                          4692 Arbutus Drive Miami Springs
-                        </div>
-                        <!-- /.listing-row-medium-address -->
-                      </div>
-                      <!-- /.listing-row-medium-content -->
-                    </div>
-                    <!-- /.listing-row-medium-inner -->
-                  </div>
-                  <!-- /.listings-row-medium -->
-                  <div class="listing-row-medium">
-                    <div class="listing-row-medium-inner">
-                      <a
-                        href="listings-detail.html"
-                        class="listing-row-medium-image"
-                        style="background-image: url(assets/img/tmp/listing-12.jpg);"
-                      >
-                      </a>
-                      <div class="listing-row-medium-content">
-                        <a
-                          class="listing-row-medium-price"
-                          href="listings-detail.html"
-                          >$533.00</a
-                        >
-                        <a
-                          class="listing-row-medium-category tag"
-                          href="listings-detail.html"
-                          >Marketing</a
-                        >
-                        <h4 class="listing-row-medium-title">
-                          <a href="listings-detail.html"
-                            >T-Shirt Specialized Shop</a
-                          >
-                        </h4>
-                        <div class="listing-row-medium-address">
-                          2460 Ashwood Drive Farragut
-                        </div>
-                        <!-- /.listing-row-medium-address -->
-                      </div>
-                      <!-- /.listing-row-medium-content -->
-                    </div>
-                    <!-- /.listing-row-medium-inner -->
-                  </div>
-                  <!-- /.listings-row-medium -->
-                  <div class="listing-row-medium">
-                    <div class="listing-row-medium-inner">
-                      <a
-                        href="listings-detail.html"
-                        class="listing-row-medium-image"
-                        style="background-image: url(assets/img/tmp/listing-3.jpg);"
-                      >
-                      </a>
-                      <div class="listing-row-medium-content">
-                        <a
-                          class="listing-row-medium-price"
-                          href="listings-detail.html"
-                          >$76.90</a
-                        >
-                        <a
-                          class="listing-row-medium-category tag"
-                          href="listings-detail.html"
-                          >Museum</a
-                        >
-                        <h4 class="listing-row-medium-title">
-                          <a href="listings-detail.html">Erb Lumber</a>
-                        </h4>
-                        <div class="listing-row-medium-address">
-                          2155 Philli Lane Mcalester
+                          {{ list.address }}
                         </div>
                         <!-- /.listing-row-medium-address -->
                       </div>

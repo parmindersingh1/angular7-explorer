@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from 'src/app/guards/auth.guard';
 import { MyListingsComponent } from './my-listings/my-listings.component';
+import { BookmarksComponent } from './bookmarks/bookmarks.component';
 
 
 const routes: Routes = [
@@ -13,6 +14,10 @@ const routes: Routes = [
       {
         path: 'my-listings',
         component: MyListingsComponent
+      },
+      {
+        path: 'my-bookmarks',
+        component: BookmarksComponent
       },
       {
         path: '**',

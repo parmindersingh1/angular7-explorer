@@ -101,7 +101,7 @@
                     </button>
                     <div class="dropdown-menu">
                       <a class="dropdown-item" [routerLink]="['/app/listing/', listing.id ,'edit']">Edit Item</a>
-                      <a class="dropdown-item" href="#">Delete Item</a>
+                      <a class="dropdown-item" style="cursor: pointer;" (click)="deleteListing(listing)">Delete Item</a>
                     </div>
                   </div>
                 </td>

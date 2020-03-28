@@ -1,0 +1,123 @@
+<div class="main-wrapper">
+  <div class="main">
+    <div class="main-inner">
+      <div class="page-title">
+        <div class="container">
+          <h1>My Bookmarks</h1>
+          <div class="page-title-actions"></div>
+          <!-- /.page-title-actions -->
+        </div>
+        <!-- /.container-->
+      </div>
+      <!-- /.page-title -->
+      <div class="container">
+        <!-- <nav class="breadcrumb">
+          <a class="breadcrumb-item" href="#">Home</a>
+          <a class="breadcrumb-item" href="#">Library</a>
+          <a class="breadcrumb-item" href="#">Data</a>
+          <span class="breadcrumb-item active">Bootstrap</span>
+        </nav> -->
+        <!-- /.table-header -->
+        <ng-container *ngIf="listings.length > 0">
+          <div class="table-wrapper">
+            <table
+              class="table table-bordered table-striped"
+              [svData]="listings"
+              #sv="svDataTable"
+              [svRowsOnPage]="5"
+              svSortBy="title"
+              svSortOrder="asc"
+            >
+              <thead>
+                <tr>
+                  <th class="min-width center">ID</th>
+                  <th>
+                    <sv-default-sorter by="title">Title</sv-default-sorter>
+                  </th>
+                  <th class="min-width center">Category</th>
+                  <th class="min-width center">Rent</th>
+                  <th class="min-width center">Featured</th>
+                  <th class="min-width center">Active</th>
+                  <th class="min-width center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let listing of sv.data; let i = index">
+                  <td class="min-width center id">
+                    #{{ (sv.activePage - 1) * sv.rowsOnPage + (i + 1) }}
+                  </td>
+                  <td>
+                    <div
+                      class="avatar squared"
+                      [ngStyle]="{
+                        'background-image': 'url(' + listing.thumbnail + ')'
+                      }"
+                    ></div>
+                    <h2>
+                      <a [routerLink]="['/app/listing/', listing.id, 'show']">{{
+                        listing.title
+                      }}</a>
+                      <span>{{ listing.address }}</span>
+                    </h2>
+                  </td>
+                  <td class="min-width no-wrap center">
+                    <span class="tag">{{ listing.category }}</span>
+                  </td>
+                  <td class="min-width price">Rs {{ listing.price }}</td>
+                  <td class="min-width center">
+                    <div class="status" *ngIf="listing.is_featured">
+                      <i class="fa fa-check"></i>
+                    </div>
+                    <div class="status" *ngIf="!listing.is_featured">
+                      <i class="fa fa-times"></i>
+                    </div>
+                    <!-- /.status -->
+                  </td>
+                  <td class="min-width center">
+                    <div class="status" *ngIf="listing.is_active">
+                      <i class="fa fa-check"></i>
+                    </div>
+                    <div class="status" *ngIf="!listing.is_active">
+                      <i class="fa fa-times"></i>
+                    </div>
+                    <!-- /.status -->
+                  </td>
+                  <td class="min-width">
+                    <div class="btn-group" role="group">
+                      <button
+                        id="btnGroupDrop1"
+                        type="button"
+                        class="btn btn-danger"
+                        (click)="deleteBookmark(listing)"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="7">
+                    <sv-bootstrap-paginator
+                      [rowsOnPageSet]="[5, 10, 25]"
+                    ></sv-bootstrap-paginator>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <!-- /.table-wrapper -->
+          <!-- <div class="float-right">
+            <sv-bootstrap-paginator
+              [rowsOnPageSet]="[5, 10, 25]"
+            ></sv-bootstrap-paginator>
+          </div> -->
+        </ng-container>
+      </div>
+      <!-- /.container-fluid -->
+    </div>
+    <!-- /.main-inner -->
+  </div>
+  <!-- /.main -->
+</div>

@@ -25,9 +25,18 @@ export class MyListingsComponent implements OnInit {
   ngOnInit() {}
 
   getData() {
-    this.listingService.getUserListings(this.activePage).subscribe((response: any) => {
+    this.listingService
+      .getUserListings(this.activePage)
+      .subscribe((response: any) => {
+        console.log("response", response);
+        this.handleData(response);
+      });
+  }
+
+  deleteListing(listing: Listing) {
+    this.listingService.removeListing(listing.id).subscribe((response: any) => {
       console.log("response", response);
-      this.handleData(response);
+      this.getData();
     });
   }
 

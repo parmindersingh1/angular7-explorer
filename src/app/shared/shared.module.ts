@@ -10,6 +10,8 @@ import { ControlMessages } from "./components/control-messages.component";
 import { ModalBasicComponent } from "./components/modal-basic/modal-basic.component";
 import { AppPaginationComponent } from './components/app-pagination/app-pagination.component';
 import { RatingComponent } from './components/rating/rating.component';
+import { DataTableModule } from 'ng-angular8-datatable';
+
 
 @NgModule({
   imports: [
@@ -18,6 +20,7 @@ import { RatingComponent } from './components/rating/rating.component';
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule,
+    DataTableModule,
     NgbModule.forRoot(),
     NgxLoadingModule.forRoot({
       animationType: ngxLoadingAnimationTypes.rectangleBounce,
@@ -44,6 +47,7 @@ import { RatingComponent } from './components/rating/rating.component';
     NgxLoadingModule,
     ModalBasicComponent,
     ToastrModule,
+    DataTableModule,
     AppPaginationComponent,
     RatingComponent
   ]

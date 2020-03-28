@@ -46,7 +46,8 @@
           ></span>
           <ul class="admin-header-avatar-menu">
             <li><a routerLink="/admin/dashboard" routerLinkActiveOptions="{ exact: true }" *ngIf="currentUser?.role == 'admin'">Admin</a></li>
-            <li><a routerLink="/app/user/my-listings" routerLinkActiveOptions="{ exact: true }" *ngIf="currentUser?.role == 'landlord'">My Listings</a></li>
+            <li><a routerLink="/app/user/my-listings" routerLinkActiveOptions="{ exact: true }">My Listings</a></li>
+            <li><a routerLink="/app/user/my-bookmarks" routerLinkActiveOptions="{ exact: true }">My Bookmarks</a></li>
             <li><a routerLink="/app/profile/edit" routerLinkActiveOptions="{ exact: true }">Your Profile</a></li>
             <li><a routerLink="/app/profile/change-password" routerLinkActiveOptions="{ exact: true }">Change Password</a></li>
             <li><a routerLink="/auth/logout">Sign Out</a></li>

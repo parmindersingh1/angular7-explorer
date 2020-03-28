@@ -26,8 +26,10 @@ export class ListingDetailComponent implements OnInit, AfterContentInit {
   zoom: number = 15;
   currentUser = null;
   reviewObj: Review = { rating: 0, review: "" };
+  is_bookmarked: boolean = false;
 
   listing: Listing;
+  latest: Listing[];
 
   constructor(
     private logger: ToastrService,
@@ -41,6 +43,7 @@ export class ListingDetailComponent implements OnInit, AfterContentInit {
       console.log(params);
       this.listing_id = params.id;
       this.fetchData();
+      this.fetchLatestData();
     });
   }
 
@@ -255,6 +258,24 @@ export class ListingDetailComponent implements OnInit, AfterContentInit {
         this.listing.thumbnail = this.getUrl(this.listing);
         this.initMap();
       });
+
+    if (this.currentUser) {
+      this.listingService
+        .isBookmarked(this.listing_id)
+        .subscribe((response: any) => {
+          console.log("is bookmarked", response);
+          this.is_bookmarked = response.is_bookmarked;
+        });
+    }
+  }
+
+  fetchLatestData() {
+    this.listingService.getLatestListing().subscribe((listing: any) => {
+      this.latest = listing;
+      this.latest.forEach(listing => {
+        listing.thumbnail = this.getUrl(listing);
+      });
+    });
   }
 
   getAddress(listing) {
@@ -338,6 +359,30 @@ export class ListingDetailComponent implements OnInit, AfterContentInit {
       500
     );
     console.log(this.reviewObj);
+  }
+
+  addBookmark() {
+    this.listingService.addBookmark(this.listing.id).subscribe(
+      resp => {
+        console.log("bookmark", resp);
+        this.is_bookmarked = resp.is_bookmarked;
+      },
+      err => {
+        console.log("err bookmark", err);
+      }
+    );
+  }
+
+  removeBookmark() {
+    this.listingService.removeBookmark(this.listing.id).subscribe(
+      resp => {
+        console.log("bookmark", resp);
+        this.is_bookmarked = resp.is_bookmarked;
+      },
+      err => {
+        console.log("err bookmark", err);
+      }
+    );
   }
 
   clearReviewForm() {
