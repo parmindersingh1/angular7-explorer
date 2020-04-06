@@ -11,6 +11,7 @@ import { ModalBasicComponent } from "./components/modal-basic/modal-basic.compon
 import { AppPaginationComponent } from './components/app-pagination/app-pagination.component';
 import { RatingComponent } from './components/rating/rating.component';
 import { DataTableModule } from 'ng-angular8-datatable';
+import { ModalAnimationComponent } from './components/modal-animation/modal-animation.component';
 
 
 @NgModule({
@@ -37,7 +38,7 @@ import { DataTableModule } from 'ng-angular8-datatable';
       preventDuplicates: true,
     }),
   ],
-  declarations: [ControlMessages, ModalBasicComponent, AppPaginationComponent,RatingComponent],
+  declarations: [ControlMessages, ModalBasicComponent,ModalAnimationComponent, AppPaginationComponent,RatingComponent],
   exports: [
     FormsModule,
     ReactiveFormsModule,
@@ -46,6 +47,7 @@ import { DataTableModule } from 'ng-angular8-datatable';
     ControlMessages,
     NgxLoadingModule,
     ModalBasicComponent,
+    ModalAnimationComponent,
     ToastrModule,
     DataTableModule,
     AppPaginationComponent,

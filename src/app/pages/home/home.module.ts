@@ -7,6 +7,7 @@ import { MapComponent } from './_components/map/map.component';
 import { ListingComponent } from './_components/listing/listing.component';
 import { ListingDetailComponent } from './_components/listing-detail/listing-detail.component';
 import { SharedModule } from '../../shared/shared.module';
+import { FeaturedComponent } from './featured/featured.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { SharedModule } from '../../shared/shared.module';
     HomeComponent,
     MapComponent,
     ListingComponent,
-    ListingDetailComponent
+    ListingDetailComponent,
+    FeaturedComponent
   ],
   imports: [
     CommonModule,

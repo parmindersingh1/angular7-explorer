@@ -1,0 +1,27 @@
+<div class="main-wrapper">
+  <div class="main">
+    <div class="main-inner">
+      <div class="content">
+        <div class="map-wrapper">
+          <div class="map">
+            <div class="map-inner">
+              <app-listing
+                (onListingChange)="setListing($event)"
+                [listing_id]="listing_id"
+                [listings]="listings"
+              ></app-listing>
+              <app-map
+                (onListingChange)="setListing($event)"
+                (onSearch)="onSearch($event)"
+                [listing_id]="listing_id"
+                [listings]="listings"
+                [categories]="categories"
+                [locations]="locations"
+              ></app-map>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

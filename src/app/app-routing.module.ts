@@ -13,10 +13,6 @@ const routes: Routes = [
         component: AppLayoutComponent,
         children: [
           {
-            path: 'home',
-            loadChildren: './pages/home/home.module#HomeModule'
-          },
-          {
             path: 'profile',
             loadChildren: './pages/profile/profile.module#ProfileModule'
           },
@@ -27,6 +23,10 @@ const routes: Routes = [
           {
             path: 'user',
             loadChildren: './pages/user/user.module#UserModule'
+          },
+          {
+            path: '',
+            loadChildren: './pages/home/home.module#HomeModule'
           },
           {
             path: '**',

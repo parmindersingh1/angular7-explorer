@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { FeaturedComponent } from './featured/featured.component';
 
 
 const routes: Routes = [
@@ -9,8 +10,12 @@ const routes: Routes = [
     // component: AppLayoutComponent,
     children: [
       {
-        path: '',
+        path: 'home',
         component: HomeComponent
+      },
+      {
+        path: 'featured',
+        component: FeaturedComponent
       },
       {
         path: '**',

@@ -3,15 +3,26 @@ import {
   ViewEncapsulation,
   ChangeDetectorRef,
   OnInit,
-  AfterContentInit
+  AfterContentInit,
+  AfterViewInit,
 } from "@angular/core";
 import { Listing } from "src/app/models/Listing";
 import { ListingService } from "../../../services/listing.service";
 import { HelperService } from "src/app/helpers/helper.service";
 import { environment } from "src/environments/environment";
 import { LazyLoadScriptService } from "src/app/services/lazy-load-script.service";
-import { map, filter, take, switchMap } from "rxjs/operators";
+import {
+  map,
+  filter,
+  take,
+  switchMap,
+  tap,
+  debounceTime,
+  distinctUntilChanged,
+} from "rxjs/operators";
 import { Category } from "src/app/models/Category";
+import { fromEvent, Observable } from "rxjs";
+import { Router } from "@angular/router";
 
 declare var $: any;
 
@@ -19,21 +30,40 @@ declare var $: any;
   selector: "app-home",
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.css"],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class HomeComponent implements OnInit, AfterContentInit {
   listings: Listing[] = [];
   listing_id: number;
   locations: any[] = [];
   categories: Category[] = [];
+  searchedLocations = [];
+  searchLocation = "";
+  search = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map((term: string) => {
+        console.log(term);
+        return term.length < 2
+          ? []
+          : this.locations
+              .filter(
+                (v) => v.state.toLowerCase().indexOf(term.toLowerCase()) > -1
+              )
+              .slice(0, 10)
+              .map((l) => l.state);
+      })
+    );
 
   constructor(
     private cd: ChangeDetectorRef,
     private listingService: ListingService,
     private helper: HelperService,
-    private lazyLoadService: LazyLoadScriptService
+    private lazyLoadService: LazyLoadScriptService,
+    private _router: Router
   ) {
-    listingService.getListings(1, {}).subscribe((response: any) => {
+    listingService.getListings(1, { count: 8 }).subscribe((response: any) => {
       this.handleData(response);
     });
 
@@ -50,26 +80,44 @@ export class HomeComponent implements OnInit, AfterContentInit {
   ngOnInit() {}
 
   ngAfterContentInit(): void {
-    //Called after ngOnInit when the component's or directive's content has been initialized.
-    //Add 'implements AfterContentInit' to the class.
-    // this.lazyLoadService.loadScript('assets/js/jquery.trackpad-scroll-emulator.min.js')
-    // .pipe(
-    //   map(_ => 'jQuery is loaded'),
-    //   filter(jquery => !!jquery),
-    //   take(1)
-    // )
-    // .subscribe(_ => {
-    // });
+    this.lazyLoadService
+      .loadScript("assets/js/jquery.js")
+      .pipe(
+        map((_) => "jQuery is loaded"),
+        filter((jquery) => !!jquery),
+        take(1),
+        switchMap((_) =>
+          this.lazyLoadService.loadScript("assets/libraries/slick/slick.min.js")
+        )
+      )
+      .subscribe((_) => {
+        console.log("SLICK");
+        setTimeout(() => {
+          $(".testimonials").slick({
+            infinite: true,
+            dots: true,
+            arrows: false,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+          });
+        });
+      });
   }
 
   onSearch(data) {
-    this.listingService.searchListing(data, 1).subscribe(
-      response => {
-        console.log("search response", response);
-        this.handleData(response);
-      },
-      err => {}
-    );
+    // this.listingService.searchListing(data, 1).subscribe(
+    //   (response) => {
+    //     console.log("search response", response);
+    //     this.handleData(response);
+    //   },
+    //   (err) => {}
+    // );
+
+    if (this.searchLocation && this.searchLocation.length > 3) {
+      this._router.navigate(["/app/listing/list"], {
+        queryParams: { location: this.searchLocation },
+      });
+    }
   }
 
   getUrl(listing: Listing) {
@@ -83,6 +131,20 @@ export class HomeComponent implements OnInit, AfterContentInit {
   setListing(listing_id: number) {
     this.listing_id = listing_id;
     this.cd.detectChanges();
+  }
+
+  buildRating(rating) {
+    let template = "";
+
+    for (let i = 0; i < rating; i++) {
+      template += '<i class="fa fa-star"></i>';
+    }
+
+    for (let i = rating; i < 5; i++) {
+      template += '<i class="fa fa-star-o"></i>';
+    }
+
+    return template;
   }
 
   private handleData(response) {

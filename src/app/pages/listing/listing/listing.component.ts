@@ -1,17 +1,19 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ListingService } from "src/app/services/listing.service";
 import { Listing } from "src/app/models/Listing";
 import { HelperService } from "src/app/helpers/helper.service";
 import { environment } from "src/environments/environment";
 import { Category } from "src/app/models/Category";
 import { NgForm } from "@angular/forms";
+import { Router, ActivatedRoute } from "@angular/router";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-listing",
   templateUrl: "./listing.component.html",
-  styleUrls: ["./listing.component.css"]
+  styleUrls: ["./listing.component.css"],
 })
-export class ListingComponent implements OnInit {
+export class ListingComponent implements OnInit, OnDestroy {
   listings: Listing[] = [];
   locations: any[] = [];
   categories: Category[] = [];
@@ -20,12 +22,16 @@ export class ListingComponent implements OnInit {
   recordsPerPage: number = 5;
   public search: any = {
     location: "",
-    category: ""
+    category: "",
   };
+
+  private sub: Subscription = null;
 
   constructor(
     private listingService: ListingService,
-    private helper: HelperService
+    private helper: HelperService,
+    private _router: Router,
+    private route: ActivatedRoute
   ) {
     this.getData();
 
@@ -38,7 +44,14 @@ export class ListingComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.sub = this.route.queryParams.subscribe((queryParams) => {
+      this.search.category = queryParams["category"] || '';
+      this.search.location = queryParams["location"] || '';
+
+      this.getData();
+    });
+  }
 
   getData() {
     this.listingService
@@ -74,17 +87,21 @@ export class ListingComponent implements OnInit {
     //   },
     //   err => {}
     // );
-    this.getData();
+    // this.getData();
+    this._router.navigate(["/app/listing/list"], {
+      queryParams: { ...this.search },
+    });
   }
-
 
   clearSearch() {
     this.search = {
-      location: '',
-      category: ''
+      location: "",
+      category: "",
     };
 
-    this.getData();
+    this._router.navigate(["/app/listing/list"], {
+      queryParams: { ...this.search },
+    });
   }
 
   buildRating(rating) {
@@ -101,9 +118,13 @@ export class ListingComponent implements OnInit {
     return template;
   }
 
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
+
   private handleData(response) {
     this.listings = response.data;
-    console.log(response);
+    console.log("search", this.search);
     this.listings.forEach((listing: Listing) => {
       listing.thumbnail = this.getUrl(listing);
     });
