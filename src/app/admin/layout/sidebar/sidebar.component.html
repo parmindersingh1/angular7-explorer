@@ -15,34 +15,23 @@
   <div class="admin-sidebar-content">
     <h3>General Objects</h3>
     <ul class="nav flex-column">
-      <li class="nav-item has-sub-menu">
-        <a href="admin-dashboard.html" class="nav-link active">
+      <li class="nav-item">
+        <a routerLink="/admin/dashboard" routerLinkActiveOptions="{ exact: true }" routerLinkActive="active" class="nav-link">
           <i class="fa fa-tachometer"></i><span>Dashboard</span>
         </a>
-        <ul>
-          <li><a href="admin-dashboard.html">Dark Expanded Sidebar</a></li>
-          <li><a href="admin-dashboard-light-sidebar.html">Light Sidebar</a></li>
-          <li><a href="admin-dashboard-minimal-sidebar.html">Compressed Sidebar</a></li>
-          <li><a href="admin-dashboard-light-minimal-sidebar.html">Light Compressed Sidebar</a></li>
-        </ul>
       </li>
       <li class="nav-item">
-        <a href="admin-listings.html" class="nav-link ">
+        <a routerLink="/admin/listings" routerLinkActiveOptions="{ exact: true }" routerLinkActive="active" class="nav-link ">
           <i class="fa fa-align-justify"></i><span>Listings</span>
         </a>
       </li>
       <li class="nav-item">
-        <a href="admin-agencies.html" class="nav-link ">
-          <i class="fa fa-building"></i><span>Agencies</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="admin-agents.html" class="nav-link ">
-          <i class="fa fa-briefcase"></i><span>Agents</span>
+        <a routerLink="/admin/users" routerLinkActiveOptions="{ exact: true }" routerLinkActive="active"  class="nav-link ">
+          <i class="fa fa-users"></i><span>Users</span>
         </a>
       </li>
     </ul>
-    <h3>Management Tools</h3>
+    <!-- <h3>Management Tools</h3>
     <ul class="nav flex-column">
       <li class="nav-item">
         <a href="admin-projects.html" class="nav-link ">
@@ -84,12 +73,12 @@
           <i class="fa fa-check-square"></i><span>Forms</span>
         </a>
       </li>
-    </ul>
+    </ul> -->
     <!-- /.nav -->
   </div>
   <!-- /.admin-sidebar-content -->
-  <div class="admin-sidebar-footer">
+  <!-- <div class="admin-sidebar-footer">
     <strong>Need a help?</strong>
     <span>Call us +0-123-456-789</span>
-  </div>
+  </div> -->
   <!-- /.admin-sidebar-footer -->

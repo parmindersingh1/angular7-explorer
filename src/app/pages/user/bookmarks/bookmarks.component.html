@@ -114,6 +114,29 @@
             ></sv-bootstrap-paginator>
           </div> -->
         </ng-container>
+
+        <ng-container *ngIf="listings.length == 0">
+          <div class="table-wrapper">
+            <table class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th class="min-width center">ID</th>
+                  <th class="min-width center">Title</th>
+                  <th class="min-width center">Category</th>
+                  <th class="min-width center">Rent</th>
+                  <th class="min-width center">Featured</th>
+                  <th class="min-width center">Active</th>
+                  <th class="min-width center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colspan="7" class="text-center">No Data Found</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-container>
       </div>
       <!-- /.container-fluid -->
     </div>

@@ -19,8 +19,11 @@
         </nav> -->
         <div class="table-header clearfix">
           <div class="table-header-count">
-              <strong>{{ recordsPerPage }} / {{ totalRecords }}</strong> Records
-              <span style="margin-left: 10px;">(Page <strong>{{ activePage}}</strong>)</span>
+            <strong>Reacord {{ recordsPerPage * activePage }} / {{ totalRecords }}</strong>
+            <span style="margin-left: 10px;"
+              >(Page <strong>{{ activePage }}</strong
+              >)</span
+            >
           </div>
           <!-- /.table-header-count -->
           <div class="table-header-actions">
@@ -105,6 +108,9 @@
                     </div>
                   </div>
                 </td>
+              </tr>
+              <tr *ngIf="listings.length == 0">
+                <td colspan="7" class="text-center">No Data Found</td>
               </tr>
             </tbody>
           </table>

@@ -4,7 +4,7 @@ import {
   ViewChild,
   AfterContentInit,
   Output,
-  Input
+  Input,
 } from "@angular/core";
 import { ScriptLoaderService } from "../../../../services/script-loader.service";
 import googleAddressParser from "../../../../../assets/js/googleAddressParser.js";
@@ -16,14 +16,14 @@ import { EventEmitter } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { LoaderService } from "../../../../services/loader.service";
 import objectToFormData from "object-to-formdata";
-import { environment } from 'src/environments/environment';
+import { environment } from "src/environments/environment";
 declare var $: any;
 declare var google: any;
 
 @Component({
   selector: "app-listing-form",
   templateUrl: "./listing-form.component.html",
-  styleUrls: ["./listing-form.component.css"]
+  styleUrls: ["./listing-form.component.css"],
 })
 export class ListingFormComponent implements OnInit, AfterContentInit {
   map: any = {};
@@ -50,9 +50,10 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
   }
 
   ngOnInit() {}
+
   ngAfterContentInit(): void {
     if ($("#location-google-map").length !== 0) {
-      console.log("this.list", this.listing)
+      console.log("this.list", this.listing);
       if (this.listing.id) {
         this.setIntialCoords();
       } else {
@@ -68,28 +69,37 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
 
   setInitialLatLong() {
     if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(position => {
-        console.log("pos:", position);
-        this.listing.latitude = position.coords.latitude;
-        this.listing.longitude = position.coords.longitude;
-        this.initializeMap();
-        this.getAddressFromLatLang(position);
-      });
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          console.log("pos:", position);
+          this.listing.latitude = position.coords.latitude;
+          this.listing.longitude = position.coords.longitude;
+          this.initializeMap();
+          this.getAddressFromLatLang(position);
+        },
+        (err) => {
+          console.log("START");
+          this.setIntialCoords();
+        }
+      );
     } else {
+      console.log("START");
       this.setIntialCoords();
     }
   }
 
   setIntialCoords() {
-    console.log("initial")
-    this.listing.latitude = this.listing.latitude || 43.653226;
-    this.listing.longitude = this.listing.longitude || -79.38318429999998;
+    console.log("initial");
+    // this.listing["latitude"] = 30.7333;
+    // this.listing["longitude"] = 76.7794;
+    this.listing.latitude = this.listing.latitude || 30.7333; //43.653226;
+    this.listing.longitude = this.listing.longitude || 76.7794; //-79.38318429999998;
     this.initializeMap();
     this.getAddressFromLatLang({
       coords: {
         latitude: this.listing.latitude,
-        longitude: this.listing.longitude
-      }
+        longitude: this.listing.longitude,
+      },
     });
   }
 
@@ -130,7 +140,7 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
     // Map
     let mapOptions = {
       center: latLng,
-      zoom: zoom
+      zoom: zoom,
     };
 
     this.map = new google.maps.Map(mapCanvas[0], mapOptions);
@@ -139,7 +149,7 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
     let markerOptions = {
       map: this.map,
       draggable: true,
-      title: "Drag to set the exact location"
+      title: "Drag to set the exact location",
     };
     let marker = new google.maps.Marker(markerOptions);
 
@@ -178,7 +188,7 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
       this.listing.longitude = place.geometry.location.lng();
     });
 
-    $(searchInput).keypress(event => {
+    $(searchInput).keypress((event) => {
       if (13 === event.keyCode) {
         event.preventDefault();
       }
@@ -209,8 +219,10 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
   parseInitalAddress(address) {
     let resObj = googleAddressParser(address).getAddress();
     console.log(resObj);
-    this.listing.addressLineOne = this.listing.addressLineOne || resObj.addressLineOne;
-    this.listing.addressLineTwo = this.listing.addressLineTwo || resObj.addressLineTwo;
+    this.listing.addressLineOne =
+      this.listing.addressLineOne || resObj.addressLineOne;
+    this.listing.addressLineTwo =
+      this.listing.addressLineTwo || resObj.addressLineTwo;
     this.listing.city = this.listing.city || resObj.city;
     this.listing.country = this.listing.country || resObj.country;
     this.listing.state = this.listing.state || resObj.state;
@@ -220,7 +232,7 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
   getAddressFromLatLang(position) {
     var latlng = {
       lat: parseFloat(position.coords.latitude),
-      lng: parseFloat(position.coords.longitude)
+      lng: parseFloat(position.coords.longitude),
     };
     var geocoder = new google.maps.Geocoder();
     geocoder.geocode({ location: latlng }, (results, status) => {
@@ -261,21 +273,20 @@ export class ListingFormComponent implements OnInit, AfterContentInit {
     reader.readAsDataURL(file);
   }
 
-
   getUrl(media: any) {
-      return environment.baseUrl + media.url;
+    return environment.baseUrl + media.url;
   }
 
   deleteFile(media) {
     this._listingService.deleteMedia(media.id, this.listing.id).subscribe(
-      resp => {
-        console.log("delete, ",resp);
+      (resp) => {
+        console.log("delete, ", resp);
         this.listing.media = resp;
       },
-      err => {
+      (err) => {
         console.error("err", err);
       }
-    )
+    );
   }
 
   private fileReset() {

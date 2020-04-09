@@ -1,0 +1,202 @@
+<div class="admin-page-title">
+  <div class="container-fluid">
+    <a routerLink="admin/dashboard" class="admin-page-title-back">
+      <i class="fa fa-long-arrow-left"></i>
+    </a>
+    <h1>Users <small>users management</small></h1>
+    <div class="admin-page-title-actions"></div>
+    <!-- /.admin-page-title-actions -->
+  </div>
+  <!-- /.container-fluid -->
+</div>
+<!-- /.admin-page-title -->
+<div class="admin-content">
+  <div class="container-fluid">
+    <!-- <nav class="breadcrumb">
+          <a class="breadcrumb-item" href="#">Home</a>
+          <a class="breadcrumb-item" href="#">Library</a>
+          <a class="breadcrumb-item" href="#">Data</a>
+          <span class="breadcrumb-item active">Bootstrap</span>
+        </nav> -->
+    <div class="table-header clearfix">
+      <div class="table-header-count">
+        <strong
+          >Reacord {{ recordsPerPage * activePage }} /
+          {{ totalRecords }}</strong
+        >
+        <span style="margin-left: 10px;"
+          >(Page <strong>{{ activePage }}</strong
+          >)</span
+        >
+      </div>
+      <!-- /.table-header-count -->
+      <div class="table-header-actions">
+        <!-- <a href="#" class="btn btn-primary"
+              ><i class="fa fa-filter"></i> Apply filters</a
+            > -->
+
+        <a routerLink="/app/user/new" class="btn btn-primary"
+          ><i class="fa fa-plus"></i> Add New</a
+        >
+
+        <!-- <a href="#" class="btn"
+              ><i class="fa fa-download"></i> Export All</a
+            > -->
+      </div>
+      <!-- /.table-header-actions -->
+    </div>
+    <!-- /.table-header -->
+    <div class="table-wrapper">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th class="min-width center">ID</th>
+            <th>Full Name</th>
+            <th class="min-width center">Email</th>
+            <th class="min-width center">Phone</th>
+            <th class="min-width center">Role</th>
+            <th class="min-width center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users; let i = index">
+            <td class="min-width center id">
+              #{{ (activePage - 1) * recordsPerPage + (i + 1) }}
+            </td>
+            <td>
+              <div
+                class="avatar squared"
+                [ngStyle]="{
+                  'background-image': 'url(' + user.image + ')'
+                }"
+              ></div>
+              <h2>
+                <a [routerLink]="['/app/user/', user.id, 'show']">{{
+                  user.first_name + " " + user.last_name
+                }}</a>
+              </h2>
+            </td>
+            <td class="min-width price">{{ user.email }}</td>
+            <td class="min-width center">
+              {{ user.phone }}
+            </td>
+            <td class="min-width center">
+              {{ user.role }}
+            </td>
+            <td class="min-width">
+              <div class="btn-group" role="group">
+                <button
+                  id="btnGroupDrop1"
+                  type="button"
+                  class="btn btn-secondary dropdown-toggle"
+                  data-toggle="dropdown"
+                >
+                  Actions
+                </button>
+                <div class="dropdown-menu">
+                  <a
+                    class="dropdown-item"
+                    href="javascript:;"
+                   [routerLink]="['/admin/listings/user', user.id]"
+                    >User Listings</a
+                  >
+                  <a
+                  class="dropdown-item"
+                  href="javascript:;"
+                  (click)="displayUserForm(user)"
+                  >Edit Item</a
+                >
+                  <!-- <a
+                    class="dropdown-item"
+                    style="cursor: pointer;"
+                    (click)="deleteUser(user)"
+                    >Delete Item</a
+                  > -->
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- /.table-wrapper -->
+    <div class="float-right">
+      <app-pagination
+        [totalRecords]="totalRecords"
+        [recordsPerPage]="recordsPerPage"
+        (onPageChange)="displayActivePage($event)"
+      ></app-pagination>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+</div>
+
+<app-modal-basic #userModal>
+  <h2 class="app-modal-header">Edit user</h2>
+  <div class="app-modal-body" *ngIf="model">
+    <form #f="ngForm" (submit)="onEditUser(f)">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-group">
+            <label>First Name</label>
+            <input
+              type="text"
+              class="form-control"
+              name="first_name"
+              [(ngModel)]="model.first_name"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label>last Name</label>
+            <input
+              type="text"
+              class="form-control"
+              name="last_name"
+              [(ngModel)]="model.last_name"
+              required
+            />
+          </div>
+          <!-- /.form-group -->
+          <div class="form-group">
+            <label>E-mail</label>
+            <input
+              type="email"
+              class="form-control"
+              name="email"
+              [(ngModel)]="model.email"
+              required
+            />
+          </div>
+          <!-- /.form-group -->
+          <div class="form-group">
+            <label>Phone</label>
+            <input
+              type="text"
+              class="form-control"
+              name="phone"
+              [(ngModel)]="model.phone"
+              required
+            />
+          </div>
+          <!-- /.form-group -->
+        </div>
+        <!-- /.col-* -->
+      </div>
+      <div class="clearfix"></div>
+      <div class="text-center">
+        <button
+          type="submit"
+          class="btn btn-primary btn-sm text-center"
+          [disabled]="f.invalid"
+        >
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="app-modal-footer text-right">
+    <button class="btn btn-danger btn-sm" (click)="hideModal()">Close</button>
+  </div>
+</app-modal-basic>
